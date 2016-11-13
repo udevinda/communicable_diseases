@@ -11,47 +11,89 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+/**
+ * Model for workflow.
+ * 
+ * @author admin
+ *
+ */
 @Entity
 @Table(name = "workflow")
 public class Workflow implements Serializable {
 
 	private static final long serialVersionUID = 1927557244278436381L;
 
+	public enum WorkflowStatus {
+		PROCESSING, HOLDING, COMPLETED;
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
 	private Long id;
 
-	// TODO convert type to enum
 	@Column(name = "status", nullable = false)
-	private String status;
+	private WorkflowStatus status;
 
 	@OneToOne
 	@JoinColumn(name = "form544_id")
 	private Form544 form544;
 
+	/**
+	 * Getter for workflow id.
+	 * 
+	 * @return Workflow Id
+	 */
 	public Long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	/**
+	 * Setter for workflow ID.
+	 * 
+	 * @param inId
+	 *            Workflow Id.
+	 */
+	public void setId(final Long inId) {
+		this.id = inId;
 	}
 
-	public String getStatus() {
+	/**
+	 * Getter for workflow status.
+	 * 
+	 * @return WorkflowStatus.
+	 */
+	public WorkflowStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	/**
+	 * Setter for workflow status.
+	 * 
+	 * @param inStatus
+	 *            WorkflowStatus
+	 */
+	public void setStatus(final WorkflowStatus inStatus) {
+		this.status = inStatus;
 	}
 
+	/**
+	 * Getter for Form544 instace.
+	 * 
+	 * @return Form544
+	 */
 	public Form544 getForm544() {
 		return form544;
 	}
 
-	public void setForm544(Form544 form544) {
-		this.form544 = form544;
+	/**
+	 * Setter for Form544 instance.
+	 * 
+	 * @param inForm544
+	 *            Form544 instance.
+	 */
+	public void setForm544(final Form544 inForm544) {
+		this.form544 = inForm544;
 	}
 
 }
