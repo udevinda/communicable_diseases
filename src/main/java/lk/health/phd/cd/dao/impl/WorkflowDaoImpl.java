@@ -21,7 +21,7 @@ public class WorkflowDaoImpl extends UniversalDaoImpl<Workflow> implements Workf
 	public Workflow findWorkflowById(Long workflowId) {
 		Session session = getCurrentSession();
 
-		return (Workflow) session.createCriteria(Workflow.class).add(Restrictions.eq("id", workflowId));
+		return (Workflow) session.createCriteria(Workflow.class).add(Restrictions.eq("id", workflowId)).uniqueResult();
 	}
 
 }
