@@ -26,8 +26,15 @@ public interface Form544Dao extends UniversalDao<Form544> {
 	 * Retrieve list of {@link Form544} objects according to given searching
 	 * field values.
 	 * 
-	 * @param form544FilterDto
+	 * @param inForm544FilterDto
+	 *            DTO which contains all available filtering parameters and with
+	 *            values
+	 * @param inOffset
+	 *            Starting index which is used in backend resultset pagination
+	 * @param inLimit
+	 *            Number of records per page limit for backend pagination
 	 * @return List of {@link Form544}
 	 */
-	public List<Form544> searchForm544BySearchFields(final Form544FilterDto form544FilterDto);
+	public List<Form544> searchForm544BySearchFields(final Form544FilterDto inForm544FilterDto, final Integer inOffset,
+			final Integer inLimit);
 }

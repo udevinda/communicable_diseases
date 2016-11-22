@@ -22,9 +22,13 @@ public class Util {
 	 *             Throws parseException
 	 */
 	public static Date parseDate(final String inDate, final String inFormat) throws ParseException {
-		SimpleDateFormat formatter = new SimpleDateFormat(inFormat);
+		if (inDate != null && !inDate.isEmpty()) {
+			SimpleDateFormat formatter = new SimpleDateFormat(inFormat);
 
-		return new Date(formatter.parse(inDate).getTime());
+			return new Date(formatter.parse(inDate).getTime());
+		} else {
+			return null;
+		}
 	}
 
 	public static Date getSystemTime() {

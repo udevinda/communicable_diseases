@@ -32,7 +32,8 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 	/**
 	 * {@inheritDoc}
 	 */
-	public List<Form544> searchForm544BySearchFields(final Form544FilterDto inForm544FilterDto) {
+	public List<Form544> searchForm544BySearchFields(final Form544FilterDto inForm544FilterDto, final Integer inOffset,
+			final Integer inLimit) {
 
 		Session session = getCurrentSession();
 
@@ -41,18 +42,50 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 		if (inForm544FilterDto.getBhtNo() != null) {
 			criteria.add(Restrictions.eq("bhtNo", inForm544FilterDto.getBhtNo()));
 		}
-		if (inForm544FilterDto.getInstitute() != null) {
+		if (inForm544FilterDto.getInstitute() != null && !(inForm544FilterDto.getInstitute().isEmpty())) {
 			criteria.add(Restrictions.eq("institute", inForm544FilterDto.getInstitute()));
 		}
-		if (inForm544FilterDto.getNotifierName() != null) {
+		if (inForm544FilterDto.getNotifierName() != null && !(inForm544FilterDto.getNotifierName().isEmpty())) {
 			criteria.add(Restrictions.eq("notifierName", inForm544FilterDto.getNotifierName()));
 		}
-		if (inForm544FilterDto.getPatientName() != null) {
+		if (inForm544FilterDto.getPatientName() != null && !(inForm544FilterDto.getPatientName().isEmpty())) {
 			criteria.add(Restrictions.eq("patientName", inForm544FilterDto.getPatientName()));
 		}
-		
+		if (inForm544FilterDto.getPatientNic() != null && !(inForm544FilterDto.getPatientNic().isEmpty())) {
+			criteria.add(Restrictions.eq("nic", inForm544FilterDto.getPatientNic()));
+		}
+		if (inForm544FilterDto.getSex() != null) {
+			criteria.add(Restrictions.eq("sex", inForm544FilterDto.getSex()));
+		}
+		if (inForm544FilterDto.getWard() != null && !(inForm544FilterDto.getWard().isEmpty())) {
+			criteria.add(Restrictions.eq("ward", inForm544FilterDto.getWard()));
+		}
+		if (inForm544FilterDto.getDisease() != null) {
+			criteria.add(Restrictions.eq("disease", inForm544FilterDto.getDisease()));
+		}
+		if (inForm544FilterDto.getAgeFrom() != null) {
+			criteria.add(Restrictions.ge("age", inForm544FilterDto.getAgeFrom()));
+		}
+		if (inForm544FilterDto.getAgeTo() != null) {
+			criteria.add(Restrictions.le("age", inForm544FilterDto.getAgeTo()));
+		}
+		if (inForm544FilterDto.getDateOfAdmissionFrom() != null) {
+			criteria.add(Restrictions.ge("dateOfAdmission", inForm544FilterDto.getDateOfAdmissionFrom()));
+		}
+		if (inForm544FilterDto.getDateOfAdmissionTo() != null) {
+			criteria.add(Restrictions.le("dateOfAdmission", inForm544FilterDto.getDateOfAdmissionTo()));
+		}
+		if (inForm544FilterDto.getDateOfOnsetFrom() != null) {
+			criteria.add(Restrictions.ge("dateOfOnset", inForm544FilterDto.getDateOfOnsetFrom()));
+		}
+		if (inForm544FilterDto.getDateOfOnsetTo() != null) {
+			criteria.add(Restrictions.le("dateOfOnset", inForm544FilterDto.getDateOfOnsetTo()));
+		}
 
-		return null;
+		criteria.setMaxResults(inLimit);
+		criteria.setFirstResult(inOffset);
+
+		return criteria.list();
 	}
 
 }

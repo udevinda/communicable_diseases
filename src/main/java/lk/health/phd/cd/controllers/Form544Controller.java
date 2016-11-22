@@ -2,6 +2,7 @@ package lk.health.phd.cd.controllers;
 
 import java.sql.Date;
 import java.util.Calendar;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import lk.health.phd.cd.dao.DiseaseDao;
 import lk.health.phd.cd.dao.Form544Dao;
+import lk.health.phd.cd.dto.Form544FilterDto;
 import lk.health.phd.cd.models.Disease;
 import lk.health.phd.cd.models.Form544;
 import lk.health.phd.cd.services.Form544Service;
@@ -46,17 +48,55 @@ public class Form544Controller {
 
 	Logger logger = LoggerFactory.getLogger(Form544Controller.class);
 
+	/**
+	 * 
+	 * Controller for submit Form544.
+	 * 
+	 * @param inNic
+	 *            patient national identity card
+	 * @param inInstitute
+	 *            where patient is admitted
+	 * @param inDiseaseId
+	 *            ID value of the specific disease
+	 * @param inPatientName
+	 *            patient name
+	 * @param inDateOfOnset
+	 *            Patient's onset date
+	 * @param inPeaditiricPatientsGurdianName
+	 *            Pediatric patients guardian name
+	 * @param inDateOfAdmission
+	 *            date of admission
+	 * @param inBhtNo
+	 *            Bead head ticket number
+	 * @param inWard
+	 *            Ward number
+	 * @param inAge
+	 *            Age of patient
+	 * @param inSex
+	 *            Sex of patient
+	 * @param inPatientHomeAddress
+	 *            Address of the patient
+	 * @param inPatientsHomePhoneNo
+	 *            patient phone number
+	 * @param inNotifierName
+	 *            notifier name
+	 * @param inNotifierStatus
+	 *            notifier status
+	 * @return
+	 */
 	@RequestMapping(value = "/submit", method = RequestMethod.POST)
-	public String saveForm544(@RequestParam("nic") String inNic, @RequestParam("institute") String inInstitute,
-			@RequestParam("disease") Long inDiseaseId, @RequestParam("patientName") String inPatientName,
-			@RequestParam("dateOfOnset") String inDateOfOnset,
-			@RequestParam("peaditiricPatientsGurdianName") String inPeaditiricPatientsGurdianName,
-			@RequestParam("dateOfAdmission") String inDateOfAdmission, @RequestParam("bhtNo") Long inBhtNo,
-			@RequestParam("ward") String inWard, @RequestParam("age") Integer inAge,
-			@RequestParam("sex") Form544.Sex inSex, @RequestParam("patientHomeAddress") String inPatientHomeAddress,
-			@RequestParam("patientsHomePhoneNo") String inPatientsHomePhoneNo,
-			@RequestParam("notifierName") String inNotifierName,
-			@RequestParam("notifierStatus") String inNotifierStatus) {
+	public String saveForm544(@RequestParam("nic") final String inNic,
+			@RequestParam("institute") final String inInstitute, @RequestParam("disease") final Long inDiseaseId,
+			@RequestParam("patientName") final String inPatientName,
+			@RequestParam("dateOfOnset") final String inDateOfOnset,
+			@RequestParam("peaditiricPatientsGurdianName") final String inPeaditiricPatientsGurdianName,
+			@RequestParam("dateOfAdmission") final String inDateOfAdmission, @RequestParam("bhtNo") final Long inBhtNo,
+			@RequestParam("ward") final String inWard, @RequestParam("age") final Integer inAge,
+			@RequestParam("sex") final Form544.Sex inSex,
+			@RequestParam("patientHomeAddress") final String inPatientHomeAddress,
+			@RequestParam("patientsHomePhoneNo") final String inPatientsHomePhoneNo,
+			@RequestParam("notifierName") final String inNotifierName,
+			@RequestParam("notifierStatus") final String inNotifierStatus) {
 
 		logger.info("Hit the /Form544/submit ");
 		logger.info("Submitted user with NIC " + inNic);
@@ -91,6 +131,13 @@ public class Form544Controller {
 		return null;
 	}
 
+	/**
+	 * View the saved Form544 details by given ID.
+	 * 
+	 * @param inform544Id
+	 *            Form544 ID
+	 * @return
+	 */
 	@RequestMapping(value = "/view", method = RequestMethod.GET)
 	public ModelMap viewForm544(@RequestParam("form544Id") final Long inform544Id) {
 
@@ -122,17 +169,56 @@ public class Form544Controller {
 		return modelMap;
 	}
 
+	/**
+	 * Update Form544 details.
+	 * 
+	 * @param inForm544Id
+	 *            Existing form 544 ID
+	 * @param inNic
+	 *            National ID number of the patient.
+	 * @param inInstitute
+	 *            Institute where patient is admitted.
+	 * @param inDiseaseId
+	 *            {@link Disease} ID related to the particular patient.
+	 * @param inPatientName
+	 *            Patient's name
+	 * @param inDateOfOnset
+	 *            Patient date of onset
+	 * @param inPeaditiricPatientsGurdianName
+	 *            Pediatric patients guardian name
+	 * @param inDateOfAdmission
+	 *            Date of admission
+	 * @param inBhtNo
+	 *            Bead head ticket number
+	 * @param inWard
+	 *            Ward number where patient is admitted.
+	 * @param inAge
+	 *            Age of the patient
+	 * @param inSex
+	 *            {@link Sex} of the patient
+	 * @param inPatientHomeAddress
+	 *            Patient's home address
+	 * @param inPatientsHomePhoneNo
+	 *            Patient's home phone number
+	 * @param inNotifierName
+	 *            Notifier name
+	 * @param inNotifierStatus
+	 *            Notifier status
+	 * @return
+	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public String updateForm544(@RequestParam("form544Id") Long inForm544Id, @RequestParam("nic") String inNic,
-			@RequestParam("institute") String inInstitute, @RequestParam("disease") Long inDiseaseId,
-			@RequestParam("patientName") String inPatientName, @RequestParam("dateOfOnset") String inDateOfOnset,
-			@RequestParam("peaditiricPatientsGurdianName") String inPeaditiricPatientsGurdianName,
-			@RequestParam("dateOfAdmission") String inDateOfAdmission, @RequestParam("bhtNo") Long inBhtNo,
-			@RequestParam("ward") String inWard, @RequestParam("age") Integer inAge,
-			@RequestParam("sex") Form544.Sex inSex, @RequestParam("patientHomeAddress") String inPatientHomeAddress,
-			@RequestParam("patientsHomePhoneNo") String inPatientsHomePhoneNo,
-			@RequestParam("notifierName") String inNotifierName,
-			@RequestParam("notifierStatus") String inNotifierStatus) {
+	public String updateForm544(@RequestParam("form544Id") final Long inForm544Id,
+			@RequestParam("nic") final String inNic, @RequestParam("institute") final String inInstitute,
+			@RequestParam("disease") final Long inDiseaseId, @RequestParam("patientName") final String inPatientName,
+			@RequestParam("dateOfOnset") final String inDateOfOnset,
+			@RequestParam("peaditiricPatientsGurdianName") final String inPeaditiricPatientsGurdianName,
+			@RequestParam("dateOfAdmission") final String inDateOfAdmission, @RequestParam("bhtNo") final Long inBhtNo,
+			@RequestParam("ward") final String inWard, @RequestParam("age") final Integer inAge,
+			@RequestParam("sex") final Form544.Sex inSex,
+			@RequestParam("patientHomeAddress") final String inPatientHomeAddress,
+			@RequestParam("patientsHomePhoneNo") final String inPatientsHomePhoneNo,
+			@RequestParam("notifierName") final String inNotifierName,
+			@RequestParam("notifierStatus") final String inNotifierStatus) {
 
 		logger.info("Hit the /Form544/update ");
 		logger.info("Request update for Form544 ID " + inForm544Id);
@@ -167,6 +253,51 @@ public class Form544Controller {
 		}
 
 		return null;
+	}
+
+	@RequestMapping(value = "/filterBy", method = RequestMethod.POST)
+	public ModelMap searchForm544ByCriteria(@RequestParam("nic") final String inPatientNic,
+			@RequestParam("institute") final String inInstitute, @RequestParam("disease") final Long inDiseaseId,
+			@RequestParam("patientName") final String inPatientName, @RequestParam("bhtNo") final Long inBhtNo,
+			@RequestParam("ward") final String inWard, @RequestParam("sex") final Form544.Sex inSex,
+			@RequestParam("nic") final String inNic, @RequestParam("notifierName") final String inNotifierName,
+			@RequestParam("dateOfOnsetFrom") final String inDateOfOnsetFrom,
+			@RequestParam("dateOfOnsetTo") final String inDateOfOnsetTo,
+			@RequestParam("dateOfAdmissionFrom") final String inDateOfAdmissionFrom,
+			@RequestParam("dateOfAdmissionTo") final String inDateOfAdmissionTo,
+			@RequestParam("ageFrom") final Integer inAgeFrom, @RequestParam("ageTo") final Integer inAgeTo,
+			@RequestParam("offset") final Integer inOffset, @RequestParam("limit") final Integer inLimit) {
+
+		logger.info("Hit the /Form544/filterBy ");
+
+		try {
+			Form544FilterDto form544FilterDto = new Form544FilterDto();
+			form544FilterDto.setBhtNo(inBhtNo);
+			form544FilterDto.setDisease(getDisease(inDiseaseId));
+			form544FilterDto.setInstitute(inInstitute);
+			form544FilterDto.setPatientName(inPatientName);
+			form544FilterDto.setPatientNic(inPatientNic);
+			form544FilterDto.setSex(inSex);
+			form544FilterDto.setWard(inWard);
+			form544FilterDto.setNotifierName(inNotifierName);
+			form544FilterDto.setAgeFrom(inAgeFrom);
+			form544FilterDto.setAgeTo(inAgeTo);
+			form544FilterDto.setDateOfAdmissionFrom(Util.parseDate(inDateOfAdmissionFrom, "dd/MM/yyyy"));
+			form544FilterDto.setDateOfAdmissionTo(Util.parseDate(inDateOfAdmissionTo, "dd/MM/yyyy"));
+			form544FilterDto.setDateOfOnsetFrom(Util.parseDate(inDateOfOnsetFrom, "dd/MM/yyyy"));
+			form544FilterDto.setDateOfOnsetTo(Util.parseDate(inDateOfOnsetTo, "dd/MM/yyyy"));
+
+			List<Form544> form544List = form544Dao.searchForm544BySearchFields(form544FilterDto, inOffset, inLimit);
+
+			logger.info("Returned result set size : " + form544List.size());
+
+			return null;
+		} catch (Exception e) {
+			logger.error("Error occured ", e);
+
+			return null;
+		}
+
 	}
 
 	private Disease getDisease(final Long inDiseaseId) {
