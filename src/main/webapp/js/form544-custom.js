@@ -1,7 +1,11 @@
 $(function() {
-	$("#dateOfOnset").datepicker();
+	$("#dateOfOnset").datepicker({
+		dateFormat : 'yy-mm-dd'
+	});
 });
 
 $(function() {
-	$("#dateOfAdmission").datepicker();
+	$("#dateOfAdmission").datepicker({
+		dateFormat : 'yy-mm-dd'
+	});
 });

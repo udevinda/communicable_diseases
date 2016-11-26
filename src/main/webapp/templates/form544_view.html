@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Create Form 544</title>
+<title>Submitted Form 544</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="../css/bootstrap.min.css">
@@ -100,8 +100,9 @@
 					th:text="${form544Object.notifierStatus}"></div>
 			</div>
 			<div>
-				<button type="submit" class="btn btn-success pull-right"
-					style="margin-right: 5px; width: 70px">Update</button>
+				<a th:href="@{'/Form544/update_view?id=' + ${form544Object.id}}"><button
+						type="submit" class="btn btn-success pull-right"
+						style="margin-right: 5px; width: 70px">Update</button></a>
 			</div>
 		</div>
 

@@ -88,7 +88,7 @@ public class Form544Controller {
 	 *            notifier name
 	 * @param inNotifierStatus
 	 *            notifier status
-	 * @return
+	 * @return form544_view.html
 	 */
 	@RequestMapping(value = "/submit", method = RequestMethod.POST)
 	public String saveForm544(@RequestParam("nic") final String inNic,
@@ -111,8 +111,8 @@ public class Form544Controller {
 			Form544 form544 = new Form544();
 			form544.setAge(inAge);
 			form544.setBhtNo(inBhtNo);
-			form544.setDateOfAdmission(Util.parseDate(inDateOfAdmission, "dd/MM/yyyy"));
-			form544.setDateOfOnset(Util.parseDate(inDateOfOnset, "dd/MM/yyyy"));
+			form544.setDateOfAdmission(Util.parseDate(inDateOfAdmission, "yyyy-MM-dd"));
+			form544.setDateOfOnset(Util.parseDate(inDateOfOnset, "yyyy-MM-dd"));
 			form544.setDisease(getDisease(inDiseaseId));
 			form544.setInstitute(inInstitute);
 			form544.setNic(inNic);
@@ -149,7 +149,7 @@ public class Form544Controller {
 	 * @return
 	 */
 	@RequestMapping(value = "/view", method = RequestMethod.GET)
-	public ModelMap viewForm544(@RequestParam("form544Id") final Long inform544Id) {
+	public String viewForm544(@RequestParam("form544Id") final Long inform544Id, Model model) {
 
 		logger.info("Hit the /Form544/view ");
 		logger.info("Request view for Form544 ID " + inform544Id);
@@ -157,26 +157,9 @@ public class Form544Controller {
 		Form544 form544 = form544Dao.findForm544ById(inform544Id);
 		logger.info("Retrieved details for patient " + form544.getPatientName());
 
-		ModelMap modelMap = new ModelMap();
-		modelMap.put("age", form544.getAge());
-		modelMap.put("bhtNo", form544.getBhtNo());
-		modelMap.put("dateOfAdmission", form544.getDateOfAdmission());
-		modelMap.put("dateOfOnset", form544.getDateOfOnset());
-		modelMap.put("diseaseName", form544.getDisease().getDiseaseName());
-		modelMap.put("institute", form544.getInstitute());
-		modelMap.put("nic", form544.getNic());
-		modelMap.put("notifierName", form544.getNotifierName());
-		modelMap.put("notifierStatus", form544.getNotifierStatus());
-		modelMap.put("patientHomeAddress", form544.getPatientHomeAddress());
-		modelMap.put("patientName", form544.getPatientName());
-		modelMap.put("patientHomePhoneNo", form544.getPatientsHomePhoneNo());
-		modelMap.put("peaditiricPatientsGurdianName", form544.getPeaditiricPatientsGurdianName());
-		modelMap.put("sex", form544.getSex());
-		modelMap.put("systemNotifiedNae", form544.getSystemNotifiedDate());
-		modelMap.put("ward", form544.getWard());
-		modelMap.put("form544Id", form544.getId());
+		model.addAttribute("form544Object", form544);
 
-		return modelMap;
+		return "form544_view";
 	}
 
 	/**
@@ -214,7 +197,7 @@ public class Form544Controller {
 	 *            Notifier name
 	 * @param inNotifierStatus
 	 *            Notifier status
-	 * @return
+	 * @return form544_create.html
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public String updateForm544(@RequestParam("form544Id") final Long inForm544Id,
@@ -239,8 +222,8 @@ public class Form544Controller {
 			Form544 form544 = new Form544();
 			form544.setAge(inAge);
 			form544.setBhtNo(inBhtNo);
-			form544.setDateOfAdmission(Util.parseDate(inDateOfAdmission, "dd/MM/yyyy"));
-			form544.setDateOfOnset(Util.parseDate(inDateOfOnset, "dd/MM/yyyy"));
+			form544.setDateOfAdmission(Util.parseDate(inDateOfAdmission, "yyyy-MM-dd"));
+			form544.setDateOfOnset(Util.parseDate(inDateOfOnset, "yyyy-MM-dd"));
 			form544.setDisease(getDisease(inDiseaseId));
 			form544.setInstitute(inInstitute);
 			form544.setNic(inNic);
@@ -262,15 +245,54 @@ public class Form544Controller {
 			logger.error("Error occured ", e);
 		}
 
-		return null;
+		// TODO Consider for a suitable redirect
+		return "form544_create";
 	}
 
+	/**
+	 * Filter Form544 instances and returned based on the given values for the
+	 * criteria fields.
+	 * 
+	 * @param inPatientNic
+	 *            National ID of the patients.
+	 * @param inInstitute
+	 *            Institute where the patient admitted.
+	 * @param inDiseaseId
+	 *            Disease of the patient.
+	 * @param inPatientName
+	 *            Patient's name.
+	 * @param inBhtNo
+	 *            Patient's bead head ticket number.
+	 * @param inWard
+	 *            Ward number where patient admitted.
+	 * @param inSex
+	 *            Sex of the patient.
+	 * @param inNotifierName
+	 *            Who notified the case.
+	 * @param inDateOfOnsetFrom
+	 *            From onset date for a range.
+	 * @param inDateOfOnsetTo
+	 *            To onset date for a range.
+	 * @param inDateOfAdmissionFrom
+	 *            From admission date for a range.
+	 * @param inDateOfAdmissionTo
+	 *            To admission date for a range.
+	 * @param inAgeFrom
+	 *            From age for a range.
+	 * @param inAgeTo
+	 *            To age for a range.
+	 * @param inOffset
+	 *            Offset for pagination.
+	 * @param inLimit
+	 *            Limit for pagination.
+	 * @return
+	 */
 	@RequestMapping(value = "/filterBy", method = RequestMethod.POST)
 	public ModelMap searchForm544ByCriteria(@RequestParam("nic") final String inPatientNic,
 			@RequestParam("institute") final String inInstitute, @RequestParam("disease") final Long inDiseaseId,
 			@RequestParam("patientName") final String inPatientName, @RequestParam("bhtNo") final Long inBhtNo,
 			@RequestParam("ward") final String inWard, @RequestParam("sex") final Form544.Sex inSex,
-			@RequestParam("nic") final String inNic, @RequestParam("notifierName") final String inNotifierName,
+			@RequestParam("notifierName") final String inNotifierName,
 			@RequestParam("dateOfOnsetFrom") final String inDateOfOnsetFrom,
 			@RequestParam("dateOfOnsetTo") final String inDateOfOnsetTo,
 			@RequestParam("dateOfAdmissionFrom") final String inDateOfAdmissionFrom,
@@ -292,10 +314,10 @@ public class Form544Controller {
 			form544FilterDto.setNotifierName(inNotifierName);
 			form544FilterDto.setAgeFrom(inAgeFrom);
 			form544FilterDto.setAgeTo(inAgeTo);
-			form544FilterDto.setDateOfAdmissionFrom(Util.parseDate(inDateOfAdmissionFrom, "dd/MM/yyyy"));
-			form544FilterDto.setDateOfAdmissionTo(Util.parseDate(inDateOfAdmissionTo, "dd/MM/yyyy"));
-			form544FilterDto.setDateOfOnsetFrom(Util.parseDate(inDateOfOnsetFrom, "dd/MM/yyyy"));
-			form544FilterDto.setDateOfOnsetTo(Util.parseDate(inDateOfOnsetTo, "dd/MM/yyyy"));
+			form544FilterDto.setDateOfAdmissionFrom(Util.parseDate(inDateOfAdmissionFrom, "yyyy-MM-dd"));
+			form544FilterDto.setDateOfAdmissionTo(Util.parseDate(inDateOfAdmissionTo, "yyyy-MM-dd"));
+			form544FilterDto.setDateOfOnsetFrom(Util.parseDate(inDateOfOnsetFrom, "yyyy-MM-dd"));
+			form544FilterDto.setDateOfOnsetTo(Util.parseDate(inDateOfOnsetTo, "yyyy-MM-dd"));
 
 			List<Form544> form544List = form544Dao.searchForm544BySearchFields(form544FilterDto, inOffset, inLimit);
 
@@ -310,8 +332,17 @@ public class Form544Controller {
 
 	}
 
+	/**
+	 * Controller for Form 544 create page load.
+	 * 
+	 * @param model
+	 *            Model to transfer data.
+	 * @return form544_create.html
+	 */
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public String form544Create(Model model) {
+
+		logger.info("Hit the /Form544/create ");
 
 		List<Form544.Sex> sexList = new ArrayList<Form544.Sex>();
 		sexList.add(Form544.Sex.MALE);
@@ -324,6 +355,40 @@ public class Form544Controller {
 		return "form544_create";
 	}
 
+	/**
+	 * Controller to load update_view page.
+	 * 
+	 * @param inForm544Id
+	 *            Id of the Form 544
+	 * @param model
+	 *            Model to transfer data to the page.
+	 * @return form544_update.html
+	 */
+	@RequestMapping(value = "/update_view", method = RequestMethod.GET)
+	public String form544UpdateView(@RequestParam("id") final Long inForm544Id, Model model) {
+
+		logger.info("Hit the /Form544/update_view ");
+		logger.info("Rendering view for Form 544 ID : " + inForm544Id);
+
+		List<Form544.Sex> sexList = new ArrayList<Form544.Sex>();
+		sexList.add(Form544.Sex.MALE);
+		sexList.add(Form544.Sex.FEMALE);
+		sexList.add(Form544.Sex.OTHER);
+
+		model.addAttribute("sexList", sexList);
+		model.addAttribute("diseaseList", diseaeDao.getAllDiseases());
+		model.addAttribute("form544Object", form544Dao.findForm544ById(inForm544Id));
+
+		return "form544_update";
+	}
+
+	/**
+	 * Return the disease object by ID.
+	 * 
+	 * @param inDiseaseId
+	 *            ID of the considering disease.
+	 * @return {@link Disease}
+	 */
 	private Disease getDisease(final Long inDiseaseId) {
 		Disease disease = diseaeDao.findDiseaseById(inDiseaseId);
 
