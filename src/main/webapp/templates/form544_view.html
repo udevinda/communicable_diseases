@@ -1,0 +1,121 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Create Form 544</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/jquery-ui.css">
+<script src="../js/jquery-3.1.1.min.js"></script>
+<script src="../js/jquery-ui.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/form544-custom.js"></script>
+
+</head>
+
+<body>
+	<div>
+		<h1>Banner</h1>
+	</div>
+
+	<div>
+		<h3>Menu</h3>
+	</div>
+
+	<div>
+
+		<div class="container">
+			<div class="control-group">
+				<label class="control-label">Form 544 ID</label>
+				<div class="controls readonly" th:text="${form544Object.id}"></div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">NIC</label>
+				<div class="controls readonly" th:text="${form544Object.nic}"></div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">Name</label>
+				<div class="controls readonly"
+					th:text="${form544Object.patientName}"></div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">Age</label>
+				<div class="controls readonly" th:text="${form544Object.age}"></div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">Sex</label>
+				<div class="controls readonly" th:text="${form544Object.sex}"></div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">Home Address</label>
+				<div class="controls readonly"
+					th:text="${form544Object.patientHomeAddress}"></div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">Phone Number</label>
+				<div class="controls readonly"
+					th:text="${form544Object.patientsHomePhoneNo}"></div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">Peaditiric Patient's Gurdian
+					Name</label>
+				<div class="controls readonly"
+					th:text="${form544Object.peaditiricPatientsGurdianName}"></div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">Disease</label>
+				<div class="controls readonly"
+					th:text="${form544Object.disease.getDiseaseName()}"></div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">Institute</label>
+				<div class="controls readonly" th:text="${form544Object.institute}"></div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">Bead Head Ticket</label>
+				<div class="controls readonly" th:text="${form544Object.bhtNo}"></div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">Admitted Ward</label>
+				<div class="controls readonly" th:text="${form544Object.ward}"></div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">Date of OnSet</label>
+				<div class="controls readonly"
+					th:text="${form544Object.dateOfOnset}"></div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">Date of Admission</label>
+				<div class="controls readonly"
+					th:text="${form544Object.dateOfAdmission}"></div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">Notifier Name</label>
+				<div class="controls readonly"
+					th:text="${form544Object.notifierName}"></div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">Notifier Status</label>
+				<div class="controls readonly"
+					th:text="${form544Object.notifierStatus}"></div>
+			</div>
+			<div>
+				<button type="submit" class="btn btn-success pull-right"
+					style="margin-right: 5px; width: 70px">Update</button>
+			</div>
+		</div>
+
+	</div>
+
+	<div>
+		<h6>Footer</h6>
+	</div>
+</body>
+
+<!-- TODO
+Header, Footer, menu should be included.
+Frontend validations should be included.
+Try to make common the imports.
+Style the content with spacing and margins
+
+ -->

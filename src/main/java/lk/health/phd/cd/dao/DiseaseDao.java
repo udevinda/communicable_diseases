@@ -1,5 +1,7 @@
 package lk.health.phd.cd.dao;
 
+import java.util.List;
+
 import lk.health.phd.cd.models.Disease;
 
 /**
@@ -18,4 +20,11 @@ public interface DiseaseDao extends UniversalDao<Disease> {
 	 * @return {@link Disease}
 	 */
 	public Disease findDiseaseById(final Long diseaseId);
+
+	/**
+	 * Returns all available diseases.
+	 * 
+	 * @return List of {@link Disease}
+	 */
+	public List<Disease> getAllDiseases();
 }

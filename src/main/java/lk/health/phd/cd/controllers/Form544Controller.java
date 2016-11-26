@@ -1,6 +1,7 @@
 package lk.health.phd.cd.controllers;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import lk.health.phd.cd.dao.DiseaseDao;
 import lk.health.phd.cd.dao.Form544Dao;
+import lk.health.phd.cd.dao.WorkflowDao;
 import lk.health.phd.cd.dto.Form544FilterDto;
 import lk.health.phd.cd.models.Disease;
 import lk.health.phd.cd.models.Form544;
@@ -42,6 +45,9 @@ public class Form544Controller {
 
 	@Autowired
 	Form544Dao form544Dao;
+
+	@Autowired
+	WorkflowDao workflowDao;
 
 	@Autowired
 	Form544Service form544Service;
@@ -96,7 +102,7 @@ public class Form544Controller {
 			@RequestParam("patientHomeAddress") final String inPatientHomeAddress,
 			@RequestParam("patientsHomePhoneNo") final String inPatientsHomePhoneNo,
 			@RequestParam("notifierName") final String inNotifierName,
-			@RequestParam("notifierStatus") final String inNotifierStatus) {
+			@RequestParam("notifierStatus") final String inNotifierStatus, Model model) {
 
 		logger.info("Hit the /Form544/submit ");
 		logger.info("Submitted user with NIC " + inNic);
@@ -122,13 +128,17 @@ public class Form544Controller {
 
 			// TODO Need to do backend validation
 
-			workflowService.includeForm544(null, form544);
+			Long workflowId = workflowService.includeForm544(null, form544);
+			Form544 submittedForm544 = form544Dao
+					.findForm544ById(workflowDao.findWorkflowById(workflowId).getForm544().getId());
+
+			model.addAttribute("form544Object", submittedForm544);
 
 		} catch (Exception e) {
 			logger.error("Error occured " + e);
 		}
 
-		return null;
+		return "form544_view";
 	}
 
 	/**
@@ -298,6 +308,20 @@ public class Form544Controller {
 			return null;
 		}
 
+	}
+
+	@RequestMapping(value = "/create", method = RequestMethod.GET)
+	public String form544Create(Model model) {
+
+		List<Form544.Sex> sexList = new ArrayList<Form544.Sex>();
+		sexList.add(Form544.Sex.MALE);
+		sexList.add(Form544.Sex.FEMALE);
+		sexList.add(Form544.Sex.OTHER);
+
+		model.addAttribute("sexList", sexList);
+		model.addAttribute("diseaseList", diseaeDao.getAllDiseases());
+
+		return "form544_create";
 	}
 
 	private Disease getDisease(final Long inDiseaseId) {
