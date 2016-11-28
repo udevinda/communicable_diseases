@@ -1,11 +1,12 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Submitted Form 544</title>
+<title>Form 544 View</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="../css/bootstrap.min.css">
 <link rel="stylesheet" href="../css/jquery-ui.css">
+<link rel="stylesheet" href="../css/custom.css">
 <script src="../js/jquery-3.1.1.min.js"></script>
 <script src="../js/jquery-ui.js"></script>
 <script src="../js/bootstrap.min.js"></script>
@@ -14,90 +15,180 @@
 </head>
 
 <body>
-	<div>
-		<h1>Banner</h1>
-	</div>
+	<div id="banner"></div>
 
-	<div>
-		<h3>Menu</h3>
-	</div>
+	<div id="navigation"></div>
 
-	<div>
-
-		<div class="container">
-			<div class="control-group">
-				<label class="control-label">Form 544 ID</label>
-				<div class="controls readonly" th:text="${form544Object.id}"></div>
+	<div class="container">
+		<div class="control-group">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<label class="control-label">Form 544 ID</label>
+				</div>
+				<div class="panel-body">
+					<div class="controls readonly" th:text="${form544Object.id}"></div>
+				</div>
+			</div>
+		</div>
+		<div class="control-group">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<label class="control-label">NIC</label>
+				</div>
+				<div class="panel-body">
+					<div class="controls readonly" th:text="${form544Object.nic}"></div>
+				</div>
+			</div>
+		</div>
+		<div class="control-group">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<label class="control-label">Name</label>
+				</div>
+				<div class="panel-body">
+					<div class="controls readonly"
+						th:text="${form544Object.patientName}"></div>
+				</div>
+			</div>
+		</div>
+		<div class="control-group">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<label class="control-label">Age</label>
+				</div>
+				<div class="panel-body">
+					<div class="controls readonly" th:text="${form544Object.age}"></div>
+				</div>
+			</div>
+		</div>
+		<div class="control-group">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<label class="control-label">Sex</label>
+				</div>
+				<div class="panel-body">
+					<div class="controls readonly" th:text="${form544Object.sex}"></div>
+				</div>
+			</div>
+		</div>
+		<div class="control-group">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<label class="control-label">Home Address</label>
+				</div>
+				<div class="panel-body">
+					<div class="controls readonly"
+						th:text="${form544Object.patientHomeAddress}"></div>
+				</div>
 			</div>
 			<div class="control-group">
-				<label class="control-label">NIC</label>
-				<div class="controls readonly" th:text="${form544Object.nic}"></div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<label class="control-label">Phone Number</label>
+					</div>
+					<div class="panel-body">
+						<div class="controls readonly"
+							th:text="${form544Object.patientsHomePhoneNo}"></div>
+					</div>
+				</div>
 			</div>
 			<div class="control-group">
-				<label class="control-label">Name</label>
-				<div class="controls readonly"
-					th:text="${form544Object.patientName}"></div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<label class="control-label">Peaditiric Patient's Gurdian
+							Name</label>
+					</div>
+					<div class="panel-body">
+						<div class="controls readonly"
+							th:text="${form544Object.peaditiricPatientsGurdianName}"></div>
+					</div>
+				</div>
 			</div>
 			<div class="control-group">
-				<label class="control-label">Age</label>
-				<div class="controls readonly" th:text="${form544Object.age}"></div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<label class="control-label">Disease</label>
+					</div>
+					<div class="panel-body">
+						<div class="controls readonly"
+							th:text="${form544Object.disease.getDiseaseName()}"></div>
+					</div>
+				</div>
 			</div>
 			<div class="control-group">
-				<label class="control-label">Sex</label>
-				<div class="controls readonly" th:text="${form544Object.sex}"></div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<label class="control-label">Institute</label>
+					</div>
+					<div class="panel-body">
+						<div class="controls readonly"
+							th:text="${form544Object.institute}"></div>
+					</div>
+				</div>
 			</div>
 			<div class="control-group">
-				<label class="control-label">Home Address</label>
-				<div class="controls readonly"
-					th:text="${form544Object.patientHomeAddress}"></div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<label class="control-label">Bead Head Ticket</label>
+					</div>
+					<div class="panel-body">
+						<div class="controls readonly" th:text="${form544Object.bhtNo}"></div>
+					</div>
+				</div>
 			</div>
 			<div class="control-group">
-				<label class="control-label">Phone Number</label>
-				<div class="controls readonly"
-					th:text="${form544Object.patientsHomePhoneNo}"></div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<label class="control-label">Admitted Ward</label>
+					</div>
+					<div class="panel-body">
+						<div class="controls readonly" th:text="${form544Object.ward}"></div>
+					</div>
+				</div>
 			</div>
 			<div class="control-group">
-				<label class="control-label">Peaditiric Patient's Gurdian
-					Name</label>
-				<div class="controls readonly"
-					th:text="${form544Object.peaditiricPatientsGurdianName}"></div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<label class="control-label">Date of OnSet</label>
+					</div>
+					<div class="panel-body">
+						<div class="controls readonly"
+							th:text="${form544Object.dateOfOnset}"></div>
+					</div>
+				</div>
 			</div>
 			<div class="control-group">
-				<label class="control-label">Disease</label>
-				<div class="controls readonly"
-					th:text="${form544Object.disease.getDiseaseName()}"></div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<label class="control-label">Date of Admission</label>
+					</div>
+					<div class="panel-body">
+						<div class="controls readonly"
+							th:text="${form544Object.dateOfAdmission}"></div>
+					</div>
+				</div>
 			</div>
 			<div class="control-group">
-				<label class="control-label">Institute</label>
-				<div class="controls readonly" th:text="${form544Object.institute}"></div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<label class="control-label">Notifier Name</label>
+					</div>
+					<div class="panel-body">
+						<div class="controls readonly"
+							th:text="${form544Object.notifierName}"></div>
+					</div>
+				</div>
 			</div>
 			<div class="control-group">
-				<label class="control-label">Bead Head Ticket</label>
-				<div class="controls readonly" th:text="${form544Object.bhtNo}"></div>
-			</div>
-			<div class="control-group">
-				<label class="control-label">Admitted Ward</label>
-				<div class="controls readonly" th:text="${form544Object.ward}"></div>
-			</div>
-			<div class="control-group">
-				<label class="control-label">Date of OnSet</label>
-				<div class="controls readonly"
-					th:text="${form544Object.dateOfOnset}"></div>
-			</div>
-			<div class="control-group">
-				<label class="control-label">Date of Admission</label>
-				<div class="controls readonly"
-					th:text="${form544Object.dateOfAdmission}"></div>
-			</div>
-			<div class="control-group">
-				<label class="control-label">Notifier Name</label>
-				<div class="controls readonly"
-					th:text="${form544Object.notifierName}"></div>
-			</div>
-			<div class="control-group">
-				<label class="control-label">Notifier Status</label>
-				<div class="controls readonly"
-					th:text="${form544Object.notifierStatus}"></div>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<label class="control-label">Notifier Status</label>
+					</div>
+					<div class="panel-body">
+						<div class="controls readonly"
+							th:text="${form544Object.notifierStatus}"></div>
+					</div>
+				</div>
 			</div>
 			<div>
 				<a th:href="@{'/Form544/update_view?id=' + ${form544Object.id}}"><button
@@ -108,9 +199,7 @@
 
 	</div>
 
-	<div>
-		<h6>Footer</h6>
-	</div>
+	<div id="footer"></div>
 </body>
 
 <!-- TODO
