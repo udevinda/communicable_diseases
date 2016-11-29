@@ -298,7 +298,7 @@ public class Form544Controller {
 			@RequestParam("dateOfAdmissionFrom") final String inDateOfAdmissionFrom,
 			@RequestParam("dateOfAdmissionTo") final String inDateOfAdmissionTo,
 			@RequestParam("ageFrom") final Integer inAgeFrom, @RequestParam("ageTo") final Integer inAgeTo,
-			@RequestParam("offset") final Integer inOffset, @RequestParam("limit") final Integer inLimit) {
+			@RequestParam("start") final Integer inOffset, @RequestParam("length") final Integer inLimit) {
 
 		logger.info("Hit the /Form544/filterBy ");
 
@@ -353,6 +353,28 @@ public class Form544Controller {
 		model.addAttribute("diseaseList", diseaeDao.getAllDiseases());
 
 		return "form544_create";
+	}
+
+	/**
+	 * Controller for Form 544 search page load.
+	 * 
+	 * @param model
+	 *            Model to transfer data.
+	 * @return form544_search.html
+	 */
+	@RequestMapping(value = "/filter_view", method = RequestMethod.GET)
+	public String form544Search(Model model) {
+		logger.info("Hit the /Form544/filter_view ");
+
+		List<Form544.Sex> sexList = new ArrayList<Form544.Sex>();
+		sexList.add(Form544.Sex.MALE);
+		sexList.add(Form544.Sex.FEMALE);
+		sexList.add(Form544.Sex.OTHER);
+
+		model.addAttribute("sexList", sexList);
+		model.addAttribute("diseaseList", diseaeDao.getAllDiseases());
+
+		return "form544_search";
 	}
 
 	/**
