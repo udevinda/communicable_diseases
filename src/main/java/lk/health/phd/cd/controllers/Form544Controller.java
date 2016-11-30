@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import lk.health.phd.cd.dao.DiseaseDao;
 import lk.health.phd.cd.dao.Form544Dao;
@@ -285,10 +288,10 @@ public class Form544Controller {
 	 *            Offset for pagination.
 	 * @param inLimit
 	 *            Limit for pagination.
-	 * @return
+	 * @return Json object included total row count, for 544 list
 	 */
 	@RequestMapping(value = "/filterBy", method = RequestMethod.POST)
-	public ModelMap searchForm544ByCriteria(@RequestParam("nic") final String inPatientNic,
+	public @ResponseBody JSONObject searchForm544ByCriteria(@RequestParam("nic") final String inPatientNic,
 			@RequestParam("institute") final String inInstitute, @RequestParam("disease") final Long inDiseaseId,
 			@RequestParam("patientName") final String inPatientName, @RequestParam("bhtNo") final Long inBhtNo,
 			@RequestParam("ward") final String inWard, @RequestParam("sex") final Form544.Sex inSex,
@@ -298,7 +301,7 @@ public class Form544Controller {
 			@RequestParam("dateOfAdmissionFrom") final String inDateOfAdmissionFrom,
 			@RequestParam("dateOfAdmissionTo") final String inDateOfAdmissionTo,
 			@RequestParam("ageFrom") final Integer inAgeFrom, @RequestParam("ageTo") final Integer inAgeTo,
-			@RequestParam("start") final Integer inOffset, @RequestParam("length") final Integer inLimit) {
+			@RequestParam("offset") final Integer inOffset, @RequestParam("limit") final Integer inLimit) {
 
 		logger.info("Hit the /Form544/filterBy ");
 
@@ -320,10 +323,15 @@ public class Form544Controller {
 			form544FilterDto.setDateOfOnsetTo(Util.parseDate(inDateOfOnsetTo, "yyyy-MM-dd"));
 
 			List<Form544> form544List = form544Dao.searchForm544BySearchFields(form544FilterDto, inOffset, inLimit);
+			Long totalRowCount = form544Dao.searchCountForm544BySearchFields(form544FilterDto);
+
+			JSONObject obj = new JSONObject();
+			obj.put("form544List", form544List);
+			obj.put("totalRowCount", totalRowCount);
 
 			logger.info("Returned result set size : " + form544List.size());
 
-			return null;
+			return obj;
 		} catch (Exception e) {
 			logger.error("Error occured ", e);
 

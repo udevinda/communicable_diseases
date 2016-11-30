@@ -22,7 +22,7 @@
 	<div id="navigation"></div>
 
 	<div class="container">
-		<form th:action="@{/Form544/filterBy}" method="post" id="form544FilterTbl">
+		<form id="form544FilterTbl">
 			<div class="form-group">
 				<label for="nic">NIC:</label> <input type="text"
 					class="form-control" name="nic" id="nic"
@@ -36,6 +36,7 @@
 			<div class="form-group">
 				<label for="disease">Disease:</label> <select class="form-control"
 					id="disease" name="disease">
+					<option value="">Select Disease</option>
 					<option th:each="disease:${diseaseList}" th:value="${disease.id}"
 						th:text="${disease.diseaseName}"></option>
 				</select>
@@ -58,6 +59,7 @@
 			<div class="form-group">
 				<label for="sex">Sex:</label> <select class="form-control"
 					name="sex" id="sex">
+					<option value="">Select Sex</option>
 					<option th:each="sex:${sexList}" th:value="${sex}" th:text="${sex}"></option>
 				</select>
 			</div>
@@ -99,37 +101,44 @@
 			</div>
 
 			<div>
-				<button type="submit" class="btn btn-success pull-right">Search</button>
-				<button type="submit" class="btn btn-default pull-right"
+				<span>Limit : </span><select id="limit">
+					<option value="10">10</option>
+					<option value="20">20</option>
+					<option value="50">50</option>
+				</select>
+				<button type="button" class="btn btn-success pull-right"
+					onclick="doSearch(true)">Search</button>
+				<button type="button" class="btn btn-default pull-right"
 					style="margin-right: 5px; width: 70px">Reset</button>
 			</div>
 		</form>
 	</div>
 
 	<div>
-		<table id="form544List" class="display" width="100%" cellspacing="0">
+		<table class="table" id="form544FilterTbl">
 			<thead>
 				<tr>
-					<th>Form 544 ID</th>
+					<th>#</th>
 					<th>NIC</th>
 					<th>Name</th>
 					<th>Age</th>
 					<th>Sex</th>
-					<th>Address</th>
 					<th>Phone number</th>
-					<th>Gurdian Name</th>
 					<th>BHT No</th>
 					<th>Ward No</th>
 					<th>Disease</th>
 					<th>Date of Admission</th>
 					<th>Date of Onset</th>
 					<th>Institute</th>
-					<th>Notifier Name</th>
-					<th>Notifier Status</th>
-					<th>System otified Date</th>
 				</tr>
 			</thead>
+			<tbody id="form544FilterTblBody">
+			</tbody>
 		</table>
+		<div class="pages-outer-container-div">
+			<span>Pages : </span>
+			<div id="pages" class="pages-selectbox-container-div"></div>
+		</div>
 	</div>
 	<div id="footer"></div>
 </body>

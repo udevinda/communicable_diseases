@@ -37,4 +37,14 @@ public interface Form544Dao extends UniversalDao<Form544> {
 	 */
 	public List<Form544> searchForm544BySearchFields(final Form544FilterDto inForm544FilterDto, final Integer inOffset,
 			final Integer inLimit);
+
+	/**
+	 * Returns the total count of available records for given filtering
+	 * criteria.
+	 * 
+	 * @param inForm544FilterDto
+	 *            DTO including searching parameters.
+	 * @return Count of total records.
+	 */
+	public Long searchCountForm544BySearchFields(final Form544FilterDto inForm544FilterDto);
 }

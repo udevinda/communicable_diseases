@@ -14,3 +14,11 @@
 	background-color: transparent;
 	font-size: 14px
 }
+
+.pages-selectbox-container-div {
+	display: inline
+}
+
+.pages-outer-container-div {
+	float: right
+}
