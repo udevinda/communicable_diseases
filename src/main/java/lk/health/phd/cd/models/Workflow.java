@@ -39,6 +39,10 @@ public class Workflow implements Serializable {
 	@JoinColumn(name = "form544_id")
 	private Form544 form544;
 
+	@OneToOne
+	@JoinColumn(name = "form411_id")
+	private Form411 form411;
+
 	/**
 	 * Getter for workflow id.
 	 * 
@@ -94,6 +98,25 @@ public class Workflow implements Serializable {
 	 */
 	public void setForm544(final Form544 inForm544) {
 		this.form544 = inForm544;
+	}
+
+	/**
+	 * Getter for form411
+	 * 
+	 * @return {@link Form411}
+	 */
+	public Form411 getForm411() {
+		return form411;
+	}
+
+	/**
+	 * Setter for {@link Form411}
+	 * 
+	 * @param form411
+	 *            {@link Form411}
+	 */
+	public void setForm411(Form411 form411) {
+		this.form411 = form411;
 	}
 
 }
