@@ -18,4 +18,13 @@ public interface WorkflowDao extends UniversalDao<Workflow> {
 	 * @return {@link Workflow}
 	 */
 	public Workflow findWorkflowById(final Long workflowId);
+
+	/**
+	 * Retrieves the persisted workflow by its form 544 ID.
+	 * 
+	 * @param form544Id
+	 *            ID of the form544
+	 * @return {@link Workflow}
+	 */
+	public Workflow findWorkflowByForm544Id(final Long inForm544Id);
 }

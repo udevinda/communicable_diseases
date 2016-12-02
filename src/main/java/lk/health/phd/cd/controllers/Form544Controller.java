@@ -41,19 +41,19 @@ import lk.health.phd.util.Util;
 public class Form544Controller {
 
 	@Autowired
-	WorkflowService workflowService;
+	private WorkflowService workflowService;
 
 	@Autowired
-	DiseaseDao diseaeDao;
+	private DiseaseDao diseaeDao;
 
 	@Autowired
-	Form544Dao form544Dao;
+	private Form544Dao form544Dao;
 
 	@Autowired
-	WorkflowDao workflowDao;
+	private WorkflowDao workflowDao;
 
 	@Autowired
-	Form544Service form544Service;
+	private Form544Service form544Service;
 
 	Logger logger = LoggerFactory.getLogger(Form544Controller.class);
 

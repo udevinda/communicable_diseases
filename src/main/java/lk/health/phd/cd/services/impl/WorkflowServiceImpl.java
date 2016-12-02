@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lk.health.phd.cd.controllers.Form544Controller;
+import lk.health.phd.cd.dao.Form411Dao;
 import lk.health.phd.cd.dao.Form544Dao;
 import lk.health.phd.cd.dao.WorkflowDao;
+import lk.health.phd.cd.models.Form411;
 import lk.health.phd.cd.models.Form544;
 import lk.health.phd.cd.models.Workflow;
 import lk.health.phd.cd.models.Workflow.WorkflowStatus;
@@ -25,10 +27,13 @@ import lk.health.phd.cd.services.WorkflowService;
 public class WorkflowServiceImpl implements WorkflowService {
 
 	@Autowired
-	WorkflowDao workflowDao;
+	private WorkflowDao workflowDao;
 
 	@Autowired
-	Form544Dao form544Dao;
+	private Form544Dao form544Dao;
+
+	@Autowired
+	private Form411Dao form411Dao;
 
 	Logger logger = LoggerFactory.getLogger(WorkflowServiceImpl.class);
 
@@ -75,6 +80,24 @@ public class WorkflowServiceImpl implements WorkflowService {
 		}
 
 		return workflowId;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public Long includeForm411(final Long inForm544Id, final Form411 inForm411) {
+
+		form411Dao.save(inForm411);
+		logger.debug("Form411 object is persisted.");
+
+		Form544 form544 = form544Dao.findForm544ById(inForm544Id);
+
+		Workflow workflow = workflowDao.findWorkflowByForm544Id(form544.getId());
+		workflow.setForm411(inForm411);
+		workflowDao.update(workflow);
+		logger.debug("Form411 is attached to workflow.");
+
+		return workflow.getId();
 	}
 
 }

@@ -65,7 +65,7 @@ public class Form411 implements Serializable {
 	private EthnicGroup ethnicGroup;
 
 	@OneToOne
-	@JoinColumn(name = "disease_as_nitified_id")
+	@JoinColumn(name = "disease_as_notified_id")
 	private Disease diseaseAsNotified;
 
 	@Column(name = "disease_notified_date", nullable = false)
