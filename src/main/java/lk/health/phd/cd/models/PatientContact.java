@@ -8,20 +8,23 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.databind.ser.impl.FailingSerializer;
 
 /**
- * Model class for PatientContacts
+ * Model class for PatientContacts (Other people who were contacted by the
+ * considering patient)
  * 
  * @author admin
  *
  */
 
 @Entity
-@Table(name = "patient_contacts")
-public class PatientContacts implements Serializable {
+@Table(name = "patient_contact")
+public class PatientContact implements Serializable {
 
 	private static final long serialVersionUID = -2164282212498428405L;
 

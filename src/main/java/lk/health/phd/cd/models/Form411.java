@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -102,9 +103,9 @@ public class Form411 implements Serializable {
 	@Column(name = "laboratory_findings")
 	private String laboratoryFindings;
 
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "form_411_id")
-	private List<PatientContacts> patientContacts;
+	private List<PatientContact> patientContact;
 
 	@Column(name = "phi_range", nullable = false)
 	private String phiRange;
@@ -461,22 +462,22 @@ public class Form411 implements Serializable {
 	}
 
 	/**
-	 * Getter for {@link PatientContacts}
+	 * Getter for {@link PatientContact}
 	 * 
-	 * @return {@link PatientContacts}
+	 * @return {@link PatientContact}
 	 */
-	public List<PatientContacts> getPatientContacts() {
-		return patientContacts;
+	public List<PatientContact> getPatientContact() {
+		return patientContact;
 	}
 
 	/**
-	 * Setter for {@link PatientContacts}
+	 * Setter for {@link PatientContact}
 	 * 
 	 * @param inPatientContacts
-	 *            {@link PatientContacts}
+	 *            {@link PatientContact}
 	 */
-	public void setPatientContacts(final List<PatientContacts> inPatientContacts) {
-		this.patientContacts = inPatientContacts;
+	public void setPatientContact(final List<PatientContact> inPatientContact) {
+		this.patientContact = inPatientContact;
 	}
 
 	/**
