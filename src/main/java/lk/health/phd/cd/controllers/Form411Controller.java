@@ -3,6 +3,7 @@ package lk.health.phd.cd.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import lk.health.phd.cd.dao.PatientContactDao;
 import lk.health.phd.cd.dao.WorkflowDao;
 import lk.health.phd.cd.models.Disease;
 import lk.health.phd.cd.models.Form411;
+import lk.health.phd.cd.models.Form411.Sex;
 import lk.health.phd.cd.models.PatientContact;
 import lk.health.phd.cd.services.Form411Service;
 import lk.health.phd.cd.services.WorkflowService;
@@ -262,6 +264,28 @@ public class Form411Controller {
 
 	}
 
+	@RequestMapping(value = "/filterBy", method = RequestMethod.POST)
+	public @ResponseBody JSONObject searchForm411ByCriteria(@RequestParam("name") String name,
+			@RequestParam("ageFrom") Integer ageFrom, @RequestParam("ageTo") Integer ageTo,
+			@RequestParam("sex") Form411.Sex sex, @RequestParam("ethnicGroup") Form411.EthnicGroup ethnicGroup,
+			@RequestParam("notifiedDiseaaseId") Long notifiedDiseaseId,
+			@RequestParam("notifiedDateFrom") String notifiedDateFrom,
+			@RequestParam("notifiedDateTo") String notifiedDateTo, @RequestParam("confirmedDiseaseId") Long diseaseId,
+			@RequestParam("confirmedDateFrom") String confirmedDateFrom,
+			@RequestParam("confirmedDateTo") String confirmedDateTo,
+			@RequestParam("dateOnsetFrom") String dateOnsetFrom, @RequestParam("dateOnsetTo") String dateOnsetTo,
+			@RequestParam("hospitalizedFrom") String hospitalizedFrom,
+			@RequestParam("hospitalizedTo") String dateHospitalizationTo,
+			@RequestParam("dischargedFrom") String dischargedFrom, @RequestParam("dischargedTo") String dischargedTo,
+			@RequestParam("hospital") String hospital, @RequestParam("outcome") Form411.Outcome outcome,
+			@RequestParam("isolated") Form411.WhereIsolated isolated, @RequestParam("phiRange") String phiRange,
+			@RequestParam("mohRange") String mohRange) {
+
+		logger.info("Hit the /Form411/filterBy ");
+
+		return null;
+	}
+
 	/**
 	 * Return the disease object by ID.
 	 * 
@@ -314,18 +338,4 @@ public class Form411Controller {
 		return patientContactList;
 	}
 
-	/**
-	 * Persist each Patient Contact.
-	 * 
-	 * @param inForm411
-	 *            {@link Form411}
-	 * @param inJsonString
-	 *            JSON string including patient's contact list.
-	 */
-	private void persistPatientContacts(final Form411 inForm411, final String inJsonString) {
-		List<PatientContact> patientContactList = convertJsonArrayToContactPersonList(inForm411, inJsonString);
-		for (int i = 0; i < patientContactList.size(); i++) {
-			patientContactDao.save(patientContactList.get(i));
-		}
-	}
 }
