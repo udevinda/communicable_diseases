@@ -23,6 +23,7 @@ import lk.health.phd.cd.dao.DiseaseDao;
 import lk.health.phd.cd.dao.Form411Dao;
 import lk.health.phd.cd.dao.PatientContactDao;
 import lk.health.phd.cd.dao.WorkflowDao;
+import lk.health.phd.cd.dto.Form411FilterDto;
 import lk.health.phd.cd.models.Disease;
 import lk.health.phd.cd.models.Form411;
 import lk.health.phd.cd.models.Form411.Sex;
@@ -264,26 +265,125 @@ public class Form411Controller {
 
 	}
 
+	/**
+	 * Controller for Form411 filtering.
+	 * 
+	 * @param inName
+	 *            Name of the patient
+	 * @param inAgeFrom
+	 *            Beginning of age range to consider.
+	 * @param inAgeTo
+	 *            End of age range to consider
+	 * @param inSex
+	 *            {@link Form411.Sex} of the patient
+	 * @param inEthnicGroup
+	 *            {@link Form411.EthnicGroup} of the patient
+	 * @param inNotifiedDiseaseId
+	 *            Notified Disease ID
+	 * @param inNotifiedDateFrom
+	 *            Starting date of period to consider related to when a disease
+	 *            is notified
+	 * @param inNotifiedDateTo
+	 *            End Date of period to consider related to when a disease is
+	 *            notified.
+	 * @param inConfirmrdDiseaseId
+	 *            Disease ID
+	 * @param inConfirmedDateFrom
+	 *            Starting date of period to consider related to when a disease
+	 *            is confirmed.
+	 * @param inConfirmedDateTo
+	 *            End date of period to consider related to when a disease is
+	 *            confirmed.
+	 * @param inDateOnsetFrom
+	 *            Starting date of period to consider when On set.
+	 * @param inDateOnsetTo
+	 *            End date of period to consider when On set.
+	 * @param inHospitalizedFrom
+	 *            Starting date of period to consider when hospitalized.
+	 * @param inHospitalizedTo
+	 *            End date of period to consider when hospitalized.
+	 * @param inDischargedFrom
+	 *            Starting date of period to consider when discharged
+	 * @param inDischargedTo
+	 *            End date of period to consider when discharged
+	 * @param inHospital
+	 *            Name of the hospital
+	 * @param inOutcome
+	 *            {@link Form411.Outcome}
+	 * @param inIsolated
+	 *            {@link Form411.WhereIsolated}
+	 * @param inPhiRange
+	 *            PHI range to consider
+	 * @param inMohRange
+	 *            MOH range to consider
+	 * @return JSONobject including the result record set
+	 */
 	@RequestMapping(value = "/filterBy", method = RequestMethod.POST)
-	public @ResponseBody JSONObject searchForm411ByCriteria(@RequestParam("name") String name,
-			@RequestParam("ageFrom") Integer ageFrom, @RequestParam("ageTo") Integer ageTo,
-			@RequestParam("sex") Form411.Sex sex, @RequestParam("ethnicGroup") Form411.EthnicGroup ethnicGroup,
-			@RequestParam("notifiedDiseaaseId") Long notifiedDiseaseId,
-			@RequestParam("notifiedDateFrom") String notifiedDateFrom,
-			@RequestParam("notifiedDateTo") String notifiedDateTo, @RequestParam("confirmedDiseaseId") Long diseaseId,
-			@RequestParam("confirmedDateFrom") String confirmedDateFrom,
-			@RequestParam("confirmedDateTo") String confirmedDateTo,
-			@RequestParam("dateOnsetFrom") String dateOnsetFrom, @RequestParam("dateOnsetTo") String dateOnsetTo,
-			@RequestParam("hospitalizedFrom") String hospitalizedFrom,
-			@RequestParam("hospitalizedTo") String dateHospitalizationTo,
-			@RequestParam("dischargedFrom") String dischargedFrom, @RequestParam("dischargedTo") String dischargedTo,
-			@RequestParam("hospital") String hospital, @RequestParam("outcome") Form411.Outcome outcome,
-			@RequestParam("isolated") Form411.WhereIsolated isolated, @RequestParam("phiRange") String phiRange,
-			@RequestParam("mohRange") String mohRange) {
+	public @ResponseBody JSONObject searchForm411ByCriteria(@RequestParam("name") final String inName,
+			@RequestParam("ageFrom") final Integer inAgeFrom, @RequestParam("ageTo") final Integer inAgeTo,
+			@RequestParam("sex") final Form411.Sex inSex,
+			@RequestParam("ethnicGroup") final Form411.EthnicGroup inEthnicGroup,
+			@RequestParam("notifiedDiseaseId") final Long inNotifiedDiseaseId,
+			@RequestParam("notifiedDateFrom") final String inNotifiedDateFrom,
+			@RequestParam("notifiedDateTo") final String inNotifiedDateTo,
+			@RequestParam("confirmedDiseaseId") final Long inConfirmrdDiseaseId,
+			@RequestParam("confirmedDateFrom") final String inConfirmedDateFrom,
+			@RequestParam("confirmedDateTo") final String inConfirmedDateTo,
+			@RequestParam("dateOnsetFrom") final String inDateOnsetFrom,
+			@RequestParam("dateOnsetTo") final String inDateOnsetTo,
+			@RequestParam("hospitalizedFrom") final String inHospitalizedFrom,
+			@RequestParam("hospitalizedTo") final String inHospitalizedTo,
+			@RequestParam("dischargedFrom") final String inDischargedFrom,
+			@RequestParam("dischargedTo") final String inDischargedTo,
+			@RequestParam("hospital") final String inHospital, @RequestParam("outcome") final Form411.Outcome inOutcome,
+			@RequestParam("isolated") final Form411.WhereIsolated inIsolated,
+			@RequestParam("phiRange") final String inPhiRange, @RequestParam("mohRange") final String inMohRange,
+			@RequestParam("offset") final Integer inOffset, @RequestParam("limit") final Integer inLimit) {
 
 		logger.info("Hit the /Form411/filterBy ");
 
-		return null;
+		try {
+			Form411FilterDto form411FilterDto = new Form411FilterDto();
+
+			form411FilterDto.setAgeFrom(inAgeFrom);
+			form411FilterDto.setAgeTo(inAgeTo);
+			form411FilterDto.setConfirmedDateFrom(Util.parseDate(inConfirmedDateFrom, "yyyy-MM-dd"));
+			form411FilterDto.setConfirmedDateTo(Util.parseDate(inConfirmedDateTo, "yyyy-MM-dd"));
+			form411FilterDto.setConfirmedDisease(getDisease(inConfirmrdDiseaseId));
+			form411FilterDto.setDateOnsetFrom(Util.parseDate(inDateOnsetFrom, "yyyy-MM-dd"));
+			form411FilterDto.setDateOnsetTo(Util.parseDate(inDateOnsetTo, "yyyy-MM-dd"));
+			form411FilterDto.setDischargedFrom(Util.parseDate(inDischargedFrom, "yyyy-MM-dd"));
+			form411FilterDto.setDischargedTo(Util.parseDate(inDischargedTo, "yyyy-MM-dd"));
+			form411FilterDto.setEthnicGroup(inEthnicGroup);
+			form411FilterDto.setHospital(inHospital);
+			form411FilterDto.setHospitalizedFrom(Util.parseDate(inHospitalizedFrom, "yyyy-MM-dd"));
+			form411FilterDto.setHospitalizedTo(Util.parseDate(inHospitalizedTo, "yyyy-MM-dd"));
+			form411FilterDto.setIsolated(inIsolated);
+			form411FilterDto.setMohRange(inMohRange);
+			form411FilterDto.setNotifiedDateFrom(Util.parseDate(inNotifiedDateFrom, "yyyy-MM-dd"));
+			form411FilterDto.setNotifiedDateTo(Util.parseDate(inNotifiedDateTo, "yyyy-MM-dd"));
+			form411FilterDto.setNotifiedDisease(getDisease(inNotifiedDiseaseId));
+			form411FilterDto.setOutcome(inOutcome);
+			form411FilterDto.setPatientName(inName);
+			form411FilterDto.setPhiRange(inPhiRange);
+			form411FilterDto.setSex(inSex);
+
+			List<Form411> form411s = form411Dao.searchForm411BySearchingFields(form411FilterDto, inOffset, inLimit);
+			Long totalRowCount = form411Dao.searchCountForm411BySearchFields(form411FilterDto);
+
+			JSONObject obj = new JSONObject();
+			obj.put("form411List", form411s);
+			obj.put("totalRowCount", totalRowCount);
+
+			logger.info("Returned result set size : " + form411s.size());
+
+			return obj;
+		} catch (Exception e) {
+			logger.error("Error occured ", e);
+
+			return null;
+		}
+
 	}
 
 	/**

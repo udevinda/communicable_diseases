@@ -2,6 +2,7 @@ package lk.health.phd.cd.dto;
 
 import java.sql.Date;
 
+import lk.health.phd.cd.models.Disease;
 import lk.health.phd.cd.models.Form411;
 
 /**
@@ -17,10 +18,10 @@ public class Form411FilterDto {
 	private Integer ageTo;
 	private Form411.Sex sex;
 	private Form411.EthnicGroup ethnicGroup;
-	private Long notifiedDiseaseId;
+	private Disease notifiedDisease;
 	private Date notifiedDateFrom;
 	private Date notifiedDateTo;
-	private Long confirmedDiseaseId;
+	private Disease confirmedDisease;
 	private Date confirmedDateFrom;
 	private Date confirmedDateTo;
 	private Date dateOnsetFrom;
@@ -47,11 +48,11 @@ public class Form411FilterDto {
 	/**
 	 * Setter for patient's name
 	 * 
-	 * @param patientName
+	 * @param inPatientName
 	 *            Name of the patient
 	 */
-	public void setPatientName(String patientName) {
-		this.patientName = patientName;
+	public void setPatientName(final String inPatientName) {
+		this.patientName = inPatientName;
 	}
 
 	/**
@@ -66,11 +67,11 @@ public class Form411FilterDto {
 	/**
 	 * Setter for age from amount.
 	 * 
-	 * @param ageFrom
+	 * @param inAgeFrom
 	 *            Age from value
 	 */
-	public void setAgeFrom(Integer ageFrom) {
-		this.ageFrom = ageFrom;
+	public void setAgeFrom(final Integer inAgeFrom) {
+		this.ageFrom = inAgeFrom;
 	}
 
 	/**
@@ -85,11 +86,11 @@ public class Form411FilterDto {
 	/**
 	 * Setter for age to value.
 	 * 
-	 * @param ageTo
+	 * @param inAgeTo
 	 *            Age to value
 	 */
-	public void setAgeTo(Integer ageTo) {
-		this.ageTo = ageTo;
+	public void setAgeTo(final Integer inAgeTo) {
+		this.ageTo = inAgeTo;
 	}
 
 	/**
@@ -104,11 +105,11 @@ public class Form411FilterDto {
 	/**
 	 * Setter for patient sex.
 	 * 
-	 * @param sex
+	 * @param inSex
 	 *            {@link Form411.Sex}
 	 */
-	public void setSex(Form411.Sex sex) {
-		this.sex = sex;
+	public void setSex(final Form411.Sex inSex) {
+		this.sex = inSex;
 	}
 
 	/**
@@ -123,30 +124,11 @@ public class Form411FilterDto {
 	/**
 	 * Setter for ethnic group.
 	 * 
-	 * @param ethnicGroup
+	 * @param inEthnicGroup
 	 *            {@link Form411.EthnicGroup}
 	 */
-	public void setEthnicGroup(Form411.EthnicGroup ethnicGroup) {
-		this.ethnicGroup = ethnicGroup;
-	}
-
-	/**
-	 * Getter for Disease ID which is notified.
-	 * 
-	 * @return Notified disease ID
-	 */
-	public Long getNotifiedDiseaseId() {
-		return notifiedDiseaseId;
-	}
-
-	/**
-	 * Setter for Notified disease Id
-	 * 
-	 * @param notifiedDiseaseId
-	 *            Notified disease Id
-	 */
-	public void setNotifiedDiseaseId(Long notifiedDiseaseId) {
-		this.notifiedDiseaseId = notifiedDiseaseId;
+	public void setEthnicGroup(final Form411.EthnicGroup inEthnicGroup) {
+		this.ethnicGroup = inEthnicGroup;
 	}
 
 	/**
@@ -161,11 +143,11 @@ public class Form411FilterDto {
 	/**
 	 * Setter for when disease is notified (From date for date period)
 	 * 
-	 * @param notifiedDateFrom
+	 * @param inNotifiedDateFrom
 	 *            Date when disease is notified (From date for date period)
 	 */
-	public void setNotifiedDateFrom(Date notifiedDateFrom) {
-		this.notifiedDateFrom = notifiedDateFrom;
+	public void setNotifiedDateFrom(final Date inNotifiedDateFrom) {
+		this.notifiedDateFrom = inNotifiedDateFrom;
 	}
 
 	/**
@@ -180,30 +162,11 @@ public class Form411FilterDto {
 	/**
 	 * Setter for when disease is notified (To date for period)
 	 * 
-	 * @param notifiedDateTo
+	 * @param inNotifiedDateTo
 	 *            Date when disease is notified (To date for date period)
 	 */
-	public void setNotifiedDateTo(Date notifiedDateTo) {
-		this.notifiedDateTo = notifiedDateTo;
-	}
-
-	/**
-	 * Getter for confirmed disease ID
-	 * 
-	 * @return ID of the confirmed disease.
-	 */
-	public Long getConfirmedDiseaseId() {
-		return confirmedDiseaseId;
-	}
-
-	/**
-	 * Setter for confirmed disease ID.
-	 * 
-	 * @param confirmedDiseaseId
-	 *            ID of the confirmed disease.
-	 */
-	public void setConfirmedDiseaseId(Long confirmedDiseaseId) {
-		this.confirmedDiseaseId = confirmedDiseaseId;
+	public void setNotifiedDateTo(final Date inNotifiedDateTo) {
+		this.notifiedDateTo = inNotifiedDateTo;
 	}
 
 	/**
@@ -218,11 +181,11 @@ public class Form411FilterDto {
 	/**
 	 * Setter for when disease is confirmed (From date for period)
 	 * 
-	 * @param confirmedDateFrom
+	 * @param inConfirmedDateFrom
 	 *            From date of disease is confirmed
 	 */
-	public void setConfirmedDateFrom(Date confirmedDateFrom) {
-		this.confirmedDateFrom = confirmedDateFrom;
+	public void setConfirmedDateFrom(final Date inConfirmedDateFrom) {
+		this.confirmedDateFrom = inConfirmedDateFrom;
 	}
 
 	/**
@@ -237,11 +200,11 @@ public class Form411FilterDto {
 	/**
 	 * Setter for when disease is confirmed (To date for period)
 	 * 
-	 * @param confirmedDateTo
+	 * @param inConfirmedDateTo
 	 *            To date of disease is confirmed
 	 */
-	public void setConfirmedDateTo(Date confirmedDateTo) {
-		this.confirmedDateTo = confirmedDateTo;
+	public void setConfirmedDateTo(final Date inConfirmedDateTo) {
+		this.confirmedDateTo = inConfirmedDateTo;
 	}
 
 	/**
@@ -256,11 +219,11 @@ public class Form411FilterDto {
 	/**
 	 * Setter for when on set (from date for period)
 	 * 
-	 * @param dateOnsetFrom
+	 * @param inDateOnsetFrom
 	 *            From date of onset
 	 */
-	public void setDateOnsetFrom(Date dateOnsetFrom) {
-		this.dateOnsetFrom = dateOnsetFrom;
+	public void setDateOnsetFrom(final Date inDateOnsetFrom) {
+		this.dateOnsetFrom = inDateOnsetFrom;
 	}
 
 	/**
@@ -275,11 +238,11 @@ public class Form411FilterDto {
 	/**
 	 * Setter for when on set (To date for period)
 	 * 
-	 * @param dateOnsetTo
+	 * @param inDateOnsetTo
 	 *            To date of onset
 	 */
-	public void setDateOnsetTo(Date dateOnsetTo) {
-		this.dateOnsetTo = dateOnsetTo;
+	public void setDateOnsetTo(final Date inDateOnsetTo) {
+		this.dateOnsetTo = inDateOnsetTo;
 	}
 
 	/**
@@ -294,11 +257,11 @@ public class Form411FilterDto {
 	/**
 	 * Setter for when hospitalized (From date for period)
 	 * 
-	 * @param hospitalizedFrom
+	 * @param inHospitalizedFrom
 	 *            Hospitalized from date
 	 */
-	public void setHospitalizedFrom(Date hospitalizedFrom) {
-		this.hospitalizedFrom = hospitalizedFrom;
+	public void setHospitalizedFrom(final Date inHospitalizedFrom) {
+		this.hospitalizedFrom = inHospitalizedFrom;
 	}
 
 	/**
@@ -313,11 +276,11 @@ public class Form411FilterDto {
 	/**
 	 * Setter for when hospitalized (To date for period)
 	 * 
-	 * @param hospitalizedTo
+	 * @param inHospitalizedTo
 	 *            Hospitalized To date
 	 */
-	public void setHospitalizedTo(Date hospitalizedTo) {
-		this.hospitalizedTo = hospitalizedTo;
+	public void setHospitalizedTo(final Date inHospitalizedTo) {
+		this.hospitalizedTo = inHospitalizedTo;
 	}
 
 	/**
@@ -332,11 +295,11 @@ public class Form411FilterDto {
 	/**
 	 * Setter for when discharged (From date for period)
 	 * 
-	 * @param dischargedFrom
+	 * @param inDischargedFrom
 	 *            From Date of Discharged
 	 */
-	public void setDischargedFrom(Date dischargedFrom) {
-		this.dischargedFrom = dischargedFrom;
+	public void setDischargedFrom(final Date inDischargedFrom) {
+		this.dischargedFrom = inDischargedFrom;
 	}
 
 	/**
@@ -351,11 +314,11 @@ public class Form411FilterDto {
 	/**
 	 * Setter for when discharged (To date for period)
 	 * 
-	 * @param dischargedTo
+	 * @param inDischargedTo
 	 *            To date of discharged
 	 */
-	public void setDischargedTo(Date dischargedTo) {
-		this.dischargedTo = dischargedTo;
+	public void setDischargedTo(final Date inDischargedTo) {
+		this.dischargedTo = inDischargedTo;
 	}
 
 	/**
@@ -370,11 +333,11 @@ public class Form411FilterDto {
 	/**
 	 * Setter for hospital.
 	 * 
-	 * @param hospital
+	 * @param inHospital
 	 *            Hospital where Hospitalized
 	 */
-	public void setHospital(String hospital) {
-		this.hospital = hospital;
+	public void setHospital(final String inHospital) {
+		this.hospital = inHospital;
 	}
 
 	/**
@@ -389,11 +352,11 @@ public class Form411FilterDto {
 	/**
 	 * Setter for {@link Form411.Outcome}
 	 * 
-	 * @param outcome
+	 * @param inOutcome
 	 *            {@link Form411.Outcome}
 	 */
-	public void setOutcome(Form411.Outcome outcome) {
-		this.outcome = outcome;
+	public void setOutcome(final Form411.Outcome inOutcome) {
+		this.outcome = inOutcome;
 	}
 
 	/**
@@ -408,11 +371,11 @@ public class Form411FilterDto {
 	/**
 	 * Setter for {@link Form411.WhereIsolated}
 	 * 
-	 * @param isolated
+	 * @param inIsolated
 	 *            {@link Form411.WhereIsolated}
 	 */
-	public void setIsolated(Form411.WhereIsolated isolated) {
-		this.isolated = isolated;
+	public void setIsolated(final Form411.WhereIsolated inIsolated) {
+		this.isolated = inIsolated;
 	}
 
 	/**
@@ -427,11 +390,11 @@ public class Form411FilterDto {
 	/**
 	 * Setter for PHI range
 	 * 
-	 * @param phiRange
+	 * @param inPhiRange
 	 *            PHI range
 	 */
-	public void setPhiRange(String phiRange) {
-		this.phiRange = phiRange;
+	public void setPhiRange(final String inPhiRange) {
+		this.phiRange = inPhiRange;
 	}
 
 	/**
@@ -446,11 +409,49 @@ public class Form411FilterDto {
 	/**
 	 * Setter for MOH range
 	 * 
-	 * @param mohRange
+	 * @param inMohRange
 	 *            MOH range
 	 */
-	public void setMohRange(String mohRange) {
-		this.mohRange = mohRange;
+	public void setMohRange(final String inMohRange) {
+		this.mohRange = inMohRange;
+	}
+
+	/**
+	 * Getter for notified Disease
+	 * 
+	 * @return {@link Disease}
+	 */
+	public Disease getNotifiedDisease() {
+		return notifiedDisease;
+	}
+
+	/**
+	 * Setter for notified disease.
+	 * 
+	 * @param notifiedDisease
+	 *            {@link Disease}
+	 */
+	public void setNotifiedDisease(Disease notifiedDisease) {
+		this.notifiedDisease = notifiedDisease;
+	}
+
+	/**
+	 * Getter for confirmed Disease
+	 * 
+	 * @return {@link Disease}
+	 */
+	public Disease getConfirmedDisease() {
+		return confirmedDisease;
+	}
+
+	/**
+	 * Setter for confirmed disease
+	 * 
+	 * @param confirmedDisease
+	 *            {@link Disease}
+	 */
+	public void setConfirmedDisease(Disease confirmedDisease) {
+		this.confirmedDisease = confirmedDisease;
 	}
 
 }
