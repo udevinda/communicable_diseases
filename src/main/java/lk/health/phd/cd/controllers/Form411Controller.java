@@ -26,6 +26,7 @@ import lk.health.phd.cd.dao.WorkflowDao;
 import lk.health.phd.cd.dto.Form411FilterDto;
 import lk.health.phd.cd.models.Disease;
 import lk.health.phd.cd.models.Form411;
+import lk.health.phd.cd.models.Form544;
 import lk.health.phd.cd.models.Form411.Sex;
 import lk.health.phd.cd.models.PatientContact;
 import lk.health.phd.cd.services.Form411Service;
@@ -53,9 +54,6 @@ public class Form411Controller {
 
 	@Autowired
 	private WorkflowDao workflowDao;
-
-	@Autowired
-	private PatientContactDao patientContactDao;
 
 	@Autowired
 	private Form411Dao form411Dao;
@@ -116,10 +114,10 @@ public class Form411Controller {
 	 *            Latitude of the patients residence location.
 	 * @param model
 	 *            {@link Model}
-	 * @return
+	 * @return form411_view.html
 	 */
 	@RequestMapping(value = "/submit", method = RequestMethod.POST)
-	public @ResponseBody String saveForm411(@RequestParam("form544Id") final Long inForm544Id,
+	public String saveForm411(@RequestParam("form544Id") final Long inForm544Id,
 			@RequestParam("name") final String inName, @RequestParam("age") final Integer inAge,
 			@RequestParam("sex") final Form411.Sex inSex, @RequestParam("address") final String inAddress,
 			@RequestParam("ethnicGroup") final Form411.EthnicGroup inEthnicGroup,
@@ -165,8 +163,11 @@ public class Form411Controller {
 			form411.setWhereIsolated(inIsolated);
 			form411.setPhiRange(inPhiRange);
 
-			// persistPatientContacts(form411, inContacts);
-			form411.setPatientContact(convertJsonArrayToContactPersonList(form411, inContacts));
+			if (!inContacts.isEmpty() && inContacts != null) {
+				// persistPatientContacts(form411, inContacts);
+				form411.setPatientContact(convertJsonArrayToContactPersonList(form411, inContacts));
+			}
+
 			// TODO Need to do backend validation
 
 			Long workflowId = workflowService.includeForm411(inForm544Id, form411);
@@ -179,7 +180,7 @@ public class Form411Controller {
 			logger.error("Error occured " + e);
 		}
 
-		return null;
+		return "form411_view";
 
 	}
 
@@ -263,6 +264,51 @@ public class Form411Controller {
 
 		return "form411_create";
 
+	}
+
+	/**
+	 * Controller to load update_view page.
+	 * 
+	 * @param inForm411Id
+	 *            Id of the Form 411
+	 * @param model
+	 *            Model to transfer data to the page.
+	 * @return form411_update.html
+	 */
+	@RequestMapping(value = "/update_view", method = RequestMethod.GET)
+	public String form544UpdateView(@RequestParam("id") final Long inForm411Id, Model model) {
+
+		logger.info("Hit the /Form411/update_view ");
+		logger.info("Rendering view for Form 411 ID : " + inForm411Id);
+
+		List<Form411.Sex> sexList = new ArrayList<Form411.Sex>();
+		sexList.add(Form411.Sex.MALE);
+		sexList.add(Form411.Sex.FEMALE);
+		sexList.add(Form411.Sex.OTHER);
+
+		List<Form411.EthnicGroup> ethnicGroupList = new ArrayList<Form411.EthnicGroup>();
+		ethnicGroupList.add(Form411.EthnicGroup.SINHALESE);
+		ethnicGroupList.add(Form411.EthnicGroup.TAMIL);
+		ethnicGroupList.add(Form411.EthnicGroup.MUSLIMS);
+		ethnicGroupList.add(Form411.EthnicGroup.BURGHER);
+		ethnicGroupList.add(Form411.EthnicGroup.OTHERS);
+
+		List<Form411.Outcome> outcomeList = new ArrayList<Form411.Outcome>();
+		outcomeList.add(Form411.Outcome.RECOVERED);
+		outcomeList.add(Form411.Outcome.DIED);
+
+		List<Form411.WhereIsolated> whereIsolatedList = new ArrayList<Form411.WhereIsolated>();
+		whereIsolatedList.add(Form411.WhereIsolated.HOME);
+		whereIsolatedList.add(Form411.WhereIsolated.HOSPITAL);
+
+		model.addAttribute("sexList", sexList);
+		model.addAttribute("ethnicGroupList", ethnicGroupList);
+		model.addAttribute("outcomeList", outcomeList);
+		model.addAttribute("isolatedList", whereIsolatedList);
+		model.addAttribute("diseaseList", diseaeDao.getAllDiseases());
+		model.addAttribute("form544Object", form411Dao.findForm411ById(inForm411Id));
+
+		return "form411_update";
 	}
 
 	/**
@@ -436,6 +482,50 @@ public class Form411Controller {
 		}
 
 		return patientContactList;
+	}
+
+	/**
+	 * Controller for Form 411 create page load.
+	 * 
+	 * @param inForm544Id
+	 *            Related Form 544 ID
+	 * @param model
+	 *            Model to transfer data.
+	 * @return form411_create.html
+	 */
+	@RequestMapping(value = "/create", method = RequestMethod.GET)
+	public String form544Create(@RequestParam("form544Id") final Long inForm544Id, Model model) {
+
+		logger.info("Hit the /Form411/create ");
+
+		List<Form411.Sex> sexList = new ArrayList<Form411.Sex>();
+		sexList.add(Form411.Sex.MALE);
+		sexList.add(Form411.Sex.FEMALE);
+		sexList.add(Form411.Sex.OTHER);
+
+		List<Form411.EthnicGroup> ethnicGroupList = new ArrayList<Form411.EthnicGroup>();
+		ethnicGroupList.add(Form411.EthnicGroup.SINHALESE);
+		ethnicGroupList.add(Form411.EthnicGroup.TAMIL);
+		ethnicGroupList.add(Form411.EthnicGroup.MUSLIMS);
+		ethnicGroupList.add(Form411.EthnicGroup.BURGHER);
+		ethnicGroupList.add(Form411.EthnicGroup.OTHERS);
+
+		List<Form411.Outcome> outcomeList = new ArrayList<Form411.Outcome>();
+		outcomeList.add(Form411.Outcome.RECOVERED);
+		outcomeList.add(Form411.Outcome.DIED);
+
+		List<Form411.WhereIsolated> whereIsolatedList = new ArrayList<Form411.WhereIsolated>();
+		whereIsolatedList.add(Form411.WhereIsolated.HOME);
+		whereIsolatedList.add(Form411.WhereIsolated.HOSPITAL);
+
+		model.addAttribute("sexList", sexList);
+		model.addAttribute("ethnicGroupList", ethnicGroupList);
+		model.addAttribute("outcomeList", outcomeList);
+		model.addAttribute("isolatedList", whereIsolatedList);
+		model.addAttribute("diseaseList", diseaeDao.getAllDiseases());
+		model.addAttribute("form544Id", inForm544Id);
+
+		return "form411_create";
 	}
 
 }
