@@ -196,7 +196,7 @@ public class Form411Controller {
 	@RequestMapping(value = "/view", method = RequestMethod.GET)
 	public String viewForm411(@RequestParam("form411Id") final Long inForm411Id, Model model) {
 		logger.info("Hit the /Form411/view ");
-		logger.info("Request view for Form544 ID " + inForm411Id);
+		logger.info("Request view for Form411 ID " + inForm411Id);
 
 		Form411 form411 = form411Dao.findForm411ById(inForm411Id);
 		logger.info("Retrieved details for patient " + form411.getPatientName());
@@ -306,7 +306,7 @@ public class Form411Controller {
 		model.addAttribute("outcomeList", outcomeList);
 		model.addAttribute("isolatedList", whereIsolatedList);
 		model.addAttribute("diseaseList", diseaeDao.getAllDiseases());
-		model.addAttribute("form544Object", form411Dao.findForm411ById(inForm411Id));
+		model.addAttribute("form411Object", form411Dao.findForm411ById(inForm411Id));
 
 		return "form411_update";
 	}
