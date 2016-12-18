@@ -55,22 +55,28 @@ public class WorkflowServiceImpl implements WorkflowService {
 		if (inWorkflowId == null) {
 			logger.debug("Workflow ID is null");
 
+			Workflow workflow = new Workflow();
+			workflow.setStatus(WorkflowStatus.PROCESSING);
+			workflowId = workflowDao.save(workflow);
+			logger.debug("Workflow ID " + workflowId + " has been persisted");
+
+			Workflow persistedWorkflow = workflowDao.findWorkflowById(workflowId);
+			persistedWorkflow.setForm544(inForm544);
+			workflowDao.update(persistedWorkflow);
+
+			inForm544.setWorkflow(persistedWorkflow);
 			form544Dao.save(inForm544);
 			logger.debug("Form544 object is persisted.");
 
-			Workflow workflow = new Workflow();
-			workflow.setStatus(WorkflowStatus.PROCESSING);
-			workflow.setForm544(inForm544);
-			workflowId = workflowDao.save(workflow);
-			logger.debug("Workflow ID " + workflowId + " has been persisted");
 		} else {
 			logger.debug("Workflow ID is not null");
 
-			form544Dao.save(inForm544);
-			logger.debug("Form544 object is persisted.");
-
 			Workflow workflow = workflowDao.findWorkflowById(inWorkflowId);
 			if (workflow != null) {
+				inForm544.setWorkflow(workflow);
+				form544Dao.save(inForm544);
+				logger.debug("Form544 object is persisted.");
+
 				logger.debug("Workflow ID " + workflow.getId() + " has been retrived.");
 				workflow.setForm544(inForm544);
 				workflowDao.update(workflow);

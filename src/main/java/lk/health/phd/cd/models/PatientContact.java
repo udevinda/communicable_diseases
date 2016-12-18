@@ -12,8 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.databind.ser.impl.FailingSerializer;
-
 /**
  * Model class for PatientContacts (Other people who were contacted by the
  * considering patient)

@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 /**
  * Model class for Form544.
  * 
@@ -81,6 +83,11 @@ public class Form544 implements Serializable {
 
 	@Column(name = "system_notified_date", nullable = false)
 	private Date systemNotifiedDate;
+
+	@JsonManagedReference
+	@OneToOne
+	@JoinColumn(name = "workflow_id")
+	private Workflow workflow;
 
 	/**
 	 * Getter for Id.
@@ -404,6 +411,25 @@ public class Form544 implements Serializable {
 	 */
 	public void setSystemNotifiedDate(final Date inSystemNotifiedDate) {
 		this.systemNotifiedDate = inSystemNotifiedDate;
+	}
+
+	/**
+	 * Getter for workflow.
+	 * 
+	 * @return {@link Workflow}
+	 */
+	public Workflow getWorkflow() {
+		return workflow;
+	}
+
+	/**
+	 * Setter for workflow.
+	 * 
+	 * @param inWorkflow
+	 *            {@link Workflow}
+	 */
+	public void setWorkflow(Workflow inWorkflow) {
+		this.workflow = inWorkflow;
 	}
 
 }

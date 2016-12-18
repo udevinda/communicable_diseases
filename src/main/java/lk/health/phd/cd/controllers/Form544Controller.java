@@ -333,7 +333,8 @@ public class Form544Controller {
 
 			return obj;
 		} catch (Exception e) {
-			logger.error("Error occured ", e);
+//			logger.error("Error occured ", e);
+			e.printStackTrace();
 
 			return null;
 		}

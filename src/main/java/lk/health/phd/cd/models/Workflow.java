@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 /**
  * Model for workflow.
  * 
@@ -35,6 +37,7 @@ public class Workflow implements Serializable {
 	@Column(name = "status", nullable = false)
 	private WorkflowStatus status;
 
+	@JsonBackReference
 	@OneToOne
 	@JoinColumn(name = "form544_id")
 	private Form544 form544;

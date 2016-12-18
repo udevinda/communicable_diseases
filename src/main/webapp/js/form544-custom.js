@@ -114,7 +114,8 @@ function doSearch(pageGenerationOn) {
 												+ generateView544Url(result.form544List[i].id)
 												+ '">View 544</a> | <a href="'
 												+ generateUpdate544Url(result.form544List[i].id)
-												+ '">Update 544</a> | <a href="#">Create 411</a> | <a href="#">View 411</a>'
+												+ '">Update 544</a> | '
+												+ generateForm411Link(result.form544List[i])
 												+ '</td>' + '</tr>');
 					}
 
@@ -154,4 +155,16 @@ function generateView544Url(form544Id) {
 
 function generateUpdate544Url(form544Id) {
 	return "/communicable-disease/Form544/update_view?id=" + form544Id;
+}
+
+function generateForm411Link(form544) {
+	if (form544.workflow != null) {
+		if (form544.workflow.form411 == null) {
+			return '<a href="/communicable-disease/Form411/create?form544Id='
+					+ form544.id + '">Create 411</a>';
+		} else {
+			return '<a href="/communicable-disease/Form411/view?form411Id='
+					+ form544.workflow.form411.id + '">View 411</a>';
+		}
+	}
 }

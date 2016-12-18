@@ -15,8 +15,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.databind.ser.impl.FailingSerializer;
-
 /**
  * Model class for Form 411
  * 
