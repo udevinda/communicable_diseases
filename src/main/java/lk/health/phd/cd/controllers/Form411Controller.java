@@ -312,6 +312,46 @@ public class Form411Controller {
 	}
 
 	/**
+	 * Controller for Form 411 search page load.
+	 * 
+	 * @param model
+	 *            Model to transfer data.
+	 * @return form411_search.html
+	 */
+	@RequestMapping(value = "/filter_view", method = RequestMethod.GET)
+	public String form411Search(Model model) {
+		logger.info("Hit the /Form411/filter_view ");
+
+		List<Form411.Sex> sexList = new ArrayList<Form411.Sex>();
+		sexList.add(Form411.Sex.MALE);
+		sexList.add(Form411.Sex.FEMALE);
+		sexList.add(Form411.Sex.OTHER);
+
+		List<Form411.EthnicGroup> ethnicGroupList = new ArrayList<Form411.EthnicGroup>();
+		ethnicGroupList.add(Form411.EthnicGroup.SINHALESE);
+		ethnicGroupList.add(Form411.EthnicGroup.TAMIL);
+		ethnicGroupList.add(Form411.EthnicGroup.MUSLIMS);
+		ethnicGroupList.add(Form411.EthnicGroup.BURGHER);
+		ethnicGroupList.add(Form411.EthnicGroup.OTHERS);
+
+		List<Form411.Outcome> outcomeList = new ArrayList<Form411.Outcome>();
+		outcomeList.add(Form411.Outcome.RECOVERED);
+		outcomeList.add(Form411.Outcome.DIED);
+
+		List<Form411.WhereIsolated> whereIsolatedList = new ArrayList<Form411.WhereIsolated>();
+		whereIsolatedList.add(Form411.WhereIsolated.HOME);
+		whereIsolatedList.add(Form411.WhereIsolated.HOSPITAL);
+
+		model.addAttribute("sexList", sexList);
+		model.addAttribute("ethnicGroupList", ethnicGroupList);
+		model.addAttribute("outcomeList", outcomeList);
+		model.addAttribute("isolatedList", whereIsolatedList);
+		model.addAttribute("diseaseList", diseaeDao.getAllDiseases());
+
+		return "form411_search";
+	}
+
+	/**
 	 * Controller for Form411 filtering.
 	 * 
 	 * @param inName
