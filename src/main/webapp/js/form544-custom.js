@@ -55,60 +55,78 @@ function doSearch(pageGenerationOn) {
 		offset = parseInt($("#pageNo").val()) * parseInt($("#limit").val())
 				- parseInt($("#limit").val());
 	}
-	$.ajax({
-		url : "/communicable-disease/Form544/filterBy/",
-		method : "post",
-		data : {
-			"nic" : $("#nic").val(),
-			"institute" : $("#institute").val(),
-			"disease" : $("#disease").val(),
-			"patientName" : $("#patientName").val(),
-			"bhtNo" : $("#bhtNo").val(),
-			"ward" : $("#ward").val(),
-			"sex" : $("#sex").val(),
-			"notifierName" : $("#notifierName").val(),
-			"dateOfOnsetFrom" : $("#dateOfOnsetFrom").val(),
-			"dateOfOnsetTo" : $("#dateOfOnsetTo").val(),
-			"dateOfAdmissionFrom" : $("#dateOfAdmissionFrom").val(),
-			"dateOfAdmissionTo" : $("#dateOfAdmissionTo").val(),
-			"ageFrom" : $("#ageFrom").val(),
-			"ageTo" : $("#ageTo").val(),
-			"offset" : offset,
-			"limit" : $("#limit").val(),
-		},
-		success : function(result) {
-			$("#form544FilterTblBody").empty();
-			for (i = 0; i < result.form544List.length; i++) {
-				$("#form544FilterTblBody").append(
-						'<tr>' + '<td>' + result.form544List[i].id + '</td>'
-								+ '<td>' + result.form544List[i].nic + '</td>'
-								+ '<td>' + result.form544List[i].patientName
-								+ '</td>' + '<td>' + result.form544List[i].age
-								+ '</td>' + '<td>' + result.form544List[i].sex
-								+ '</td>' + '<td>'
-								+ result.form544List[i].patientsHomePhoneNo
-								+ '</td>' + '<td>'
-								+ result.form544List[i].bhtNo + '</td>'
-								+ '<td>' + result.form544List[i].ward + '</td>'
-								+ '<td>'
-								+ result.form544List[i].disease.diseaseName
-								+ '</td>' + '<td>'
-								+ result.form544List[i].dateOfAdmission
-								+ '</td>' + '<td>'
-								+ result.form544List[i].dateOfOnset + '</td>'
-								+ '<td>' + result.form544List[i].institute
-								+ '</td>' + '</tr>');
-			}
+	$
+			.ajax({
+				url : "/communicable-disease/Form544/filterBy/",
+				method : "post",
+				data : {
+					"nic" : $("#nic").val(),
+					"institute" : $("#institute").val(),
+					"disease" : $("#disease").val(),
+					"patientName" : $("#patientName").val(),
+					"bhtNo" : $("#bhtNo").val(),
+					"ward" : $("#ward").val(),
+					"sex" : $("#sex").val(),
+					"notifierName" : $("#notifierName").val(),
+					"dateOfOnsetFrom" : $("#dateOfOnsetFrom").val(),
+					"dateOfOnsetTo" : $("#dateOfOnsetTo").val(),
+					"dateOfAdmissionFrom" : $("#dateOfAdmissionFrom").val(),
+					"dateOfAdmissionTo" : $("#dateOfAdmissionTo").val(),
+					"ageFrom" : $("#ageFrom").val(),
+					"ageTo" : $("#ageTo").val(),
+					"offset" : offset,
+					"limit" : $("#limit").val(),
+				},
+				success : function(result) {
+					$("#form544FilterTblBody").empty();
+					for (i = 0; i < result.form544List.length; i++) {
+						$("#form544FilterTblBody")
+								.append(
+										'<tr>' + '<td>'
+												+ result.form544List[i].id
+												+ '</td>'
+												+ '<td>'
+												+ result.form544List[i].nic
+												+ '</td>'
+												+ '<td>'
+												+ result.form544List[i].patientName
+												+ '</td>'
+												+ '<td>'
+												+ result.form544List[i].patientsHomePhoneNo
+												+ '</td>'
+												+ '<td>'
+												+ result.form544List[i].bhtNo
+												+ '</td>'
+												+ '<td>'
+												+ result.form544List[i].ward
+												+ '</td>'
+												+ '<td>'
+												+ result.form544List[i].disease.diseaseName
+												+ '</td>'
+												+ '<td>'
+												+ result.form544List[i].dateOfAdmission
+												+ '</td>'
+												+ '<td>'
+												+ result.form544List[i].institute
+												+ '</td>'
+												+ '<td>'
+												+ '<a href="'
+												+ generateView544Url(result.form544List[i].id)
+												+ '">View 544</a> | <a href="'
+												+ generateUpdate544Url(result.form544List[i].id)
+												+ '">Update 544</a> | <a href="#">Create 411</a> | <a href="#">View 411</a>'
+												+ '</td>' + '</tr>');
+					}
 
-			totalRowCount = result.totalRowCount;
+					totalRowCount = result.totalRowCount;
 
-			if (pageGenerationOn == true) {
-				$("#pages").empty();
-				generatePages();
-			}
+					if (pageGenerationOn == true) {
+						$("#pages").empty();
+						generatePages();
+					}
 
-		}
-	});
+				}
+			});
 }
 
 function generatePages() {
@@ -128,4 +146,12 @@ function generatePages() {
 
 function setPageName(pageName) {
 	document.getElementById('pageName').innerHTML = pageName;
+}
+
+function generateView544Url(form544Id) {
+	return "/communicable-disease/Form544/view?form544Id=" + form544Id;
+}
+
+function generateUpdate544Url(form544Id) {
+	return "/communicable-disease/Form544/update_view?id=" + form544Id;
 }
