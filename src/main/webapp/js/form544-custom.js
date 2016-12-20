@@ -158,6 +158,7 @@ function generateUpdate544Url(form544Id) {
 }
 
 function generateForm411Link(form544) {
+	console.log(form544);
 	if (form544.workflow != null) {
 		if (form544.workflow.form411 == null) {
 			return '<a href="/communicable-disease/Form411/create?form544Id='

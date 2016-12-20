@@ -12,6 +12,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 /**
  * Model for workflow.
@@ -21,6 +24,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
  */
 @Entity
 @Table(name = "workflow")
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@workflowId")
 public class Workflow implements Serializable {
 
 	private static final long serialVersionUID = 1927557244278436381L;
@@ -37,7 +41,6 @@ public class Workflow implements Serializable {
 	@Column(name = "status", nullable = false)
 	private WorkflowStatus status;
 
-	@JsonBackReference
 	@OneToOne
 	@JoinColumn(name = "form544_id")
 	private Form544 form544;

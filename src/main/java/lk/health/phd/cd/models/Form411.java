@@ -15,6 +15,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 /**
  * Model class for Form 411
  * 
@@ -23,6 +28,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "form_411")
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@form411Id")
 public class Form411 implements Serializable {
 
 	private static final long serialVersionUID = -1130963589527032479L;
@@ -116,6 +122,10 @@ public class Form411 implements Serializable {
 
 	@Column(name = "lattitude", nullable = false)
 	private Double lattitude;
+
+	@OneToOne
+	@JoinColumn(name = "workflow_id")
+	private Workflow workflow;
 
 	/**
 	 * Getter for Form 411 ID.
@@ -552,6 +562,25 @@ public class Form411 implements Serializable {
 	 */
 	public void setLattitude(final Double inLattitude) {
 		this.lattitude = inLattitude;
+	}
+
+	/**
+	 * Getter for workflow.
+	 * 
+	 * @return {@link Workflow}
+	 */
+	public Workflow getWorkflow() {
+		return workflow;
+	}
+
+	/**
+	 * Setter for workflow.
+	 * 
+	 * @param inWorkflow
+	 *            {@link Workflow}
+	 */
+	public void setWorkflow(Workflow inWorkflow) {
+		this.workflow = inWorkflow;
 	}
 
 }

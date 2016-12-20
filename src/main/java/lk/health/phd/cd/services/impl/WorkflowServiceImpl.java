@@ -93,12 +93,13 @@ public class WorkflowServiceImpl implements WorkflowService {
 	 */
 	public Long includeForm411(final Long inForm544Id, final Form411 inForm411) {
 
+		Form544 form544 = form544Dao.findForm544ById(inForm544Id);
+		Workflow workflow = workflowDao.findWorkflowByForm544Id(form544.getId());
+
+		inForm411.setWorkflow(workflow);
 		form411Dao.save(inForm411);
 		logger.debug("Form411 object is persisted.");
 
-		Form544 form544 = form544Dao.findForm544ById(inForm544Id);
-
-		Workflow workflow = workflowDao.findWorkflowByForm544Id(form544.getId());
 		workflow.setForm411(inForm411);
 		workflowDao.update(workflow);
 		logger.debug("Form411 is attached to workflow.");

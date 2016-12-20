@@ -12,7 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 /**
  * Model class for Form544.
@@ -22,6 +24,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
  */
 @Entity
 @Table(name = "form_544")
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@form544Id")
 public class Form544 implements Serializable {
 
 	private static final long serialVersionUID = 5714134454387505650L;
@@ -84,7 +87,6 @@ public class Form544 implements Serializable {
 	@Column(name = "system_notified_date", nullable = false)
 	private Date systemNotifiedDate;
 
-	@JsonManagedReference
 	@OneToOne
 	@JoinColumn(name = "workflow_id")
 	private Workflow workflow;

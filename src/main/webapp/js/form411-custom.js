@@ -150,19 +150,16 @@ function doSearch(pageGenerationOn) {
 						$("#form411FilterTblBody")
 								.append(
 										'<tr>' + '<td>'
+												+ result.form411List[i].id
+												+ '</td>'
+												+ '<td>'
 												+ result.form411List[i].patientName
 												+ '</td>'
 												+ '<td>'
 												+ result.form411List[i].age
 												+ '</td>'
 												+ '<td>'
-												+ result.form411List[i].sex
-												+ '</td>'
-												+ '<td>'
 												+ result.form411List[i].patientAddress
-												+ '</td>'
-												+ '<td>'
-												+ result.form411List[i].ethnicGroup
 												+ '</td>'
 												+ '<td>'
 												+ result.form411List[i].diseaseAsNotified.diseaseName
@@ -175,6 +172,14 @@ function doSearch(pageGenerationOn) {
 												+ '</td>'
 												+ '<td>'
 												+ result.form411List[i].phiRange
+												+ '</td>'
+												+ '<td>'
+												+ '<a href="'
+												+ generateView411Url(result.form411List[i].id)
+												+ '">View 411</a> | <a href="'
+												+ generateUpdate411Url(result.form411List[i].id)
+												+ '">Update 411</a> | '
+												+ generateForm411Link(result.form411List[i])
 												+ '</td>' + '</tr>');
 					}
 
@@ -211,6 +216,24 @@ function setPageName(pageName) {
 // TODO Need to implement JS function to form contacted person detail set JSON
 function formContactedJson() {
 
+}
+
+function generateView411Url(form411Id) {
+	return "/communicable-disease/Form544/view?form544Id=" + form411Id;
+}
+
+function generateUpdate411Url(form411Id) {
+	return "/communicable-disease/Form544/update_view?id=" + form411Id;
+}
+
+function generateForm411Link(form411) {
+	if (form411.workflow != null) {
+
+		return '<a href="/communicable-disease/Form544/view?form544Id='
+				+ form411.workflow.form544.id + '">View 544</a>';
+	} else {
+		return null;
+	}
 }
 
 $(document)
