@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+<meta charset="utf-8">
+<title>Marker Clustering</title>
+<style>
+/* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+#map {
+	height: 100%;
+}
+/* Optional: Makes the sample page fill the window. */
+html, body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+</style>
+</head>
+<body>
+	<div id="map"></div>
+	<script>
+		function initMap() {
+
+			var map = new google.maps.Map(document.getElementById('map'), {
+				zoom : 3,
+				center : {
+					lat : -28.024,
+					lng : 140.887
+				}
+			});
+
+			var infoWindow = new google.maps.InfoWindow();
+
+			// Create an array of alphabetical characters used to label the markers.
+			var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+			// Add some markers to the map.
+			// Note: The code uses the JavaScript Array.prototype.map() method to
+			// create an array of markers based on a given "locations" array.
+			// The map() method here has nothing to do with the Google Maps API.
+			var markers = locations.map(function(location, i) {
+				var marker = new google.maps.Marker({
+					position : location,
+					title : location.title,
+					//icon : location.marker_type,
+					label : location.id
+				});
+
+				google.maps.event.addListener(marker, "click", function(e) {
+					infoWindow.setContent(location.description);
+					infoWindow.open(map, marker);
+				});
+
+				return marker;
+			});
+
+			// Add a marker clusterer to manage the markers.
+			var markerCluster = new MarkerClusterer(
+					map,
+					markers,
+					{
+						imagePath : 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
+					});
+		}
+		// Creating the JSON data
+		var locations = [
+				{
+					"id" : "D",
+					"title" : "Stockholm",
+					"marker_type" : "http://maps.google.com/mapfiles/ms/icons/green-dot.png",
+					"lat" : 59.3,
+					"lng" : 18.1,
+					"description" : "<strong>Stockholm</strong> is the capital and the largest city of Sweden and constitutes the most populated urban area in Scandinavia with a population of 2.1 million in the metropolitan area (2010)"
+				},
+				{
+					"id" : "CUS",
+					"title" : "Oslo",
+					"marker_type" : "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+					"lat" : 59.9,
+					"lng" : 10.8,
+					"description" : "<strong>Oslo</strong> is a municipality, and the capital and most populous city of Norway with a metropolitan population of 1,442,318 (as of 2010)."
+				},
+				{
+					"id" : "3",
+					"marker_type" : "http://maps.google.com/mapfiles/ms/icons/red-dot.png",
+					"lat" : 55.7,
+					"lng" : 12.6,
+					"description" : "<strong>Copenhagen</strong> is the capital of Denmark and its most populous city, with a metropolitan population of 1,931,467 (as of 1 January 2012)."
+				} ]
+	</script>
+	<script
+		src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
+		
+	</script>
+	<script async defer
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDN2cxxcRtxmmIu_9uwYJ7gjD5r7djFtGk&callback=initMap">
+		
+	</script>
+</body>
+</html>
