@@ -1,5 +1,6 @@
 package lk.health.phd.cd.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.simple.JSONObject;
@@ -7,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +21,7 @@ import lk.health.phd.cd.dto.Form411FilterDto;
 import lk.health.phd.cd.models.Disease;
 import lk.health.phd.cd.models.Form411;
 import lk.health.phd.cd.models.Workflow;
+import lk.health.phd.util.Util;
 
 /**
  * Conroller for Google Maps
@@ -64,31 +67,68 @@ public class MapController {
 	 *         address, longitude & latitude of patient's location
 	 */
 	@RequestMapping(value = "/distributionMap", method = RequestMethod.POST)
-	public @ResponseBody JSONObject getDistributionMap(@RequestParam("ageFrom") final Integer inAgeFrom,
+	public String getDistributionMap(@RequestParam("ageFrom") final Integer inAgeFrom,
 			@RequestParam("ageTo") final Integer inAgeTo, @RequestParam("sex") final Form411.Sex inSex,
 			@RequestParam("ethnicGroup") final Form411.EthnicGroup inEthnicGroup,
 			@RequestParam("confirmedDiseaseId") final Long inConfirmrdDiseaseId,
 			@RequestParam("hospital") final String inHospital, @RequestParam("outcome") final Form411.Outcome inOutcome,
-			@RequestParam("phiRange") final String inPhiRange, @RequestParam("mohRange") final String inMohRange) {
+			@RequestParam("phiRange") final String inPhiRange, @RequestParam("mohRange") final String inMohRange,
+			@RequestParam("confirmedDateFrom") final String inConfirmedDateFrom,
+			@RequestParam("confirmedDateTo") final String inConfirmedDateTo, Model model) {
 
-		Form411FilterDto form411FilterDto = new Form411FilterDto();
+		try {
+			Form411FilterDto form411FilterDto = new Form411FilterDto();
 
-		form411FilterDto.setAgeFrom(inAgeFrom);
-		form411FilterDto.setAgeTo(inAgeTo);
-		form411FilterDto.setConfirmedDisease(getDisease(inConfirmrdDiseaseId));
-		form411FilterDto.setEthnicGroup(inEthnicGroup);
-		form411FilterDto.setHospital(inHospital);
-		form411FilterDto.setMohRange(inMohRange);
-		form411FilterDto.setOutcome(inOutcome);
-		form411FilterDto.setPhiRange(inPhiRange);
-		form411FilterDto.setSex(inSex);
+			form411FilterDto.setAgeFrom(inAgeFrom);
+			form411FilterDto.setAgeTo(inAgeTo);
+			form411FilterDto.setConfirmedDisease(getDisease(inConfirmrdDiseaseId));
+			form411FilterDto.setEthnicGroup(inEthnicGroup);
+			form411FilterDto.setHospital(inHospital);
+			form411FilterDto.setMohRange(inMohRange);
+			form411FilterDto.setOutcome(inOutcome);
+			form411FilterDto.setPhiRange(inPhiRange);
+			form411FilterDto.setSex(inSex);
+			form411FilterDto.setConfirmedDateFrom(Util.parseDate(inConfirmedDateFrom, "yyyy-MM-dd"));
+			form411FilterDto.setConfirmedDateTo(Util.parseDate(inConfirmedDateTo, "yyyy-MM-dd"));
 
-		List<Form411> form411List = form411Dao.receiveDetailsForDistribtionMap(form411FilterDto);
+			List<Form411> form411List = form411Dao.receiveDetailsForDistribtionMap(form411FilterDto);
 
-		JSONObject obj = new JSONObject();
-		obj.put("mapDetList", form411List);
+			model.addAttribute("distMapDet", form411List);
 
-		return obj;
+			return "disease_spread_map";
+		} catch (Exception e) {
+			logger.error("Error occured ", e);
+
+			return null;
+		}
+	}
+
+	@RequestMapping(value = "/map_filter", method = RequestMethod.GET)
+	public String viewMapFilter(Model model) {
+		logger.info("Hit the /Maps/map_filter ");
+
+		List<Form411.Sex> sexList = new ArrayList<Form411.Sex>();
+		sexList.add(Form411.Sex.MALE);
+		sexList.add(Form411.Sex.FEMALE);
+		sexList.add(Form411.Sex.OTHER);
+
+		List<Form411.EthnicGroup> ethnicGroupList = new ArrayList<Form411.EthnicGroup>();
+		ethnicGroupList.add(Form411.EthnicGroup.SINHALESE);
+		ethnicGroupList.add(Form411.EthnicGroup.TAMIL);
+		ethnicGroupList.add(Form411.EthnicGroup.MUSLIMS);
+		ethnicGroupList.add(Form411.EthnicGroup.BURGHER);
+		ethnicGroupList.add(Form411.EthnicGroup.OTHERS);
+
+		List<Form411.Outcome> outcomeList = new ArrayList<Form411.Outcome>();
+		outcomeList.add(Form411.Outcome.RECOVERED);
+		outcomeList.add(Form411.Outcome.DIED);
+
+		model.addAttribute("sexList", sexList);
+		model.addAttribute("ethnicGroupList", ethnicGroupList);
+		model.addAttribute("outcomeList", outcomeList);
+		model.addAttribute("diseaseList", diseaseDao.getAllDiseases());
+
+		return "map_filter";
 	}
 
 	/**
