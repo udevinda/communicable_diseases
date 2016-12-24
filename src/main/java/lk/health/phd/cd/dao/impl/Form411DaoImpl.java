@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -180,6 +181,64 @@ public class Form411DaoImpl extends UniversalDaoImpl<Form411> implements Form411
 		}
 
 		return (Long) criteria.setProjection(Projections.rowCount()).uniqueResult();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public List<Form411> receiveDetailsForDistribtionMap(Form411FilterDto inForm411FilterDto) {
+		Session session = getCurrentSession();
+
+		Criteria criteria = session.createCriteria(Form411.class, "form411");
+
+		if (inForm411FilterDto.getAgeFrom() != null) {
+			criteria.add(Restrictions.ge("age", inForm411FilterDto.getAgeFrom()));
+		}
+		if (inForm411FilterDto.getAgeTo() != null) {
+			criteria.add(Restrictions.le("age", inForm411FilterDto.getAgeTo()));
+		}
+		if (inForm411FilterDto.getConfirmedDateFrom() != null) {
+			criteria.add(Restrictions.ge("diseaseConfirmedDate", inForm411FilterDto.getConfirmedDateFrom()));
+		}
+		if (inForm411FilterDto.getConfirmedDateTo() != null) {
+			criteria.add(Restrictions.le("diseaseConfirmedDate", inForm411FilterDto.getConfirmedDateTo()));
+		}
+		if (inForm411FilterDto.getConfirmedDisease() != null) {
+			criteria.add(Restrictions.eq("diseaseConfirmed", inForm411FilterDto.getConfirmedDisease()));
+		}
+		if (inForm411FilterDto.getEthnicGroup() != null) {
+			criteria.add(Restrictions.eq("ethnicGroup", inForm411FilterDto.getEthnicGroup()));
+		}
+		if (inForm411FilterDto.getHospital() != null && !(inForm411FilterDto.getHospital().isEmpty())) {
+			criteria.add(Restrictions.eq("nameOfHospital", inForm411FilterDto.getHospital()));
+		}
+		if (inForm411FilterDto.getMohRange() != null && !(inForm411FilterDto.getMohRange().isEmpty())) {
+			criteria.add(Restrictions.eq("mohArea", inForm411FilterDto.getMohRange()));
+		}
+		if (inForm411FilterDto.getOutcome() != null) {
+			criteria.add(Restrictions.eq("outcome", inForm411FilterDto.getOutcome()));
+		}
+		if (inForm411FilterDto.getSex() != null) {
+			criteria.add(Restrictions.eq("sex", inForm411FilterDto.getSex()));
+		}
+
+		criteria.createAlias("form411.workflow", "workflow");
+		criteria.createAlias("form411.workflow.form544", "form544");
+		criteria.createAlias("form411.diseaseConfirmed", "diseaseConfirmed");
+
+		ProjectionList proList = Projections.projectionList();
+		proList.add(Projections.property("form411.id"), "form411Id");
+		proList.add(Projections.property("form544.id"), "form544Id");
+		proList.add(Projections.property("form411.longitude"), "lng");
+		proList.add(Projections.property("form411.lattitude"), "lat");
+		proList.add(Projections.property("form411.patientAddress"), "patientAddress");
+		proList.add(Projections.property("diseaseConfirmed.diseaseName"), "disease");
+		// proList.add(Projections.property("workflow.status"), "status");
+		criteria.setProjection(proList);
+
+		criteria.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
+
+		return criteria.list();
 	}
 
 }

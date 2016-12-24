@@ -45,4 +45,14 @@ public interface Form411Dao extends UniversalDao<Form411> {
 	 * @return Total possible result row count
 	 */
 	public Long searchCountForm411BySearchFields(final Form411FilterDto inForm411FilterDto);
+
+	/**
+	 * Receive details to view on the communicable disease distribution map.
+	 * 
+	 * @param inForm411FilterDto
+	 *            {@link Form411FilterDto}Contains key-value pairs used for
+	 *            filtering.
+	 * @return List of {@link Form411}
+	 */
+	public List<Form411> receiveDetailsForDistribtionMap(final Form411FilterDto inForm411FilterDto);
 }
