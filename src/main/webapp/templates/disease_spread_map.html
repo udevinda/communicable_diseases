@@ -22,18 +22,12 @@ html, body {
 	<div id="map"></div>
 	<script th:inline="javascript">
 		function initMap() {
-			/*<![CDATA[*/
-			
-			var message = [[${distMapDet}]];
-		    console.log(message);
-
-		    /*]]>*/
 		    
 			var map = new google.maps.Map(document.getElementById('map'), {
-				zoom : 3,
+				zoom : 10,
 				center : {
-					lat : -28.024,
-					lng : 140.887
+					lat : 7.522809,
+					lng : 80.722046
 				}
 			});
 
@@ -47,6 +41,7 @@ html, body {
 			// create an array of markers based on a given "locations" array.
 			// The map() method here has nothing to do with the Google Maps API.
 			var markers = locations.map(function(location, i) {
+				
 				var marker = new google.maps.Marker({
 					position : location,
 					title : location.title,
@@ -71,30 +66,41 @@ html, body {
 					});
 		}
 		// Creating the JSON data
-		var locations = [
-				{
-					"id" : "D",
-					"title" : "Stockholm",
-					"marker_type" : "http://maps.google.com/mapfiles/ms/icons/green-dot.png",
-					"lat" : 59.3,
-					"lng" : 18.1,
-					"description" : "<strong>Stockholm</strong> is the capital and the largest city of Sweden and constitutes the most populated urban area in Scandinavia with a population of 2.1 million in the metropolitan area (2010)"
-				},
-				{
-					"id" : "CUS",
-					"title" : "Oslo",
-					"marker_type" : "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
-					"lat" : 59.9,
-					"lng" : 10.8,
-					"description" : "<strong>Oslo</strong> is a municipality, and the capital and most populous city of Norway with a metropolitan population of 1,442,318 (as of 2010)."
-				},
-				{
-					"id" : "3",
-					"marker_type" : "http://maps.google.com/mapfiles/ms/icons/red-dot.png",
-					"lat" : 55.7,
-					"lng" : 12.6,
-					"description" : "<strong>Copenhagen</strong> is the capital of Denmark and its most populous city, with a metropolitan population of 1,931,467 (as of 1 January 2012)."
-				} ]
+		
+		/*<![CDATA[*/
+		var locations = processJsonArray([[${distMapDet}]]);
+		 /*]]>*/
+		 
+		 
+		 function processJsonArray(unprocessedJSON){
+			 var processedJsonArray = [];
+			 for(var i=0; i<unprocessedJSON.length; i++){
+				 var obj = unprocessedJSON[i];
+				 
+				 testVar = obj;
+				 
+				 processedJsonArray.push({
+					 "id":getDiseaseCode(obj.disease),
+					 "title":obj.form411Id+"",
+					 "lat":obj.lat,
+					 "lng":obj.lng,
+					 "description":"<strong>"+obj.patientAddress+"</strong><p><a href='\/communicable-disease/Form411/view?form411Id="+obj.form411Id+"' target='_blank'>Form411</a></p><p><a href='\/communicable-disease/Form544/view?form544Id="+obj.form544Id+"' target='_blank'>Form544</a></p>"
+					 
+				 });
+			 }
+			 
+			 return processedJsonArray;
+		 }
+		 
+		 function getDiseaseCode(disease){
+			 var diseaseCode = null;
+			 if(disease == "Cholara"){
+				 diseaseCode = "CHO"
+			 }
+			 
+			 return diseaseCode;
+		 }
+		 
 	</script>
 	<script
 		src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
