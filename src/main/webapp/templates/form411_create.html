@@ -30,12 +30,12 @@
 				<div class="form-group">
 					<label for="name">Name:</label> <input type="text"
 						class="form-control" id="name" name="name"
-						placeholder="Enter Patient's Name">
+						placeholder="Enter Patient's Name" maxlength="250" required>
 				</div>
 				<div class="form-group">
-					<label for="age">Age:</label> <input type="text"
+					<label for="age">Age:</label> <input type="number"
 						class="form-control" id="age" name="age"
-						placeholder="Enter Patient's Age">
+						placeholder="Enter Patient's Age" max="120" min="0" required>
 				</div>
 				<div class="form-group">
 					<label for="sex">Sex:</label> <select class="form-control"
@@ -47,7 +47,7 @@
 				<div class="form-group">
 					<label for="home_address">Patient Address:</label> <input
 						type="text" class="form-control" name="address" id="address"
-						placeholder="Enter Patient's Address">
+						placeholder="Enter Patient's Address" maxlength="250" required>
 				</div>
 				<div class="form-group">
 					<label for="ethnicGroup">Ethnic Group:</label> <select
@@ -69,7 +69,7 @@
 					<label for="diseaseNotifiedDate">Date of Disease Notified:</label>
 					<input type="text" class="form-control" id="diseaseNotifiedDate"
 						name="diseaseNotifiedDate"
-						placeholder="Select disease notified date">
+						placeholder="Select disease notified date" required>
 				</div>
 				<div class="form-group">
 					<label for="confirmedDiseaseId">Confirmed Disease:</label> <select
@@ -84,28 +84,29 @@
 					<label for="diseaseConfirmedDate">Date of Disease
 						Confirmed:</label> <input type="text" class="form-control"
 						id="diseaseConfirmedDate" name="diseaseConfirmedDate"
-						placeholder="Select disease confirmed date">
+						placeholder="Select disease confirmed date" required>
 				</div>
 				<div class="form-group">
 					<label for="dateOfOnset">Date of OnSet:</label> <input type="text"
 						class="form-control" id="dateOfOnset" name="dateOfOnset"
-						placeholder="Select date of OnSet">
+						placeholder="Select date of OnSet" required>
 				</div>
 				<div class="form-group">
 					<label for="dateOfOnset">Date of Hospitalized:</label> <input
 						type="text" class="form-control" id="dateOfHospitalization"
 						name="dateOfHospitalization"
-						placeholder="Select date of Hospitalized">
+						placeholder="Select date of Hospitalized" required>
 				</div>
 				<div class="form-group">
 					<label for="dateOfDischarged">Date of Discharged:</label> <input
 						type="text" class="form-control" id="dateOfDischarged"
-						name="dateOfDischarged" placeholder="Select date of Discharged">
+						name="dateOfDischarged" placeholder="Select date of Discharged"
+						required>
 				</div>
 				<div class="form-group">
 					<label for="hospital">Name of Hospital:</label> <input type="text"
 						class="form-control" id="hospital" name="hospital"
-						placeholder="Enter Name of Hospital">
+						placeholder="Enter Name of Hospital" required>
 				</div>
 				<div class="form-group">
 					<label for="outcome">Outcome:</label> <select class="form-control"
@@ -125,22 +126,23 @@
 					<label for="patientMovement">Patient's Movements:</label>
 					<textarea class="form-control" id="patientMovement"
 						name="patientMovement"
-						placeholder="Enter Details on Patient Movements"></textarea>
+						placeholder="Enter Details on Patient Movements" maxlength="250"></textarea>
 				</div>
 				<div class="form-group">
 					<label for="laboratoryFindings">Laboratory Findings:</label>
 					<textarea class="form-control" id="laboratoryFindings"
-						name="laboratoryFindings" placeholder="Enter Laboratory Findings"></textarea>
+						name="laboratoryFindings" placeholder="Enter Laboratory Findings"
+						maxlength="250"></textarea>
 				</div>
 				<div class="form-group">
 					<label for="phiRange">PHI Area:</label> <input type="text"
 						class="form-control" id="phiRange" name="phiRange"
-						placeholder="Enter the PHI Area">
+						placeholder="Enter the PHI Area" required>
 				</div>
 				<div class="form-group">
 					<label for="mohArea">MOH Area:</label> <input type="text"
 						class="form-control" id="mohArea" name="mohArea"
-						placeholder="Enter the MOH Area">
+						placeholder="Enter the MOH Area" required>
 				</div>
 
 				<!-- TODO Need to implement to send details of the contacted people table  -->
@@ -183,12 +185,12 @@
 				<div class="form-group">
 					<label for="longitude">Longitude:</label> <input type="text"
 						class="form-control" id="longitude" name="longitude"
-						placeholder="Enter the Longitude">
+						placeholder="Enter the Longitude" required>
 				</div>
 				<div class="form-group">
 					<label for="lattitude">Latitude:</label> <input type="text"
 						class="form-control" id="lattitude" name="lattitude"
-						placeholder="Enter the Lattitude">
+						placeholder="Enter the Lattitude" required>
 				</div>
 				<div>
 					<button type="submit" class="btn btn-success pull-right">Submit</button>
