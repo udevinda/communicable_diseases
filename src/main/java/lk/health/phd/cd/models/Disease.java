@@ -30,6 +30,9 @@ public class Disease implements Serializable {
 	@Column(name = "disease_name", nullable = false)
 	private String diseaseName;
 
+	@Column(name = "shortcode", nullable = false)
+	private String shortCode;
+
 	/**
 	 * Getter for disease Id.
 	 * 
@@ -66,6 +69,25 @@ public class Disease implements Serializable {
 	 */
 	public void setDiseaseName(String diseaseName) {
 		this.diseaseName = diseaseName;
+	}
+
+	/**
+	 * Getter for disease shortcode.
+	 * 
+	 * @return disease shortcode
+	 */
+	public String getShortCode() {
+		return shortCode;
+	}
+
+	/**
+	 * Setter for disease shortcode.
+	 * 
+	 * @param inShortCode
+	 *            disease shortcode.
+	 */
+	public void setShortCode(String inShortCode) {
+		this.shortCode = inShortCode;
 	}
 
 }

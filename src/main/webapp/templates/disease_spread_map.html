@@ -3,7 +3,7 @@
 <head>
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
 <meta charset="utf-8">
-<title>Marker Clustering</title>
+<title>Disease Distribution Map</title>
 <style>
 /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
@@ -80,7 +80,7 @@ html, body {
 				 testVar = obj;
 				 
 				 processedJsonArray.push({
-					 "id":getDiseaseCode(obj.disease),
+					 "id":obj.diseaseShortCode,
 					 "title":obj.form411Id+"",
 					 "lat":obj.lat,
 					 "lng":obj.lng,
@@ -90,15 +90,6 @@ html, body {
 			 }
 			 
 			 return processedJsonArray;
-		 }
-		 
-		 function getDiseaseCode(disease){
-			 var diseaseCode = null;
-			 if(disease == "Cholara"){
-				 diseaseCode = "CHO"
-			 }
-			 
-			 return diseaseCode;
 		 }
 		 
 	</script>

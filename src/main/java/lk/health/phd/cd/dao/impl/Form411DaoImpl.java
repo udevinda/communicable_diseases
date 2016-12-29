@@ -233,6 +233,7 @@ public class Form411DaoImpl extends UniversalDaoImpl<Form411> implements Form411
 		proList.add(Projections.property("form411.lattitude"), "lat");
 		proList.add(Projections.property("form411.patientAddress"), "patientAddress");
 		proList.add(Projections.property("diseaseConfirmed.diseaseName"), "disease");
+		proList.add(Projections.property("diseaseConfirmed.shortCode"), "diseaseShortCode");
 		// proList.add(Projections.property("workflow.status"), "status");
 		criteria.setProjection(proList);
 
