@@ -72,6 +72,17 @@
 					</select>
 				</div>
 				<div class="form-group">
+					<label for="district">District:</label> <select
+						class="form-control" id="district" name="district">
+						<option th:each="district:${districtList}"
+							th:value="${district.id}" th:text="${district.districtName}"></option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="district">MOH Area:</label> <select
+						class="form-control" id="moh_area" name="moh_area"></select>
+				</div>
+				<div class="form-group">
 					<label for="institute">Institute:</label> <input type="text"
 						class="form-control" id="institute" name="institute"
 						placeholder="Enter Patient Admited Institute Name" maxlength="250"

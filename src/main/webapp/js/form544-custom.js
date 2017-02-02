@@ -158,7 +158,6 @@ function generateUpdate544Url(form544Id) {
 }
 
 function generateForm411Link(form544) {
-	console.log(form544);
 	if (form544.workflow != null) {
 		if (form544.workflow.form411 == null) {
 			return '<a href="/communicable-disease/Form411/create?form544Id='
@@ -169,3 +168,31 @@ function generateForm411Link(form544) {
 		}
 	}
 }
+
+function getMohAreaByDistrictId(districtId) {
+	$.ajax({
+		url : "/communicable-disease/Form544/moh_area?district_id="
+				+ districtId,
+		method : "get",
+		success : function(result) {
+			$("#moh_area").empty();
+			result.forEach(function(item, i) {
+				var option = "<option value = " + item.id + ">"
+						+ item.mohAreaName + "</option>";
+				$("#moh_area").append(option);
+			});
+		}
+	});
+}
+
+$(document).ready(function() {
+
+	// Following default set should be removed or changed according to target
+	// release setup.
+	$("#district").val("16");
+	getMohAreaByDistrictId($("#district").val());
+
+	$("#district").change(function() {
+		getMohAreaByDistrictId($("#district").val());
+	});
+});

@@ -19,11 +19,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import lk.health.phd.cd.dao.DiseaseDao;
+import lk.health.phd.cd.dao.DistrictDao;
 import lk.health.phd.cd.dao.Form544Dao;
+import lk.health.phd.cd.dao.MohAreaDao;
 import lk.health.phd.cd.dao.WorkflowDao;
 import lk.health.phd.cd.dto.Form544FilterDto;
 import lk.health.phd.cd.models.Disease;
 import lk.health.phd.cd.models.Form544;
+import lk.health.phd.cd.models.MohArea;
 import lk.health.phd.cd.services.Form544Service;
 import lk.health.phd.cd.services.WorkflowService;
 import lk.health.phd.util.Util;
@@ -51,6 +54,12 @@ public class Form544Controller {
 
 	@Autowired
 	private WorkflowDao workflowDao;
+
+	@Autowired
+	private DistrictDao districtDao;
+
+	@Autowired
+	private MohAreaDao mohAreaDao;
 
 	@Autowired
 	private Form544Service form544Service;
@@ -333,7 +342,7 @@ public class Form544Controller {
 
 			return obj;
 		} catch (Exception e) {
-//			logger.error("Error occured ", e);
+			// logger.error("Error occured ", e);
 			e.printStackTrace();
 
 			return null;
@@ -360,6 +369,7 @@ public class Form544Controller {
 
 		model.addAttribute("sexList", sexList);
 		model.addAttribute("diseaseList", diseaeDao.getAllDiseases());
+		model.addAttribute("districtList", districtDao.getAllDistrict());
 
 		return "form544_create";
 	}
@@ -411,6 +421,19 @@ public class Form544Controller {
 		model.addAttribute("form544Object", form544Dao.findForm544ById(inForm544Id));
 
 		return "form544_update";
+	}
+
+	/**
+	 * Controller method to retrieve moh area list by district ID.
+	 * 
+	 * @param districtId
+	 *            ID of the {@link District}
+	 * @return List of {@link MohArea}
+	 */
+	@RequestMapping(value = "moh_area", method = RequestMethod.GET)
+	@ResponseBody
+	public List<MohArea> getMohAreaByDistrictId(@RequestParam("district_id") final Long districtId) {
+		return mohAreaDao.getMohAreaByDistrictId(districtId);
 	}
 
 	/**
