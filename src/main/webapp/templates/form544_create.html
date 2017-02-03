@@ -23,9 +23,10 @@
 		<div class="container">
 			<form th:action="@{/Form544/submit}" method="post">
 				<div class="form-group">
-					<label for="nic">NIC:</label> <input type="text"
-						class="form-control" name="nic" id="nic"
-						placeholder="Enter Patient's NIC" maxlength="10" required>
+					<!-- Set this to be auto generated -->
+					<label for="serial_no">Serial Number:</label> <input type="text"
+						class="form-control" name="serialNo" id="serialNo"
+						placeholder="Enter Serial Number" maxlength="10" required>
 				</div>
 				<div class="form-group">
 					<label for="name">Name:</label> <input type="text"
@@ -80,7 +81,7 @@
 				</div>
 				<div class="form-group">
 					<label for="district">MOH Area:</label> <select
-						class="form-control" id="moh_area" name="moh_area"></select>
+						class="form-control" id="mohArea" name="mohArea"></select>
 				</div>
 				<div class="form-group">
 					<label for="institute">Institute:</label> <input type="text"

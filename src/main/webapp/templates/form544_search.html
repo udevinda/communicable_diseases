@@ -24,9 +24,9 @@
 	<div class="container">
 		<form id="form544FilterTbl">
 			<div class="form-group">
-				<label for="nic">NIC:</label> <input type="text"
-					class="form-control" name="nic" id="nic"
-					placeholder="Enter Patient's NIC" value="">
+				<label for="serialNo">Serial Number:</label> <input type="text"
+					class="form-control" name="serialNo" id="serialNo"
+					placeholder="Enter Serial Number" value="">
 			</div>
 			<div class="form-group">
 				<label for="institute">Institute:</label> <input type="text"
@@ -40,6 +40,18 @@
 					<option th:each="disease:${diseaseList}" th:value="${disease.id}"
 						th:text="${disease.diseaseName}"></option>
 				</select>
+			</div>
+			<div class="form-group">
+				<label for="district">District:</label> <select class="form-control"
+					id="district" name="district">
+					<option value="" selected>Select District</option>
+					<option th:each="district:${districtList}"
+						th:value="${district.id}" th:text="${district.districtName}"></option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="district">MOH Area:</label> <select class="form-control"
+					id="mohArea" name="mohArea"></select>
 			</div>
 			<div class="form-group">
 				<label for="name">Name:</label> <input type="text"
@@ -120,7 +132,7 @@
 			<thead>
 				<tr>
 					<th>#</th>
-					<th>NIC</th>
+					<th>Serial Number</th>
 					<th>Name</th>
 					<th>Phone number</th>
 					<th>BHT No</th>

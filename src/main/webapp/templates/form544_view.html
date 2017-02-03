@@ -33,10 +33,21 @@
 		<div class="control-group">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<label class="control-label">NIC</label>
+					<label class="control-label">Serial Number</label>
 				</div>
 				<div class="panel-body">
-					<div class="controls readonly" th:text="${form544Object.nic}"></div>
+					<div class="controls readonly" th:text="${form544Object.serialNo}"></div>
+				</div>
+			</div>
+		</div>
+		<div class="control-group">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<label class="control-label">Date of Entry</label>
+				</div>
+				<div class="panel-body">
+					<div class="controls readonly"
+						th:text="${form544Object.systemNotifiedDate}"></div>
 				</div>
 			</div>
 		</div>
@@ -112,6 +123,17 @@
 					<div class="panel-body">
 						<div class="controls readonly"
 							th:text="${form544Object.disease.getDiseaseName()}"></div>
+					</div>
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<label class="control-label">MOH Area</label>
+					</div>
+					<div class="panel-body">
+						<div class="controls readonly"
+							th:text="${form544Object.mohArea.getMohAreaName()}"></div>
 					</div>
 				</div>
 			</div>

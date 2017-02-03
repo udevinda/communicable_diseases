@@ -40,7 +40,7 @@ public class Form544ServiceImpl implements Form544Service {
 		form544.setDateOfOnset(inForm544.getDateOfOnset());
 		form544.setDisease(inForm544.getDisease());
 		form544.setInstitute(inForm544.getInstitute());
-		form544.setNic(inForm544.getNic());
+		form544.setSerialNo(inForm544.getSerialNo());
 		form544.setNotifierName(inForm544.getNotifierName());
 		form544.setNotifierStatus(inForm544.getNotifierStatus());
 		form544.setPatientHomeAddress(inForm544.getPatientHomeAddress());
@@ -50,6 +50,7 @@ public class Form544ServiceImpl implements Form544Service {
 		form544.setSex(inForm544.getSex());
 		form544.setSystemNotifiedDate(inForm544.getSystemNotifiedDate());
 		form544.setWard(inForm544.getWard());
+		form544.setMohArea(inForm544.getMohArea());
 
 		form544Dao.merge(form544);
 		logger.debug("Form544 ID : " + form544.getId() + " updated and persisted to DB.");

@@ -38,8 +38,8 @@ public class Form544 implements Serializable {
 	@Column(name = "id")
 	private Long id;
 
-	@Column(name = "nic", unique = true, nullable = false)
-	private String nic;
+	@Column(name = "serial_no", unique = true, nullable = false)
+	private String serialNo;
 
 	@Column(name = "institute", nullable = false)
 	private String institute;
@@ -91,6 +91,10 @@ public class Form544 implements Serializable {
 	@JoinColumn(name = "workflow_id")
 	private Workflow workflow;
 
+	@OneToOne
+	@JoinColumn(name = "moh_area_id")
+	private MohArea mohArea;
+
 	/**
 	 * Getter for Id.
 	 * 
@@ -112,22 +116,22 @@ public class Form544 implements Serializable {
 	}
 
 	/**
-	 * Getter for nic.
+	 * Getter for serial number of the entry
 	 * 
-	 * @return Patient NIC
+	 * @return Serial Number
 	 */
-	public String getNic() {
-		return nic;
+	public String getSerialNo() {
+		return serialNo;
 	}
 
 	/**
-	 * Setter for NIC
+	 * Setter for Serial number of the entry
 	 * 
-	 * @param inNic
-	 *            Patient NIC.
+	 * @param inSerialNo
+	 *            Serial Number
 	 */
-	public void setNic(final String inNic) {
-		this.nic = inNic;
+	public void setSerialNo(final String inSerialNo) {
+		this.serialNo = inSerialNo;
 	}
 
 	/**
@@ -432,6 +436,25 @@ public class Form544 implements Serializable {
 	 */
 	public void setWorkflow(Workflow inWorkflow) {
 		this.workflow = inWorkflow;
+	}
+
+	/**
+	 * Getter for {@link MohArea}.
+	 * 
+	 * @return {@link MohArea}
+	 */
+	public MohArea getMohArea() {
+		return mohArea;
+	}
+
+	/**
+	 * Setter for {@link MohArea}
+	 * 
+	 * @param inMohArea
+	 *            {@link MohArea}
+	 */
+	public void setMohArea(MohArea inMohArea) {
+		this.mohArea = inMohArea;
 	}
 
 }

@@ -49,11 +49,11 @@ public class MohArea implements Serializable {
 	/**
 	 * Setter for ID
 	 * 
-	 * @param id
+	 * @param inId
 	 *            Id of the MOH Area.
 	 */
-	public void setId(Long id) {
-		this.id = id;
+	public void setId(final Long inId) {
+		this.id = inId;
 	}
 
 	/**
@@ -68,11 +68,11 @@ public class MohArea implements Serializable {
 	/**
 	 * Setter for District
 	 * 
-	 * @param district
+	 * @param inDistrict
 	 *            {@link District}}
 	 */
-	public void setDistrict(District district) {
-		this.district = district;
+	public void setDistrict(final District inDistrict) {
+		this.district = inDistrict;
 	}
 
 	/**
@@ -87,11 +87,11 @@ public class MohArea implements Serializable {
 	/**
 	 * Setter for MOH area name.
 	 * 
-	 * @param mohAreaName
+	 * @param inMohAreaName
 	 *            Name Of the MOH area.
 	 */
-	public void setMohAreaName(String mohAreaName) {
-		this.mohAreaName = mohAreaName;
+	public void setMohAreaName(final String inMohAreaName) {
+		this.mohAreaName = inMohAreaName;
 	}
 
 }

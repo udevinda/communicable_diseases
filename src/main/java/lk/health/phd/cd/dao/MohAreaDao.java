@@ -20,5 +20,14 @@ public interface MohAreaDao extends UniversalDao<MohArea> {
 	 *            Id of the {@link District}
 	 * @return List of {@link District}
 	 */
-	public List<MohArea> getMohAreaByDistrictId(final Long districtId);
+	public List<MohArea> getMohAreaByDistrictId(final Long inDistrictId);
+
+	/**
+	 * Returns the {@link MohArea} by record ID
+	 * 
+	 * @param inMohId
+	 *            ID of the MOH area
+	 * @return {@link MohArea}
+	 */
+	public MohArea findMohAreaById(final Long inMohId);
 }

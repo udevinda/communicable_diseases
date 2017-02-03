@@ -41,11 +41,11 @@ public class District implements Serializable {
 	/**
 	 * Setter for District ID.
 	 * 
-	 * @param id
+	 * @param inId
 	 *            ID of the district
 	 */
-	public void setId(Long id) {
-		this.id = id;
+	public void setId(final Long inId) {
+		this.id = inId;
 	}
 
 	/**
@@ -60,11 +60,11 @@ public class District implements Serializable {
 	/**
 	 * Setter for name of the district.
 	 * 
-	 * @param districtName
+	 * @param inDistrictName
 	 *            Name of the district
 	 */
-	public void setDistrictName(String districtName) {
-		this.districtName = districtName;
+	public void setDistrictName(final String inDistrictName) {
+		this.districtName = inDistrictName;
 	}
 
 }

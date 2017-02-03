@@ -60,7 +60,7 @@ function doSearch(pageGenerationOn) {
 				url : "/communicable-disease/Form544/filterBy/",
 				method : "post",
 				data : {
-					"nic" : $("#nic").val(),
+					"serialNo" : $("#serialNo").val(),
 					"institute" : $("#institute").val(),
 					"disease" : $("#disease").val(),
 					"patientName" : $("#patientName").val(),
@@ -74,6 +74,7 @@ function doSearch(pageGenerationOn) {
 					"dateOfAdmissionTo" : $("#dateOfAdmissionTo").val(),
 					"ageFrom" : $("#ageFrom").val(),
 					"ageTo" : $("#ageTo").val(),
+					"mohArea" : $("#mohArea").val(),
 					"offset" : offset,
 					"limit" : $("#limit").val(),
 				},
@@ -86,7 +87,7 @@ function doSearch(pageGenerationOn) {
 												+ result.form544List[i].id
 												+ '</td>'
 												+ '<td>'
-												+ result.form544List[i].nic
+												+ result.form544List[i].serialNo
 												+ '</td>'
 												+ '<td>'
 												+ result.form544List[i].patientName
@@ -175,11 +176,11 @@ function getMohAreaByDistrictId(districtId) {
 				+ districtId,
 		method : "get",
 		success : function(result) {
-			$("#moh_area").empty();
+			$("#mohArea").empty();
 			result.forEach(function(item, i) {
 				var option = "<option value = " + item.id + ">"
 						+ item.mohAreaName + "</option>";
-				$("#moh_area").append(option);
+				$("#mohArea").append(option);
 			});
 		}
 	});

@@ -53,8 +53,8 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 		if (inForm544FilterDto.getPatientName() != null && !(inForm544FilterDto.getPatientName().isEmpty())) {
 			criteria.add(Restrictions.eq("patientName", inForm544FilterDto.getPatientName()));
 		}
-		if (inForm544FilterDto.getPatientNic() != null && !(inForm544FilterDto.getPatientNic().isEmpty())) {
-			criteria.add(Restrictions.eq("nic", inForm544FilterDto.getPatientNic()));
+		if (inForm544FilterDto.getSerialNo() != null && !(inForm544FilterDto.getSerialNo().isEmpty())) {
+			criteria.add(Restrictions.eq("serialNo", inForm544FilterDto.getSerialNo()));
 		}
 		if (inForm544FilterDto.getSex() != null) {
 			criteria.add(Restrictions.eq("sex", inForm544FilterDto.getSex()));
@@ -82,6 +82,9 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 		}
 		if (inForm544FilterDto.getDateOfOnsetTo() != null) {
 			criteria.add(Restrictions.le("dateOfOnset", inForm544FilterDto.getDateOfOnsetTo()));
+		}
+		if (inForm544FilterDto.getMohArea() != null) {
+			criteria.add(Restrictions.eq("mohArea", inForm544FilterDto.getMohArea()));
 		}
 
 		criteria.setMaxResults(inLimit);
@@ -110,8 +113,8 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 		if (inForm544FilterDto.getPatientName() != null && !(inForm544FilterDto.getPatientName().isEmpty())) {
 			criteria.add(Restrictions.eq("patientName", inForm544FilterDto.getPatientName()));
 		}
-		if (inForm544FilterDto.getPatientNic() != null && !(inForm544FilterDto.getPatientNic().isEmpty())) {
-			criteria.add(Restrictions.eq("nic", inForm544FilterDto.getPatientNic()));
+		if (inForm544FilterDto.getSerialNo() != null && !(inForm544FilterDto.getSerialNo().isEmpty())) {
+			criteria.add(Restrictions.eq("serialNo", inForm544FilterDto.getSerialNo()));
 		}
 		if (inForm544FilterDto.getSex() != null) {
 			criteria.add(Restrictions.eq("sex", inForm544FilterDto.getSex()));
@@ -139,6 +142,9 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 		}
 		if (inForm544FilterDto.getDateOfOnsetTo() != null) {
 			criteria.add(Restrictions.le("dateOfOnset", inForm544FilterDto.getDateOfOnsetTo()));
+		}
+		if (inForm544FilterDto.getMohArea() != null) {
+			criteria.add(Restrictions.eq("mohArea", inForm544FilterDto.getMohArea()));
 		}
 
 		return (Long) criteria.setProjection(Projections.rowCount()).uniqueResult();

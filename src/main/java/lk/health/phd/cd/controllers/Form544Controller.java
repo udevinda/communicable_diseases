@@ -70,8 +70,8 @@ public class Form544Controller {
 	 * 
 	 * Controller for submit Form544.
 	 * 
-	 * @param inNic
-	 *            patient national identity card
+	 * @param inSerialNo
+	 *            Serial number for the entry
 	 * @param inInstitute
 	 *            where patient is admitted
 	 * @param inDiseaseId
@@ -100,10 +100,12 @@ public class Form544Controller {
 	 *            notifier name
 	 * @param inNotifierStatus
 	 *            notifier status
+	 * @param inMohArea
+	 *            MOH area of the institute
 	 * @return form544_view.html
 	 */
 	@RequestMapping(value = "/submit", method = RequestMethod.POST)
-	public String saveForm544(@RequestParam("nic") final String inNic,
+	public String saveForm544(@RequestParam("serialNo") final String inSerialNo,
 			@RequestParam("institute") final String inInstitute, @RequestParam("disease") final Long inDiseaseId,
 			@RequestParam("patientName") final String inPatientName,
 			@RequestParam("dateOfOnset") final String inDateOfOnset,
@@ -114,10 +116,11 @@ public class Form544Controller {
 			@RequestParam("patientHomeAddress") final String inPatientHomeAddress,
 			@RequestParam("patientsHomePhoneNo") final String inPatientsHomePhoneNo,
 			@RequestParam("notifierName") final String inNotifierName,
-			@RequestParam("notifierStatus") final String inNotifierStatus, Model model) {
+			@RequestParam("notifierStatus") final String inNotifierStatus,
+			@RequestParam("mohArea") final Long inMohArea, Model model) {
 
 		logger.info("Hit the /Form544/submit ");
-		logger.info("Submitted user with NIC " + inNic);
+		logger.info("Submitted user with NIC " + inSerialNo);
 
 		try {
 			Form544 form544 = new Form544();
@@ -127,7 +130,7 @@ public class Form544Controller {
 			form544.setDateOfOnset(Util.parseDate(inDateOfOnset, "yyyy-MM-dd"));
 			form544.setDisease(getDisease(inDiseaseId));
 			form544.setInstitute(inInstitute);
-			form544.setNic(inNic);
+			form544.setSerialNo(inSerialNo);
 			form544.setNotifierName(inNotifierName);
 			form544.setNotifierStatus(inNotifierStatus);
 			form544.setPatientHomeAddress(inPatientHomeAddress);
@@ -137,6 +140,7 @@ public class Form544Controller {
 			form544.setSex(inSex);
 			form544.setSystemNotifiedDate(Util.getSystemTime());
 			form544.setWard(inWard);
+			form544.setMohArea(getMohArea(inMohArea));
 
 			// TODO Need to do backend validation
 
@@ -179,8 +183,8 @@ public class Form544Controller {
 	 * 
 	 * @param inForm544Id
 	 *            Existing form 544 ID
-	 * @param inNic
-	 *            National ID number of the patient.
+	 * @param inSerialNo
+	 *            Serial number for the entry.
 	 * @param inInstitute
 	 *            Institute where patient is admitted.
 	 * @param inDiseaseId
@@ -209,11 +213,13 @@ public class Form544Controller {
 	 *            Notifier name
 	 * @param inNotifierStatus
 	 *            Notifier status
+	 * @param inMohArea
+	 *            MOH area of the institute
 	 * @return form544_create.html
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public String updateForm544(@RequestParam("form544Id") final Long inForm544Id,
-			@RequestParam("nic") final String inNic, @RequestParam("institute") final String inInstitute,
+			@RequestParam("serialNo") final String inSerialNo, @RequestParam("institute") final String inInstitute,
 			@RequestParam("disease") final Long inDiseaseId, @RequestParam("patientName") final String inPatientName,
 			@RequestParam("dateOfOnset") final String inDateOfOnset,
 			@RequestParam("peaditiricPatientsGurdianName") final String inPeaditiricPatientsGurdianName,
@@ -223,7 +229,7 @@ public class Form544Controller {
 			@RequestParam("patientHomeAddress") final String inPatientHomeAddress,
 			@RequestParam("patientsHomePhoneNo") final String inPatientsHomePhoneNo,
 			@RequestParam("notifierName") final String inNotifierName,
-			@RequestParam("notifierStatus") final String inNotifierStatus) {
+			@RequestParam("notifierStatus") final String inNotifierStatus, @RequestParam("mohArea") Long inMohArea) {
 
 		logger.info("Hit the /Form544/update ");
 		logger.info("Request update for Form544 ID " + inForm544Id);
@@ -238,7 +244,7 @@ public class Form544Controller {
 			form544.setDateOfOnset(Util.parseDate(inDateOfOnset, "yyyy-MM-dd"));
 			form544.setDisease(getDisease(inDiseaseId));
 			form544.setInstitute(inInstitute);
-			form544.setNic(inNic);
+			form544.setSerialNo(inSerialNo);
 			form544.setNotifierName(inNotifierName);
 			form544.setNotifierStatus(inNotifierStatus);
 			form544.setPatientHomeAddress(inPatientHomeAddress);
@@ -248,6 +254,7 @@ public class Form544Controller {
 			form544.setSex(inSex);
 			form544.setSystemNotifiedDate(Util.getSystemTime());
 			form544.setWard(inWard);
+			form544.setMohArea(getMohArea(inMohArea));
 
 			Form544 updatedForm544 = form544Service.updateForm544ById(inForm544Id, form544);
 			modelMap.put("form544Id", updatedForm544.getId());
@@ -293,6 +300,8 @@ public class Form544Controller {
 	 *            From age for a range.
 	 * @param inAgeTo
 	 *            To age for a range.
+	 * @param inMohArea
+	 *            MOH area of the institute
 	 * @param inOffset
 	 *            Offset for pagination.
 	 * @param inLimit
@@ -300,7 +309,7 @@ public class Form544Controller {
 	 * @return Json object included total row count, for 544 list
 	 */
 	@RequestMapping(value = "/filterBy", method = RequestMethod.POST)
-	public @ResponseBody JSONObject searchForm544ByCriteria(@RequestParam("nic") final String inPatientNic,
+	public @ResponseBody JSONObject searchForm544ByCriteria(@RequestParam("serialNo") final String inSerialNo,
 			@RequestParam("institute") final String inInstitute, @RequestParam("disease") final Long inDiseaseId,
 			@RequestParam("patientName") final String inPatientName, @RequestParam("bhtNo") final Long inBhtNo,
 			@RequestParam("ward") final String inWard, @RequestParam("sex") final Form544.Sex inSex,
@@ -310,7 +319,8 @@ public class Form544Controller {
 			@RequestParam("dateOfAdmissionFrom") final String inDateOfAdmissionFrom,
 			@RequestParam("dateOfAdmissionTo") final String inDateOfAdmissionTo,
 			@RequestParam("ageFrom") final Integer inAgeFrom, @RequestParam("ageTo") final Integer inAgeTo,
-			@RequestParam("offset") final Integer inOffset, @RequestParam("limit") final Integer inLimit) {
+			@RequestParam("mohArea") final Long inMohArea, @RequestParam("offset") final Integer inOffset,
+			@RequestParam("limit") final Integer inLimit) {
 
 		logger.info("Hit the /Form544/filterBy ");
 
@@ -320,7 +330,7 @@ public class Form544Controller {
 			form544FilterDto.setDisease(getDisease(inDiseaseId));
 			form544FilterDto.setInstitute(inInstitute);
 			form544FilterDto.setPatientName(inPatientName);
-			form544FilterDto.setPatientNic(inPatientNic);
+			form544FilterDto.setSerialNo(inSerialNo);
 			form544FilterDto.setSex(inSex);
 			form544FilterDto.setWard(inWard);
 			form544FilterDto.setNotifierName(inNotifierName);
@@ -330,6 +340,7 @@ public class Form544Controller {
 			form544FilterDto.setDateOfAdmissionTo(Util.parseDate(inDateOfAdmissionTo, "yyyy-MM-dd"));
 			form544FilterDto.setDateOfOnsetFrom(Util.parseDate(inDateOfOnsetFrom, "yyyy-MM-dd"));
 			form544FilterDto.setDateOfOnsetTo(Util.parseDate(inDateOfOnsetTo, "yyyy-MM-dd"));
+			form544FilterDto.setMohArea(getMohArea(inMohArea));
 
 			List<Form544> form544List = form544Dao.searchForm544BySearchFields(form544FilterDto, inOffset, inLimit);
 			Long totalRowCount = form544Dao.searchCountForm544BySearchFields(form544FilterDto);
@@ -392,6 +403,7 @@ public class Form544Controller {
 
 		model.addAttribute("sexList", sexList);
 		model.addAttribute("diseaseList", diseaeDao.getAllDiseases());
+		model.addAttribute("districtList", districtDao.getAllDistrict());
 
 		return "form544_search";
 	}
@@ -418,6 +430,7 @@ public class Form544Controller {
 
 		model.addAttribute("sexList", sexList);
 		model.addAttribute("diseaseList", diseaeDao.getAllDiseases());
+		model.addAttribute("districtList", districtDao.getAllDistrict());
 		model.addAttribute("form544Object", form544Dao.findForm544ById(inForm544Id));
 
 		return "form544_update";
@@ -447,6 +460,19 @@ public class Form544Controller {
 		Disease disease = diseaeDao.findDiseaseById(inDiseaseId);
 
 		return disease;
+	}
+
+	/**
+	 * Returns the {@link MohArea}
+	 * 
+	 * @param mohAreaId
+	 *            ID of the MOH Area
+	 * @return {@link MohArea}
+	 */
+	private MohArea getMohArea(final Long mohAreaId) {
+		MohArea mohArea = mohAreaDao.findMohAreaById(mohAreaId);
+
+		return mohArea;
 	}
 
 }

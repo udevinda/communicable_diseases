@@ -4,6 +4,7 @@ import java.sql.Date;
 
 import lk.health.phd.cd.models.Disease;
 import lk.health.phd.cd.models.Form544.Sex;
+import lk.health.phd.cd.models.MohArea;
 import lk.health.phd.cd.models.Workflow.WorkflowStatus;
 
 /**
@@ -13,7 +14,7 @@ import lk.health.phd.cd.models.Workflow.WorkflowStatus;
  *
  */
 public class Form544FilterDto {
-	private String patientNic;
+	private String serialNo;
 	private String institute;
 	private Disease disease;
 	private String patientName;
@@ -28,24 +29,25 @@ public class Form544FilterDto {
 	private Sex sex;
 	private String notifierName;
 	private WorkflowStatus workflowStatus;
+	private MohArea mohArea;
 
 	/**
-	 * Getter for patient's NIC as filtering field.
+	 * Getter for serial number of the entry.
 	 * 
-	 * @return patientNic
+	 * @return serial number
 	 */
-	public String getPatientNic() {
-		return patientNic;
+	public String getSerialNo() {
+		return serialNo;
 	}
 
 	/**
-	 * Setter for patient's NIC as a filtering field.
+	 * Setter for serial number of the entry.
 	 * 
-	 * @param patientNic
-	 *            NIC of the patient.
+	 * @param inSerialNo
+	 *            Serial number of the entry
 	 */
-	public void setPatientNic(final String inPatientNic) {
-		this.patientNic = inPatientNic;
+	public void setSerialNo(String inSerialNo) {
+		this.serialNo = inSerialNo;
 	}
 
 	/**
@@ -312,6 +314,25 @@ public class Form544FilterDto {
 	 */
 	public void setWorkflowStatus(WorkflowStatus workflowStatus) {
 		this.workflowStatus = workflowStatus;
+	}
+
+	/**
+	 * Getter for {@link MohArea} as a filter field.
+	 * 
+	 * @return {@link MohArea}
+	 */
+	public MohArea getMohArea() {
+		return mohArea;
+	}
+
+	/**
+	 * Setter for {@link MohArea} as a filter field.
+	 * 
+	 * @param inMohArea
+	 *            {@link MohArea}
+	 */
+	public void setMohArea(final MohArea inMohArea) {
+		this.mohArea = inMohArea;
 	}
 
 }
