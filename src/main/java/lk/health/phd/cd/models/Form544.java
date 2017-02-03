@@ -95,6 +95,15 @@ public class Form544 implements Serializable {
 	@JoinColumn(name = "moh_area_id")
 	private MohArea mohArea;
 
+	@Column(name = "noti_by_unit_date", nullable = false)
+	private Date notificationByUnitDate;
+
+	@Column(name = "noti_to_moh_date", nullable = false)
+	private Date notificationToMohDate;
+
+	@Column(name = "remarks")
+	private String remarks;
+
 	/**
 	 * Getter for Id.
 	 * 
@@ -434,7 +443,7 @@ public class Form544 implements Serializable {
 	 * @param inWorkflow
 	 *            {@link Workflow}
 	 */
-	public void setWorkflow(Workflow inWorkflow) {
+	public void setWorkflow(final Workflow inWorkflow) {
 		this.workflow = inWorkflow;
 	}
 
@@ -453,8 +462,65 @@ public class Form544 implements Serializable {
 	 * @param inMohArea
 	 *            {@link MohArea}
 	 */
-	public void setMohArea(MohArea inMohArea) {
+	public void setMohArea(final MohArea inMohArea) {
 		this.mohArea = inMohArea;
+	}
+
+	/**
+	 * Getter for Date of notification by unit/ward
+	 * 
+	 * @return Date of notification by unit/ward
+	 */
+	public Date getNotificationByUnitDate() {
+		return notificationByUnitDate;
+	}
+
+	/**
+	 * Setter for Date of notification by unit/ward
+	 * 
+	 * @param inNotificationByUnitDate
+	 *            Date of notification by unit/ward
+	 */
+	public void setNotificationByUnitDate(final Date inNotificationByUnitDate) {
+		this.notificationByUnitDate = inNotificationByUnitDate;
+	}
+
+	/**
+	 * Getter for date of notification to MOH
+	 * 
+	 * @return Date of notification to MOH
+	 */
+	public Date getNotificationToMohDate() {
+		return notificationToMohDate;
+	}
+
+	/**
+	 * Setter for notification to MOH
+	 * 
+	 * @param inNotificationToMohDate
+	 *            Date of notification to MOH
+	 */
+	public void setNotificationToMohDate(final Date inNotificationToMohDate) {
+		this.notificationToMohDate = inNotificationToMohDate;
+	}
+
+	/**
+	 * Getter for remarks
+	 * 
+	 * @return remark statement
+	 */
+	public String getRemarks() {
+		return remarks;
+	}
+
+	/**
+	 * Setter for remarks
+	 * 
+	 * @param inRemarks
+	 *            Remark statement
+	 */
+	public void setRemarks(final String inRemarks) {
+		this.remarks = inRemarks;
 	}
 
 }
