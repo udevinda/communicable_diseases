@@ -22,6 +22,10 @@ public class Form544FilterDto {
 	private Date dateOfOnsetTo;
 	private Date dateOfAdmissionFrom;
 	private Date dateOfAdmissionTo;
+	private Date fromDateOfNotifyFromUnit;
+	private Date toDateOfNotifyFromUnit;
+	private Date fromDateOfNotifyToMoh;
+	private Date toDateOfNotifyToMoh;
 	private Long bhtNo;
 	private String ward;
 	private Integer ageFrom;
@@ -333,6 +337,84 @@ public class Form544FilterDto {
 	 */
 	public void setMohArea(final MohArea inMohArea) {
 		this.mohArea = inMohArea;
+	}
+
+	/**
+	 * Getter for from date of notification form Unit/Ward
+	 * 
+	 * @return {@link Date} of notification from Unit/Ward
+	 */
+	public Date getFromDateOfNotifyFromUnit() {
+		return fromDateOfNotifyFromUnit;
+	}
+
+	/**
+	 * Setter for from date of notification from Unit/Ward.
+	 * 
+	 * @param inFromDateOfNotifyFromUnit
+	 *            {@link Date} of notification from Unit/Ward
+	 */
+	public void setFromDateOfNotifyFromUnit(final Date inFromDateOfNotifyFromUnit) {
+		this.fromDateOfNotifyFromUnit = inFromDateOfNotifyFromUnit;
+	}
+
+	/**
+	 * Getter for to date of notification from Unit/Ward.
+	 * 
+	 * @return To {@link Date} of notification from Unit Ward.
+	 */
+	public Date getToDateOfNotifyFromUnit() {
+		return toDateOfNotifyFromUnit;
+	}
+
+	/**
+	 * Setter for to date of notification from Unit/Ward.
+	 * 
+	 * @param inToDateOfNotifyFromUnit
+	 *            To {@link Date} of notification from Unit/Ward.
+	 * 
+	 * 
+	 */
+	public void setToDateOfNotifyFromUnit(final Date inToDateOfNotifyFromUnit) {
+		this.toDateOfNotifyFromUnit = inToDateOfNotifyFromUnit;
+	}
+
+	/**
+	 * Getter for from {@link Date} of notification to MOH.
+	 * 
+	 * @return From {@link Date} of notification to MOH.
+	 */
+	public Date getFromDateOfNotifyToMoh() {
+		return fromDateOfNotifyToMoh;
+	}
+
+	/**
+	 * Setter for from date of notification to MOH.
+	 * 
+	 * @param inFromDateOfNotifyToMoh
+	 *            From {@link Date} of notification to MOH.
+	 */
+	public void setFromDateOfNotifyToMoh(final Date inFromDateOfNotifyToMoh) {
+		this.fromDateOfNotifyToMoh = inFromDateOfNotifyToMoh;
+	}
+
+	/**
+	 * Getter for to date of notification to MOH.
+	 * 
+	 * @return To {@link Date} of notification to MOH.
+	 */
+	public Date getToDateOfNotifyToMoh() {
+		return toDateOfNotifyToMoh;
+	}
+
+	/**
+	 * Setter for to {@link Date} of notification to MOH.
+	 * 
+	 * @param inToDateOfNotifyToMoh
+	 *            To {@link Date} of notification to MOH
+	 */
+	public void setToDateOfNotifyToMoh(final Date inToDateOfNotifyToMoh) {
+		this.toDateOfNotifyToMoh = inToDateOfNotifyToMoh;
 	}
 
 }

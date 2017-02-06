@@ -86,6 +86,18 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 		if (inForm544FilterDto.getMohArea() != null) {
 			criteria.add(Restrictions.eq("mohArea", inForm544FilterDto.getMohArea()));
 		}
+		if (inForm544FilterDto.getFromDateOfNotifyFromUnit() != null) {
+			criteria.add(Restrictions.ge("notificationByUnitDate", inForm544FilterDto.getFromDateOfNotifyFromUnit()));
+		}
+		if (inForm544FilterDto.getToDateOfNotifyFromUnit() != null) {
+			criteria.add(Restrictions.le("notificationByUnitDate", inForm544FilterDto.getToDateOfNotifyFromUnit()));
+		}
+		if (inForm544FilterDto.getFromDateOfNotifyToMoh() != null) {
+			criteria.add(Restrictions.ge("notificationToMohDate", inForm544FilterDto.getFromDateOfNotifyToMoh()));
+		}
+		if (inForm544FilterDto.getToDateOfNotifyToMoh() != null) {
+			criteria.add(Restrictions.le("notificationToMohDate", inForm544FilterDto.getToDateOfNotifyToMoh()));
+		}
 
 		criteria.setMaxResults(inLimit);
 		criteria.setFirstResult(inOffset);
@@ -145,6 +157,18 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 		}
 		if (inForm544FilterDto.getMohArea() != null) {
 			criteria.add(Restrictions.eq("mohArea", inForm544FilterDto.getMohArea()));
+		}
+		if (inForm544FilterDto.getFromDateOfNotifyFromUnit() != null) {
+			criteria.add(Restrictions.ge("notificationByUnitDate", inForm544FilterDto.getFromDateOfNotifyFromUnit()));
+		}
+		if (inForm544FilterDto.getToDateOfNotifyFromUnit() != null) {
+			criteria.add(Restrictions.le("notificationByUnitDate", inForm544FilterDto.getToDateOfNotifyFromUnit()));
+		}
+		if (inForm544FilterDto.getFromDateOfNotifyToMoh() != null) {
+			criteria.add(Restrictions.ge("notificationToMohDate", inForm544FilterDto.getFromDateOfNotifyToMoh()));
+		}
+		if (inForm544FilterDto.getToDateOfNotifyToMoh() != null) {
+			criteria.add(Restrictions.le("notificationToMohDate", inForm544FilterDto.getToDateOfNotifyToMoh()));
 		}
 
 		return (Long) criteria.setProjection(Projections.rowCount()).uniqueResult();

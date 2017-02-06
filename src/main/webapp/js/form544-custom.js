@@ -37,6 +37,42 @@ $(function() {
 });
 
 $(function() {
+	$("#notifyByUnitDate").datepicker({
+		dateFormat : 'yy-mm-dd'
+	});
+});
+
+$(function() {
+	$("#notifyToMohDate").datepicker({
+		dateFormat : 'yy-mm-dd'
+	});
+});
+
+$(function() {
+	$("#notifyByUnitFromDate").datepicker({
+		dateFormat : 'yy-mm-dd'
+	});
+});
+
+$(function() {
+	$("#notifyByUnitToDate").datepicker({
+		dateFormat : 'yy-mm-dd'
+	});
+});
+
+$(function() {
+	$("#notifyToMohFromDate").datepicker({
+		dateFormat : 'yy-mm-dd'
+	});
+});
+
+$(function() {
+	$("#notifyToMohToDate").datepicker({
+		dateFormat : 'yy-mm-dd'
+	});
+});
+
+$(function() {
 	$("#footer").load("/communicable-disease/page/footer");
 });
 
@@ -75,6 +111,10 @@ function doSearch(pageGenerationOn) {
 					"ageFrom" : $("#ageFrom").val(),
 					"ageTo" : $("#ageTo").val(),
 					"mohArea" : $("#mohArea").val(),
+					"notifyByUnitFromDate" : $("#notifyByUnitFromDate").val(),
+					"notifyByUnitToDate" : $("#notifyByUnitToDate").val(),
+					"notifyToMohFromDate" : $("#notifyToMohFromDate").val(),
+					"notifyToMohToDate" : $("#notifyToMohToDate").val(),
 					"offset" : offset,
 					"limit" : $("#limit").val(),
 				},

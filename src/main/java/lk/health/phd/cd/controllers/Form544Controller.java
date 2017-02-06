@@ -102,6 +102,12 @@ public class Form544Controller {
 	 *            notifier status
 	 * @param inMohArea
 	 *            MOH area of the institute
+	 * @param inNotifyByUnitDate
+	 *            Date of notification from Ward/Unit
+	 * @param inNotifyToMohDate
+	 *            Date of notified to MOH
+	 * @param inRemarks
+	 *            Any remarks
 	 * @return form544_view.html
 	 */
 	@RequestMapping(value = "/submit", method = RequestMethod.POST)
@@ -117,7 +123,10 @@ public class Form544Controller {
 			@RequestParam("patientsHomePhoneNo") final String inPatientsHomePhoneNo,
 			@RequestParam("notifierName") final String inNotifierName,
 			@RequestParam("notifierStatus") final String inNotifierStatus,
-			@RequestParam("mohArea") final Long inMohArea, Model model) {
+			@RequestParam("mohArea") final Long inMohArea,
+			@RequestParam("notifyByUnitDate") final String inNotifyByUnitDate,
+			@RequestParam("notifyToMohDate") final String inNotifyToMohDate,
+			@RequestParam("remarks") final String inRemarks, Model model) {
 
 		logger.info("Hit the /Form544/submit ");
 		logger.info("Submitted user with NIC " + inSerialNo);
@@ -141,6 +150,9 @@ public class Form544Controller {
 			form544.setSystemNotifiedDate(Util.getSystemTime());
 			form544.setWard(inWard);
 			form544.setMohArea(getMohArea(inMohArea));
+			form544.setNotificationByUnitDate(Util.parseDate(inNotifyByUnitDate, "yyyy-MM-dd"));
+			form544.setNotificationToMohDate(Util.parseDate(inNotifyToMohDate, "yyyy-MM-dd"));
+			form544.setRemarks(inRemarks);
 
 			// TODO Need to do backend validation
 
@@ -229,7 +241,10 @@ public class Form544Controller {
 			@RequestParam("patientHomeAddress") final String inPatientHomeAddress,
 			@RequestParam("patientsHomePhoneNo") final String inPatientsHomePhoneNo,
 			@RequestParam("notifierName") final String inNotifierName,
-			@RequestParam("notifierStatus") final String inNotifierStatus, @RequestParam("mohArea") Long inMohArea) {
+			@RequestParam("notifierStatus") final String inNotifierStatus, @RequestParam("mohArea") Long inMohArea,
+			@RequestParam("notifyByUnitDate") final String inNotifyByUnitDate,
+			@RequestParam("notifyToMohDate") final String inNotifyToMohDate,
+			@RequestParam("remarks") final String inRemarks) {
 
 		logger.info("Hit the /Form544/update ");
 		logger.info("Request update for Form544 ID " + inForm544Id);
@@ -255,6 +270,9 @@ public class Form544Controller {
 			form544.setSystemNotifiedDate(Util.getSystemTime());
 			form544.setWard(inWard);
 			form544.setMohArea(getMohArea(inMohArea));
+			form544.setNotificationByUnitDate(Util.parseDate(inNotifyByUnitDate, "yyyy-MM-dd"));
+			form544.setNotificationToMohDate(Util.parseDate(inNotifyToMohDate, "yyyy-MM-dd"));
+			form544.setRemarks(inRemarks);
 
 			Form544 updatedForm544 = form544Service.updateForm544ById(inForm544Id, form544);
 			modelMap.put("form544Id", updatedForm544.getId());
@@ -319,8 +337,12 @@ public class Form544Controller {
 			@RequestParam("dateOfAdmissionFrom") final String inDateOfAdmissionFrom,
 			@RequestParam("dateOfAdmissionTo") final String inDateOfAdmissionTo,
 			@RequestParam("ageFrom") final Integer inAgeFrom, @RequestParam("ageTo") final Integer inAgeTo,
-			@RequestParam("mohArea") final Long inMohArea, @RequestParam("offset") final Integer inOffset,
-			@RequestParam("limit") final Integer inLimit) {
+			@RequestParam("mohArea") final Long inMohArea,
+			@RequestParam("notifyByUnitFromDate") final String inNotifyByUnitFromDate,
+			@RequestParam("notifyByUnitToDate") final String inNotifyByUnitToDate,
+			@RequestParam("notifyToMohFromDate") final String inNotifyToMohFromDate,
+			@RequestParam("notifyToMohToDate") final String inNotifyToMohToDate,
+			@RequestParam("offset") final Integer inOffset, @RequestParam("limit") final Integer inLimit) {
 
 		logger.info("Hit the /Form544/filterBy ");
 
@@ -340,6 +362,10 @@ public class Form544Controller {
 			form544FilterDto.setDateOfAdmissionTo(Util.parseDate(inDateOfAdmissionTo, "yyyy-MM-dd"));
 			form544FilterDto.setDateOfOnsetFrom(Util.parseDate(inDateOfOnsetFrom, "yyyy-MM-dd"));
 			form544FilterDto.setDateOfOnsetTo(Util.parseDate(inDateOfOnsetTo, "yyyy-MM-dd"));
+			form544FilterDto.setFromDateOfNotifyFromUnit(Util.parseDate(inNotifyByUnitFromDate, "yyyy-MM-dd"));
+			form544FilterDto.setToDateOfNotifyFromUnit(Util.parseDate(inNotifyByUnitToDate, "yyyy-MM-dd"));
+			form544FilterDto.setFromDateOfNotifyToMoh(Util.parseDate(inNotifyToMohFromDate, "yyyy-MM-dd"));
+			form544FilterDto.setToDateOfNotifyToMoh(Util.parseDate(inNotifyToMohToDate, "yyyy-MM-dd"));
 			form544FilterDto.setMohArea(getMohArea(inMohArea));
 
 			List<Form544> form544List = form544Dao.searchForm544BySearchFields(form544FilterDto, inOffset, inLimit);

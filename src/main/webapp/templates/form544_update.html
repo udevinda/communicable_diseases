@@ -122,6 +122,20 @@
 						th:value="${form544Object.dateOfAdmission}">
 				</div>
 				<div class="form-group">
+					<label for="notifyByUnitDate">Date of Notification from
+						Unit/Ward:</label> <input type="text" class="form-control"
+						id="notifyByUnitDate" name="notifyByUnitDate"
+						placeholder="Select date of Notification from Unit/Ward"
+						th:value="${form544Object.notificationByUnitDate}">
+				</div>
+				<div class="form-group">
+					<label for="notifyToMohDate">Date of Notification to MOH:</label> <input
+						type="text" class="form-control" id="notifyToMohDate"
+						name="notifyToMohDate"
+						placeholder="Select date of Notification to MOH"
+						th:value="${form544Object.notificationToMohDate}">
+				</div>
+				<div class="form-group">
 					<label for="notifier_name">Notifier Name:</label> <input
 						type="text" class="form-control" id="notifierName"
 						name="notifierName" placeholder="Enter Name of the Notifier"
@@ -132,6 +146,12 @@
 						type="text" class="form-control" id="notifierStatus"
 						name="notifierStatus" placeholder="Enter Status of the Notifier"
 						th:value="${form544Object.notifierStatus}">
+				</div>
+				<div class="form-group">
+					<label for="remarks">Remarks:</label> <input type="text"
+						class="form-control" id="remarks" name="remarks"
+						placeholder="Enter Remarks" maxlength="250"
+						th:value="${form544Object.remarks}">
 				</div>
 				<div>
 					<button type="submit" class="btn btn-success pull-right">Update</button>
