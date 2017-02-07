@@ -51,6 +51,8 @@ public class Form544ServiceImpl implements Form544Service {
 		form544.setSystemNotifiedDate(inForm544.getSystemNotifiedDate());
 		form544.setWard(inForm544.getWard());
 		form544.setMohArea(inForm544.getMohArea());
+		form544.setNotificationByUnitDate(inForm544.getNotificationByUnitDate());
+		form544.setNotificationToMohDate(inForm544.getNotificationToMohDate());
 
 		form544Dao.merge(form544);
 		logger.debug("Form544 ID : " + form544.getId() + " updated and persisted to DB.");
