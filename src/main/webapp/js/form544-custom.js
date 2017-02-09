@@ -73,6 +73,12 @@ $(function() {
 });
 
 $(function() {
+	$("#smpleCollectionDate").datepicker({
+		dateFormat : 'yy-mm-dd'
+	});
+});
+
+$(function() {
 	$("#footer").load("/communicable-disease/page/footer");
 });
 

@@ -1,8 +1,6 @@
 package lk.health.phd.cd.controllers;
 
-import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import org.json.simple.JSONObject;
@@ -16,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
+import lk.health.phd.cd.dao.DiseaseConfirmationTestDao;
 import lk.health.phd.cd.dao.DiseaseDao;
 import lk.health.phd.cd.dao.DistrictDao;
 import lk.health.phd.cd.dao.Form544Dao;
@@ -25,6 +23,7 @@ import lk.health.phd.cd.dao.MohAreaDao;
 import lk.health.phd.cd.dao.WorkflowDao;
 import lk.health.phd.cd.dto.Form544FilterDto;
 import lk.health.phd.cd.models.Disease;
+import lk.health.phd.cd.models.DiseaseConfirmationTest;
 import lk.health.phd.cd.models.Form544;
 import lk.health.phd.cd.models.MohArea;
 import lk.health.phd.cd.services.Form544Service;
@@ -44,16 +43,13 @@ import lk.health.phd.util.Util;
 public class Form544Controller {
 
 	@Autowired
-	private WorkflowService workflowService;
-
-	@Autowired
 	private DiseaseDao diseaeDao;
 
 	@Autowired
 	private Form544Dao form544Dao;
 
 	@Autowired
-	private WorkflowDao workflowDao;
+	private DiseaseConfirmationTestDao diseaseConfirmationTestDao;
 
 	@Autowired
 	private DistrictDao districtDao;
@@ -126,7 +122,10 @@ public class Form544Controller {
 			@RequestParam("mohArea") final Long inMohArea,
 			@RequestParam("notifyByUnitDate") final String inNotifyByUnitDate,
 			@RequestParam("notifyToMohDate") final String inNotifyToMohDate,
-			@RequestParam("remarks") final String inRemarks, Model model) {
+			@RequestParam("remarks") final String inRemarks, @RequestParam("testName") final String inTestName,
+			@RequestParam("smpleCollectionDate") final String inSampleCollectiondate,
+			@RequestParam("labName") final String inLabName, @RequestParam("testResult") final String inTestResult,
+			Model model) {
 
 		logger.info("Hit the /Form544/submit ");
 		logger.info("Submitted user with NIC " + inSerialNo);
@@ -154,13 +153,20 @@ public class Form544Controller {
 			form544.setNotificationToMohDate(Util.parseDate(inNotifyToMohDate, "yyyy-MM-dd"));
 			form544.setRemarks(inRemarks);
 
+			DiseaseConfirmationTest diseaseConfirmationTest = new DiseaseConfirmationTest();
+			diseaseConfirmationTest.setNameOfLab(inLabName);
+			diseaseConfirmationTest.setResult(inTestResult);
+			diseaseConfirmationTest.setSampleCollectionDate(Util.parseDate(inSampleCollectiondate, "yyyy-MM-dd"));
+			diseaseConfirmationTest.setTestName(inTestName);
+
 			// TODO Need to do backend validation
 
-			Long workflowId = workflowService.includeForm544(null, form544);
-			Form544 submittedForm544 = form544Dao
-					.findForm544ById(workflowDao.findWorkflowById(workflowId).getForm544().getId());
+			Form544 submittedForm544 = form544Service.createForm544(form544, diseaseConfirmationTest);
+			DiseaseConfirmationTest submittedDiseaseConfirmationTest = diseaseConfirmationTestDao
+					.getDiseaseConfirmationTestByForm544Id(submittedForm544.getId());
 
 			model.addAttribute("form544Object", submittedForm544);
+			model.addAttribute("diseaseConfirmationTestObject", submittedDiseaseConfirmationTest);
 
 		} catch (Exception e) {
 			logger.error("Error occured " + e);
@@ -183,9 +189,12 @@ public class Form544Controller {
 		logger.info("Request view for Form544 ID " + inform544Id);
 
 		Form544 form544 = form544Dao.findForm544ById(inform544Id);
+		DiseaseConfirmationTest diseaseConfirmationTest = diseaseConfirmationTestDao
+				.getDiseaseConfirmationTestByForm544Id(inform544Id);
 		logger.info("Retrieved details for patient " + form544.getPatientName());
 
 		model.addAttribute("form544Object", form544);
+		model.addAttribute("diseaseConfirmationTestObject", diseaseConfirmationTest);
 
 		return "form544_view";
 	}
@@ -244,7 +253,9 @@ public class Form544Controller {
 			@RequestParam("notifierStatus") final String inNotifierStatus, @RequestParam("mohArea") Long inMohArea,
 			@RequestParam("notifyByUnitDate") final String inNotifyByUnitDate,
 			@RequestParam("notifyToMohDate") final String inNotifyToMohDate,
-			@RequestParam("remarks") final String inRemarks) {
+			@RequestParam("remarks") final String inRemarks, @RequestParam("testName") final String inTestName,
+			@RequestParam("smpleCollectionDate") final String inSampleCollectiondate,
+			@RequestParam("labName") final String inLabName, @RequestParam("testResult") final String inTestResult) {
 
 		logger.info("Hit the /Form544/update ");
 		logger.info("Request update for Form544 ID " + inForm544Id);
@@ -274,8 +285,19 @@ public class Form544Controller {
 			form544.setNotificationToMohDate(Util.parseDate(inNotifyToMohDate, "yyyy-MM-dd"));
 			form544.setRemarks(inRemarks);
 
-			Form544 updatedForm544 = form544Service.updateForm544ById(inForm544Id, form544);
+			DiseaseConfirmationTest diseaseConfirmationTest = new DiseaseConfirmationTest();
+			diseaseConfirmationTest.setNameOfLab(inLabName);
+			diseaseConfirmationTest.setResult(inTestResult);
+			diseaseConfirmationTest.setSampleCollectionDate(Util.parseDate(inSampleCollectiondate, "yyyy-MM-dd"));
+			diseaseConfirmationTest.setTestName(inTestName);
+
+			Form544 updatedForm544 = form544Service.updateForm544ById(inForm544Id, form544, diseaseConfirmationTest);
+			DiseaseConfirmationTest updatedDiseaseConfirmationTest = diseaseConfirmationTestDao
+					.getDiseaseConfirmationTestByForm544Id(updatedForm544.getId());
+
 			modelMap.put("form544Id", updatedForm544.getId());
+			modelMap.put("diseaseConfirmationTestObj", updatedDiseaseConfirmationTest);
+
 			logger.info("Form544 updated system time " + updatedForm544.getSystemNotifiedDate());
 		} catch (Exception e) {
 			logger.info("An error occured when updating Form544");
@@ -454,10 +476,14 @@ public class Form544Controller {
 		sexList.add(Form544.Sex.FEMALE);
 		sexList.add(Form544.Sex.OTHER);
 
+		DiseaseConfirmationTest updatedDiseaseConfirmationTest = diseaseConfirmationTestDao
+				.getDiseaseConfirmationTestByForm544Id(inForm544Id);
+
 		model.addAttribute("sexList", sexList);
 		model.addAttribute("diseaseList", diseaeDao.getAllDiseases());
 		model.addAttribute("districtList", districtDao.getAllDistrict());
 		model.addAttribute("form544Object", form544Dao.findForm544ById(inForm544Id));
+		model.addAttribute("diseaseConfirmationTestObj", updatedDiseaseConfirmationTest);
 
 		return "form544_update";
 	}

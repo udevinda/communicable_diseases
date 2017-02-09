@@ -235,6 +235,62 @@
 					</div>
 				</div>
 			</div>
+			<div class="control-group">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<label class="control-label">Disease Confirmation Test
+							Name</label>
+					</div>
+					<div class="panel-body">
+						<div class="controls readonly"
+							th:text="${diseaseConfirmationTestObject.testName}"></div>
+					</div>
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<label class="control-label">Sample Collection Date</label>
+					</div>
+					<div class="panel-body">
+						<div class="controls readonly"
+							th:text="${diseaseConfirmationTestObject.sampleCollectionDate}"></div>
+					</div>
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<label class="control-label">Name of Lab</label>
+					</div>
+					<div class="panel-body">
+						<div class="controls readonly"
+							th:text="${diseaseConfirmationTestObject.nameOfLab}"></div>
+					</div>
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<label class="control-label">Disease Confirmation Test
+							Result</label>
+					</div>
+					<div class="panel-body">
+						<div class="controls readonly"
+							th:text="${diseaseConfirmationTestObject.result}"></div>
+					</div>
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<label class="control-label">Remarks</label>
+					</div>
+					<div class="panel-body">
+						<div class="controls readonly" th:text="${form544Object.remarks}"></div>
+					</div>
+				</div>
+			</div>
 			<div>
 				<a th:href="@{'/Form544/update_view?id=' + ${form544Object.id}}"><button
 						type="submit" class="btn btn-success pull-right"

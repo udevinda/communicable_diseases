@@ -148,10 +148,36 @@
 						th:value="${form544Object.notifierStatus}">
 				</div>
 				<div class="form-group">
-					<label for="remarks">Remarks:</label> <input type="text"
-						class="form-control" id="remarks" name="remarks"
+					<label for="testName">Name of Test:</label> <input type="text"
+						class="form-control" id="testName" name="testName"
+						placeholder="Enter Name of Test" maxlength="250"
+						th:value="${diseaseConfirmationTestObj.testName}">
+				</div>
+				<div class="form-group">
+					<label for="smpleCollectionDate">Sample Collection Date:</label> <input
+						type="text" class="form-control" id="smpleCollectionDate"
+						name="smpleCollectionDate"
+						placeholder="Select Sample Collection Date"
+						th:value="${diseaseConfirmationTestObj.sampleCollectionDate}">
+				</div>
+				<div class="form-group">
+					<label for="labName">Name of Lab:</label> <input type="text"
+						class="form-control" id="labName" name="labName"
+						placeholder="Enter Name of Lab" maxlength="250"
+						th:value="${diseaseConfirmationTestObj.nameOfLab}">
+				</div>
+				<div class="form-group">
+					<label for="testResult">Test Results:</label>
+					<textarea class="form-control" id="testResult" name="testResult"
+						placeholder="Enter Test Results" maxlength="250"
+						th:text="${diseaseConfirmationTestObj.result}"></textarea>
+				</div>
+				<div class="form-group">
+					<label for="remarks">Remarks:</label>
+					<textarea class="form-control" id="remarks" name="remarks"
 						placeholder="Enter Remarks" maxlength="250"
-						th:value="${form544Object.remarks}">
+						th:text="${form544Object.remarks}"></textarea>
+
 				</div>
 				<div>
 					<button type="submit" class="btn btn-success pull-right">Update</button>

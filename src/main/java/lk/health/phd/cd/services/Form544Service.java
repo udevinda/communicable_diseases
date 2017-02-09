@@ -1,7 +1,6 @@
 package lk.health.phd.cd.services;
 
-import org.springframework.stereotype.Service;
-
+import lk.health.phd.cd.models.DiseaseConfirmationTest;
 import lk.health.phd.cd.models.Form544;
 
 /**
@@ -18,7 +17,19 @@ public interface Form544Service {
 	 *            Id of the form544 record.
 	 * @param inForm544
 	 *            object of form544.
+	 * @param inDiseaseConfirmationTest
+	 *            object of {@link DiseaseConfirmationTest}
 	 * @return {@link Form544}
 	 */
-	public Form544 updateForm544ById(final Long inForm544Id, final Form544 inForm544);
+	public Form544 updateForm544ById(final Long inForm544Id, final Form544 inForm544,
+			final DiseaseConfirmationTest inDiseaseConfirmationTest);
+
+	/**
+	 * Create {@link Form544}
+	 * 
+	 * @param inForm544
+	 *            {@link Form544} object
+	 * @return Persisted {@link Form544}
+	 */
+	public Form544 createForm544(final Form544 inForm544, final DiseaseConfirmationTest inDiseaseConfirmationTest);
 }
