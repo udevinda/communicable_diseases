@@ -146,7 +146,7 @@ public class Form544Controller {
 			form544.setPatientsHomePhoneNo(inPatientsHomePhoneNo);
 			form544.setPeaditiricPatientsGurdianName(inPeaditiricPatientsGurdianName);
 			form544.setSex(inSex);
-			form544.setSystemNotifiedDate(Util.getSystemTime());
+			form544.setSystemNotifiedDate(Util.parseDate(inNotifyToMohDate, "yyyy-MM-dd"));
 			form544.setWard(inWard);
 			form544.setMohArea(getMohArea(inMohArea));
 			form544.setNotificationByUnitDate(Util.parseDate(inNotifyByUnitDate, "yyyy-MM-dd"));
@@ -278,7 +278,7 @@ public class Form544Controller {
 			form544.setPatientsHomePhoneNo(inPatientsHomePhoneNo);
 			form544.setPeaditiricPatientsGurdianName(inPeaditiricPatientsGurdianName);
 			form544.setSex(inSex);
-			form544.setSystemNotifiedDate(Util.getSystemTime());
+			form544.setSystemNotifiedDate(Util.parseDate(inNotifyToMohDate, "yyyy-MM-dd"));
 			form544.setWard(inWard);
 			form544.setMohArea(getMohArea(inMohArea));
 			form544.setNotificationByUnitDate(Util.parseDate(inNotifyByUnitDate, "yyyy-MM-dd"));
@@ -429,6 +429,7 @@ public class Form544Controller {
 		model.addAttribute("sexList", sexList);
 		model.addAttribute("diseaseList", diseaeDao.getAllDiseases());
 		model.addAttribute("districtList", districtDao.getAllDistrict());
+		model.addAttribute("serialNo", form544Service.generateForm544SerialNo());
 
 		return "form544_create";
 	}

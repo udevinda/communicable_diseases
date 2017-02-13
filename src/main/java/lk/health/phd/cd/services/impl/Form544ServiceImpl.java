@@ -98,4 +98,14 @@ public class Form544ServiceImpl implements Form544Service {
 		return persistedForm544;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	public String generateForm544SerialNo() {
+		String serialNoMonthPart = form544Dao.getForm544CountForCurrentMonth() + "";
+		String serialNoYearPart = form544Dao.getForm544CountForCurrentYear() + "";
+
+		return serialNoMonthPart + "/" + serialNoYearPart;
+	}
+
 }

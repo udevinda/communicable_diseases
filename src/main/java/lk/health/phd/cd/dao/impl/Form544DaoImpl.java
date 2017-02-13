@@ -1,5 +1,7 @@
 package lk.health.phd.cd.dao.impl;
 
+import java.text.ParseException;
+import java.util.Calendar;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import lk.health.phd.cd.dao.Form544Dao;
 import lk.health.phd.cd.dto.Form544FilterDto;
 import lk.health.phd.cd.models.Form544;
+import lk.health.phd.util.Util;
 
 /**
  * 
@@ -172,6 +175,55 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 		}
 
 		return (Long) criteria.setProjection(Projections.rowCount()).uniqueResult();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public Long getForm544CountForCurrentMonth() {
+
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(Util.getSystemTime());
+
+		String lowerDateLimit = cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1) + "-" + 1;
+		String upperDateLimit = cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1) + "-" + 31;
+
+		Session session = getCurrentSession();
+
+		Criteria criteria = session.createCriteria(Form544.class);
+
+		try {
+			criteria.add(Restrictions.ge("systemNotifiedDate", Util.parseDate(lowerDateLimit, "yyyy-MM-dd")));
+			criteria.add(Restrictions.le("systemNotifiedDate", Util.parseDate(upperDateLimit, "yyyy-MM-dd")));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return (Long) criteria.setProjection(Projections.rowCount()).uniqueResult();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public Long getForm544CountForCurrentYear() {
+
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(Util.getSystemTime());
+
+		String lowerDateLimit = cal.get(Calendar.YEAR) + "-" + 1 + "-" + 1;
+		String upperDateLimit = cal.get(Calendar.YEAR) + "-" + 12 + "-" + 31;
+
+		Session session = getCurrentSession();
+
+		Criteria criteria = session.createCriteria(Form544.class);
+
+		try {
+			criteria.add(Restrictions.ge("systemNotifiedDate", Util.parseDate(lowerDateLimit, "yyyy-MM-dd")));
+			criteria.add(Restrictions.le("systemNotifiedDate", Util.parseDate(upperDateLimit, "yyyy-MM-dd")));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return (Long) criteria.setProjection(Projections.rowCount()).uniqueResult();
+
 	}
 
 }

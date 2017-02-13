@@ -47,4 +47,18 @@ public interface Form544Dao extends UniversalDao<Form544> {
 	 * @return Count of total records.
 	 */
 	public Long searchCountForm544BySearchFields(final Form544FilterDto inForm544FilterDto);
+
+	/**
+	 * Get the total reported {@link Form544} count for current month.
+	 * 
+	 * @return Returns the total count of {@link Form544} for current month.
+	 */
+	public Long getForm544CountForCurrentMonth();
+
+	/**
+	 * Get the total reported {@link Form544} count for current year.
+	 * 
+	 * @return Returns the total count of {@link Form544} for current year.
+	 */
+	public Long getForm544CountForCurrentYear();
 }

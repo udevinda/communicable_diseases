@@ -32,4 +32,13 @@ public interface Form544Service {
 	 * @return Persisted {@link Form544}
 	 */
 	public Form544 createForm544(final Form544 inForm544, final DiseaseConfirmationTest inDiseaseConfirmationTest);
+
+	/**
+	 * Generate {@link Form544} serial number as
+	 * total_count_of_form544_for_current_month/
+	 * total_count_of_form544_for_current_year
+	 * 
+	 * @return Returns the form544 serial number as a string
+	 */
+	public String generateForm544SerialNo();
 }
