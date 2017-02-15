@@ -36,7 +36,7 @@ CREATE TABLE `disease` (
 
 LOCK TABLES `disease` WRITE;
 /*!40000 ALTER TABLE `disease` DISABLE KEYS */;
-INSERT INTO `disease` VALUES (1,'Cholera','CHO'),(2,'Plague','PL'),(3,'Yellow Fever','YF'),(4,'Acute Poliomyclitis','AP'),(5,'Chicken pox','CP'),(6,'Dengue Fever','DF'),(7,'Diptheria','DPT'),(8,'Dysentary','DYS'),(9,'Encephalitis','EN'),(10,'Enteric Fever','EF'),(11,'Food Poisonning','FP'),(12,'Human Rabies','HR'),(13,'Leptospirosis','LE'),(14,'Malaria','MA'),(15,'Measles','ME'),(16,'Meningitis','MEN'),(17,'Mumps','MU'),(18,'Rubella','RU'),(19,'Simple Continued Fever of over 7days or more','SCF'),(20,'Tetanus','TE'),(21,'Neonatal Tetanus','NT'),(22,'Typhus Fever','TF'),(23,'Viral Hepatitis','VH'),(24,'Tuberculosis','TB');
+INSERT INTO `disease` VALUES (1,'Cholera','CHO'),(2,'Plague','PL'),(3,'Yellow Fever','YF'),(4,'Acute Poliomyclitis','AP'),(5,'Chicken pox','CP'),(6,'Dengue Fever','DF'),(7,'Diptheria','DPT'),(8,'Dysentary','DYS'),(9,'Encephalitis','EN'),(10,'Enteric Fever','EF'),(11,'Food Poisonning','FP'),(12,'Human Rabies','HR'),(13,'Leptospirosis','LE'),(14,'Malaria','MA'),(15,'Measles','ME'),(16,'Meningitis','MEN'),(17,'Mumps','MU'),(18,'Rubella','RU'),(19,'Simple Continued Fever of over 7days or more','SCF'),(20,'Tetanus','TE'),(21,'Neonatal Tetanus','NT'),(22,'Typhus Fever','TF'),(23,'Viral Hepatitis','VH'),(24,'Tuberculosis','TB'),(25,'Influensa H1N1','INF'),(26,'Dengue Fever','DF'),(27,'Dengue Hemorogic Fever','DHF'),(28,'Dengue Shock Syndrome','DSS');
 /*!40000 ALTER TABLE `disease` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
