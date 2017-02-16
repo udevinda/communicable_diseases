@@ -71,13 +71,13 @@
 					<div class="controls readonly">
 						<span class="age-view-headings">Year :</span> <span
 							th:with="year=${form544Object.age}/365"
-							th:text="${#numbers.formatDecimal(year, 0, 0)}"></span> <span
+							th:text="${T(Math).floor(year)}"></span> <span
 							class="age-view-headings" style="padding-left: 100px">Month
 							: </span><span th:with="month=(${form544Object.age}%365)/30"
-							th:text="${#numbers.formatDecimal(month, 0, 0)}"></span> <span
+							th:text="${T(Math).floor(month)}"></span> <span
 							class="age-view-headings" style="padding-left: 100px">Day
 							: </span><span th:with="day=((${form544Object.age}%365)%30)"
-							th:text="${#numbers.formatDecimal(day, 0, 0)}"></span>
+							th:text="${T(Math).floor(day)}"></span>
 					</div>
 				</div>
 			</div>
