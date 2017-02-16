@@ -296,19 +296,19 @@ public class Form544 implements Serializable {
 	}
 
 	/**
-	 * Getter for patient age.
+	 * Getter for patient age (age is in days).
 	 * 
-	 * @return
+	 * @return number of days
 	 */
 	public Integer getAge() {
 		return age;
 	}
 
 	/**
-	 * Setter for patient age.
+	 * Setter for patient age (age in days).
 	 * 
 	 * @param inAge
-	 *            age
+	 *            number of days
 	 */
 	public void setAge(final Integer inAge) {
 		this.age = inAge;

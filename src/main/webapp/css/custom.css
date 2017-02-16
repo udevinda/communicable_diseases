@@ -22,3 +22,11 @@
 .pages-outer-container-div {
 	float: right
 }
+
+input[data-readonly] {
+	pointer-events: none;
+}
+
+.age-view-headings {
+	font-weight: bold;
+}

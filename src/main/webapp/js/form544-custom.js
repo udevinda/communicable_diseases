@@ -232,6 +232,18 @@ function getMohAreaByDistrictId(districtId) {
 	});
 }
 
+function composeAge() {
+	var age = $("#ageYear").val() * 365 + $("#ageMonth").val() * 30
+			+ $("#ageDay").val() * 1;
+
+	$("#age").val(age);
+
+	if ($("#age").val() == 0) {
+		$("#age").val("");
+	}
+
+}
+
 $(document).ready(function() {
 
 	// Following default set should be removed or changed according to target
