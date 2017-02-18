@@ -38,7 +38,7 @@ CREATE TABLE `moh_area` (
 
 LOCK TABLES `moh_area` WRITE;
 /*!40000 ALTER TABLE `moh_area` DISABLE KEYS */;
-INSERT INTO `moh_area` VALUES (1,'Matale',16),(2,'Matale Municiple Council',16),(3,'Ukuwela',16),(4,'Rattota',16),(5,'Ambanganga Korale',16),(6,'Yatawatta',16),(7,'Galewela',16),(8,'Naula',16),(9,'Pallepola',16),(10,'Dambulla',16),(11,'Dambulla Municiple Council',16),(12,'Laggala/Pallegama',16),(13,'Wilgamuwa',16);
+INSERT INTO `moh_area` VALUES (1,'Matale',16),(2,'Matale Municiple Council',16),(3,'Ukuwela',16),(4,'Rattota',16),(5,'Ambanganga Korale',16),(6,'Yatawatta',16),(7,'Galewela',16),(8,'Naula',16),(9,'Pallepola',16),(10,'Dambulla',16),(11,'Dambulla Municiple Council',16),(12,'Laggala/Pallegama',16),(13,'Wilgamuwa',16),(14,'Akurana',16),(15,'Kakirawa',16),(16,'Poojapitiya',16);
 /*!40000 ALTER TABLE `moh_area` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
