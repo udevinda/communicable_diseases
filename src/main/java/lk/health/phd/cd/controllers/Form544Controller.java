@@ -502,6 +502,15 @@ public class Form544Controller {
 		return mohAreaDao.getMohAreaByDistrictId(districtId);
 	}
 
+	@RequestMapping(value = "diseaseVsMohArea", method = RequestMethod.GET)
+	@ResponseBody
+	public List getDiseaseVsMohAreaSummary(@RequestParam("district_id") final Long districtId) {
+//		MohArea mohArea = getMohArea(inMohAreaId);
+//		return form544Dao.getEachDiseaseCountForGivenMohArea(mohArea);
+		
+		return form544Service.generateMohAreaVaDiseaseSummary(districtId);
+	}
+
 	/**
 	 * Return the disease object by ID.
 	 * 

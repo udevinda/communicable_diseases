@@ -9,11 +9,14 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
 
 import lk.health.phd.cd.dao.Form544Dao;
 import lk.health.phd.cd.dto.Form544FilterDto;
+import lk.health.phd.cd.models.Disease;
 import lk.health.phd.cd.models.Form544;
+import lk.health.phd.cd.models.MohArea;
 import lk.health.phd.util.Util;
 
 /**
@@ -224,6 +227,20 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 		}
 		return (Long) criteria.setProjection(Projections.rowCount()).uniqueResult();
 
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public List getEachDiseaseCountForGivenMohArea(final MohArea inMohArea) {
+		Session session = getCurrentSession();
+
+		Criteria criteria = session.createCriteria(Form544.class);
+		criteria.add(Restrictions.eq("mohArea", inMohArea));
+		return criteria
+				.setProjection(Projections.projectionList().add(Projections.groupProperty("disease"), "disease")
+						.add(Projections.count("id"), "count"))
+				.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
 	}
 
 }

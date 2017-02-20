@@ -3,7 +3,9 @@ package lk.health.phd.cd.dao;
 import java.util.List;
 
 import lk.health.phd.cd.dto.Form544FilterDto;
+import lk.health.phd.cd.models.Disease;
 import lk.health.phd.cd.models.Form544;
+import lk.health.phd.cd.models.MohArea;
 
 /**
  * DAO class for Form544 entity.
@@ -61,4 +63,13 @@ public interface Form544Dao extends UniversalDao<Form544> {
 	 * @return Returns the total count of {@link Form544} for current year.
 	 */
 	public Long getForm544CountForCurrentYear();
+
+	/**
+	 * Get {@link Disease} group count for a given {@link MohArea}
+	 * 
+	 * @param inMohArea
+	 *            {@link MohArea}
+	 * @return List of Disease and its count pairs
+	 */
+	public List getEachDiseaseCountForGivenMohArea(final MohArea inMohArea);
 }

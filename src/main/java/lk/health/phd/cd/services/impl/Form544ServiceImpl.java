@@ -1,16 +1,33 @@
 package lk.health.phd.cd.services.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+
 import lk.health.phd.cd.dao.DiseaseConfirmationTestDao;
 import lk.health.phd.cd.dao.Form544Dao;
+import lk.health.phd.cd.dao.MohAreaDao;
 import lk.health.phd.cd.dao.WorkflowDao;
+import lk.health.phd.cd.dto.DiseaseVsPatientSummaryDto;
+import lk.health.phd.cd.dto.MohAreaVsDiseaseSummaryDto;
 import lk.health.phd.cd.models.DiseaseConfirmationTest;
+import lk.health.phd.cd.models.District;
 import lk.health.phd.cd.models.Form544;
+import lk.health.phd.cd.models.MohArea;
 import lk.health.phd.cd.services.Form544Service;
 import lk.health.phd.cd.services.WorkflowService;
 
@@ -37,6 +54,9 @@ public class Form544ServiceImpl implements Form544Service {
 
 	@Autowired
 	private DiseaseConfirmationTestDao diseaseConfirmationTestDao;
+
+	@Autowired
+	private MohAreaDao mohAreaDao;
 
 	/**
 	 * {@inheritDoc}
@@ -106,6 +126,46 @@ public class Form544ServiceImpl implements Form544Service {
 		String serialNoYearPart = form544Dao.getForm544CountForCurrentYear() + "";
 
 		return serialNoMonthPart + "/" + serialNoYearPart;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public List<MohAreaVsDiseaseSummaryDto> generateMohAreaVaDiseaseSummary(final Long inDistrictId) {
+		List<MohArea> mohAreas = mohAreaDao.getMohAreaByDistrictId(inDistrictId);
+		List<MohAreaVsDiseaseSummaryDto> mohAreaVsDiseaseSummaryDtos = new ArrayList<MohAreaVsDiseaseSummaryDto>();
+
+		for (int i = 0; i < mohAreas.size(); i++) {
+			List diseaseCountForGivenMohAreaList = form544Dao.getEachDiseaseCountForGivenMohArea(mohAreas.get(i));
+			List<DiseaseVsPatientSummaryDto> diseaseVsPatientSummaryDtos = new ArrayList<DiseaseVsPatientSummaryDto>();
+
+			MohAreaVsDiseaseSummaryDto areaVsDiseaseSummaryDto = new MohAreaVsDiseaseSummaryDto();
+			for (int x = 0; x < diseaseCountForGivenMohAreaList.size(); x++) {
+
+				String diseaseCountForGivenMohAreaListItemJsonStr = new Gson()
+						.toJson(diseaseCountForGivenMohAreaList.get(x));
+
+				JsonParser jsonParser = new JsonParser();
+
+				JsonElement diseaseCountForGivenMohAreaListItemJsonObj = jsonParser
+						.parse(diseaseCountForGivenMohAreaListItemJsonStr);
+				int patientCount = diseaseCountForGivenMohAreaListItemJsonObj.getAsJsonObject().get("count").getAsInt();
+				JsonElement disease = diseaseCountForGivenMohAreaListItemJsonObj.getAsJsonObject().get("disease");
+				String diseaseName = disease.getAsJsonObject().get("diseaseName").getAsString();
+
+				DiseaseVsPatientSummaryDto diseaseVsPatientSummaryDto = new DiseaseVsPatientSummaryDto();
+				diseaseVsPatientSummaryDto.setDiseaseName(diseaseName);
+				diseaseVsPatientSummaryDto.setCount(patientCount);
+
+				diseaseVsPatientSummaryDtos.add(diseaseVsPatientSummaryDto);
+			}
+			areaVsDiseaseSummaryDto.setMohArea(((MohArea) mohAreas.get(i)).getMohAreaName());
+			areaVsDiseaseSummaryDto.setDiseaseVsPatientSummaryDtos(diseaseVsPatientSummaryDtos);
+
+			mohAreaVsDiseaseSummaryDtos.add(areaVsDiseaseSummaryDto);
+		}
+
+		return mohAreaVsDiseaseSummaryDtos;
 	}
 
 }

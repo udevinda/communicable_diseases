@@ -1,7 +1,13 @@
 package lk.health.phd.cd.services;
 
+import java.util.List;
+
+import lk.health.phd.cd.dto.MohAreaVsDiseaseSummaryDto;
+import lk.health.phd.cd.models.Disease;
 import lk.health.phd.cd.models.DiseaseConfirmationTest;
+import lk.health.phd.cd.models.District;
 import lk.health.phd.cd.models.Form544;
+import lk.health.phd.cd.models.MohArea;
 
 /**
  * 
@@ -41,4 +47,14 @@ public interface Form544Service {
 	 * @return Returns the form544 serial number as a string
 	 */
 	public String generateForm544SerialNo();
+
+	/**
+	 * Generate the summary of total number of reported cases according each
+	 * {@link MohArea} of a {@link District} under specified {@link Disease}
+	 * 
+	 * @param inDistrictId
+	 *            ID of the {@link District}
+	 * @return List of {@link MohAreaVsDiseaseSummaryDto}
+	 */
+	public List<MohAreaVsDiseaseSummaryDto> generateMohAreaVaDiseaseSummary(final Long inDistrictId);
 }
