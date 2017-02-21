@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+<meta charset="utf-8">
+<title>Disease Distribution Map</title>
+<style>
+</style>
+</head>
+<body>
+</body>
+</html>
+
+<script th:inline="javascript">
+
+	/*<![CDATA[*/
+	           console.log([[${mohAreaVsDiseaseSummaryList}]]);
+	processedMohAreaVsDiseaseList = processObjList([[${mohAreaVsDiseaseSummaryList}]]);
+	 /*]]>*/
+	 
+	 function processObjList(mohAreaVsDiseaseSummaryList){
+		 var diseaseNameArr = [];
+		 var diseaseRowArr = [];
+		 
+		 for(var i = 0; i < mohAreaVsDiseaseSummaryList.length; i++){
+			 var diseaseVsPatientSummaryDtos = mohAreaVsDiseaseSummaryList[i].diseaseVsPatientSummaryDtos;
+			 
+			 for(var x = 0; x < diseaseVsPatientSummaryDtos.length; x++){
+				 var diseaseName = diseaseVsPatientSummaryDtos[x].diseaseName;
+				 
+				 if(!diseaseNameArr.includes(diseaseName)){
+					 diseaseNameArr.push(diseaseName);
+				 }
+			 }
+		}
+			 console.log(diseaseNameArr);
+			 for(var y = 0; y < mohAreaVsDiseaseSummaryList.length; y++){
+				 var mohAreaName = mohAreaVsDiseaseSummaryList[y].mohArea;
+				 var diseaseVsPatientSummaryDtos = mohAreaVsDiseaseSummaryList[y].diseaseVsPatientSummaryDtos;
+				 var diseaseRow = [];
+				 diseaseRow[0] = mohAreaName;
+				 
+				 for(var z = 0; z < diseaseVsPatientSummaryDtos.length; z++){
+					 var diseaseNameForRow = diseaseVsPatientSummaryDtos[z].diseaseName;
+					 var arrayIndexForDiseaseCount = (diseaseNameArr.indexOf(diseaseNameForRow)) + 1;
+					 
+					 for(var q = 1; q < (diseaseNameArr.length+1); q++){
+						 if(arrayIndexForDiseaseCount == q){
+							 diseaseRow[arrayIndexForDiseaseCount] = diseaseVsPatientSummaryDtos[z].count;
+						 }else{
+							 diseaseRow[q] = 0;
+						 }
+					 }
+				 }
+				 diseaseRowArr.push(diseaseRow);
+			 }
+		 
+		 
+		 return diseaseRowArr;
+	 }
+</script>

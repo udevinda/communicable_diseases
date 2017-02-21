@@ -22,6 +22,7 @@ import lk.health.phd.cd.dao.Form544Dao;
 import lk.health.phd.cd.dao.MohAreaDao;
 import lk.health.phd.cd.dao.WorkflowDao;
 import lk.health.phd.cd.dto.Form544FilterDto;
+import lk.health.phd.cd.dto.MohAreaVsDiseaseSummaryDto;
 import lk.health.phd.cd.models.Disease;
 import lk.health.phd.cd.models.DiseaseConfirmationTest;
 import lk.health.phd.cd.models.Form544;
@@ -503,12 +504,14 @@ public class Form544Controller {
 	}
 
 	@RequestMapping(value = "diseaseVsMohArea", method = RequestMethod.GET)
-	@ResponseBody
-	public List getDiseaseVsMohAreaSummary(@RequestParam("district_id") final Long districtId) {
-//		MohArea mohArea = getMohArea(inMohAreaId);
-//		return form544Dao.getEachDiseaseCountForGivenMohArea(mohArea);
-		
-		return form544Service.generateMohAreaVaDiseaseSummary(districtId);
+	public String getDiseaseVsMohAreaSummary(@RequestParam("district_id") final Long districtId, Model model) {
+
+		List<MohAreaVsDiseaseSummaryDto> areaVsDiseaseSummaryDtos = form544Service
+				.generateMohAreaVaDiseaseSummary(districtId);
+
+		model.addAttribute("mohAreaVsDiseaseSummaryList", areaVsDiseaseSummaryDtos);
+
+		return "moh_area_vs_disease_count_report";
 	}
 
 	/**
