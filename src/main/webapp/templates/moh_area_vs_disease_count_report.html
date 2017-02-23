@@ -4,10 +4,28 @@
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
 <meta charset="utf-8">
 <title>Disease Distribution Map</title>
-<style>
-</style>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/jquery-ui.css">
+<link rel="stylesheet" href="../css/custom.css">
+<link rel="stylesheet" href="../css/jquery.dataTables.min.css">
+<script src="../js/jquery-3.1.1.min.js"></script>
+<script src="../js/jquery-ui.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/jquery.dataTables.min.js"></script>
 </head>
 <body>
+
+	<table class="table" id="mohAreaVsDiseaseTbl">
+		<thead>
+			<tr id="mohAreaVsDiseaseTblHeadings">
+				<th></th>
+			</tr>
+		</thead>
+		<tbody id="mohAreaVsDiseaseTblBody">
+		</tbody>
+	</table>
+
+
 </body>
 </html>
 
@@ -19,8 +37,38 @@
 	 /*]]>*/
 	 
 	 function processObjList(mohAreaVsDiseaseSummaryList){
-		 var diseaseNameArr = [];
+		 var diseaseNameArr = composeDiseaseNameArr(mohAreaVsDiseaseSummaryList);
 		 var diseaseRowArr = [];
+		 
+		 	 //console.log(diseaseNameArr);
+		 	 
+			for(var counter1 = 0; counter1 < mohAreaVsDiseaseSummaryList.length; counter1++){
+				var mohAreaName = mohAreaVsDiseaseSummaryList[counter1].mohArea;
+				var diseaseVsPatientSummaryDtos = mohAreaVsDiseaseSummaryList[counter1].diseaseVsPatientSummaryDtos;
+				var diseaseRow = [];
+				diseaseRow[0] = mohAreaName;
+				
+				for(var counter2= 0;counter2 < diseaseVsPatientSummaryDtos.length; counter2++){
+					var diseaseNameForRow = diseaseVsPatientSummaryDtos[counter2].diseaseName;
+					var arrayIndexForDiseaseCount = (diseaseNameArr.indexOf(diseaseNameForRow)) + 1;
+					
+					for(var counter3 = 0; counter3 < (diseaseNameArr.length) + 1; counter3++){
+						if(arrayIndexForDiseaseCount == counter3){
+							console.log(diseaseVsPatientSummaryDtos[counter2]);
+							diseaseRow[counter3] = diseaseVsPatientSummaryDtos[counter2].count;
+						}else if(counter3 != 0 && !(diseaseRow[counter3] > 0)){
+							diseaseRow[counter3] = 0;
+						}
+					}
+				}
+				diseaseRowArr.push(diseaseRow);
+			}
+			
+			drawReport(diseaseNameArr, diseaseRowArr);
+	 }
+	 
+	 function composeDiseaseNameArr(mohAreaVsDiseaseSummaryList){
+		 var diseaseNameArr = [];
 		 
 		 for(var i = 0; i < mohAreaVsDiseaseSummaryList.length; i++){
 			 var diseaseVsPatientSummaryDtos = mohAreaVsDiseaseSummaryList[i].diseaseVsPatientSummaryDtos;
@@ -33,29 +81,38 @@
 				 }
 			 }
 		}
-			 console.log(diseaseNameArr);
-			 for(var y = 0; y < mohAreaVsDiseaseSummaryList.length; y++){
-				 var mohAreaName = mohAreaVsDiseaseSummaryList[y].mohArea;
-				 var diseaseVsPatientSummaryDtos = mohAreaVsDiseaseSummaryList[y].diseaseVsPatientSummaryDtos;
-				 var diseaseRow = [];
-				 diseaseRow[0] = mohAreaName;
-				 
-				 for(var z = 0; z < diseaseVsPatientSummaryDtos.length; z++){
-					 var diseaseNameForRow = diseaseVsPatientSummaryDtos[z].diseaseName;
-					 var arrayIndexForDiseaseCount = (diseaseNameArr.indexOf(diseaseNameForRow)) + 1;
-					 
-					 for(var q = 1; q < (diseaseNameArr.length+1); q++){
-						 if(arrayIndexForDiseaseCount == q){
-							 diseaseRow[arrayIndexForDiseaseCount] = diseaseVsPatientSummaryDtos[z].count;
-						 }else{
-							 diseaseRow[q] = 0;
-						 }
-					 }
-				 }
-				 diseaseRowArr.push(diseaseRow);
+		
+		 return diseaseNameArr;
+	 }
+	 
+	 function drawReport(diseaseNameList, diseaseRows){
+		 for (i = 0; i < diseaseNameList.length; i++) {
+				$("#mohAreaVsDiseaseTblHeadings")
+						.append(
+								'<th>' + diseaseNameList[i] + '</th>');
+			}
+		 
+		 for (i = 0; i < diseaseRows.length; i++) {
+				$("#mohAreaVsDiseaseTblBody")
+						.append(
+								'<tr>' + generateCols(diseaseRows[i]) + '</tr>');
+			}
+		 
+		 function generateCols(diseaseRow){
+			 var cols = "";
+			 for(var counter = 0; counter < (diseaseNameList.length)+1; counter++){
+				 cols = cols + "<td>" + decideValueOrDash(diseaseRow[counter]) + "</td>";
 			 }
+			 
+			 return cols;
+		 }
 		 
-		 
-		 return diseaseRowArr;
+		 function decideValueOrDash(value){
+			 if(value == undefined || value==0){
+				 return "-";
+			 }else{
+				 return value;
+			 }
+		 }
 	 }
 </script>
