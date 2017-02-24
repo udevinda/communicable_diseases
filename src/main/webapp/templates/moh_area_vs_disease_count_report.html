@@ -18,7 +18,7 @@
 	<table class="table" id="mohAreaVsDiseaseTbl">
 		<thead>
 			<tr id="mohAreaVsDiseaseTblHeadings">
-				<th></th>
+				<th>MOH Area</th>
 			</tr>
 		</thead>
 		<tbody id="mohAreaVsDiseaseTblBody">
@@ -32,20 +32,20 @@
 <script th:inline="javascript">
 
 	/*<![CDATA[*/
-	           console.log([[${mohAreaVsDiseaseSummaryList}]]);
-	processedMohAreaVsDiseaseList = processObjList([[${mohAreaVsDiseaseSummaryList}]]);
+	processObjList([[${mohAreaVsDiseaseSummaryList}]]);
 	 /*]]>*/
 	 
 	 function processObjList(mohAreaVsDiseaseSummaryList){
 		 var diseaseNameArr = composeDiseaseNameArr(mohAreaVsDiseaseSummaryList);
 		 var diseaseRowArr = [];
+		
+		 var diseaseTotals = composeTotalForDiseases(diseaseNameArr, mohAreaVsDiseaseSummaryList);
 		 
-		 	 //console.log(diseaseNameArr);
-		 	 
 			for(var counter1 = 0; counter1 < mohAreaVsDiseaseSummaryList.length; counter1++){
 				var mohAreaName = mohAreaVsDiseaseSummaryList[counter1].mohArea;
 				var diseaseVsPatientSummaryDtos = mohAreaVsDiseaseSummaryList[counter1].diseaseVsPatientSummaryDtos;
 				var diseaseRow = [];
+				var totalForMohArea = 0;
 				diseaseRow[0] = mohAreaName;
 				
 				for(var counter2= 0;counter2 < diseaseVsPatientSummaryDtos.length; counter2++){
@@ -54,16 +54,19 @@
 					
 					for(var counter3 = 0; counter3 < (diseaseNameArr.length) + 1; counter3++){
 						if(arrayIndexForDiseaseCount == counter3){
-							console.log(diseaseVsPatientSummaryDtos[counter2]);
 							diseaseRow[counter3] = diseaseVsPatientSummaryDtos[counter2].count;
+							totalForMohArea = totalForMohArea + diseaseVsPatientSummaryDtos[counter2].count;
 						}else if(counter3 != 0 && !(diseaseRow[counter3] > 0)){
 							diseaseRow[counter3] = 0;
 						}
 					}
 				}
+				diseaseRow.push(totalForMohArea);
 				diseaseRowArr.push(diseaseRow);
+				
 			}
-			
+			diseaseTotals.unshift("Total");
+			diseaseRowArr.push(diseaseTotals);
 			drawReport(diseaseNameArr, diseaseRowArr);
 	 }
 	 
@@ -85,12 +88,49 @@
 		 return diseaseNameArr;
 	 }
 	 
+	 function composeTotalForDiseases(diseaseNameArr, mohAreaVsDiseaseSummaryList){
+		 var diseaseTotalArr = [];
+		 
+		 for(var x = 0; x < diseaseNameArr.length; x++){
+			 var totalForDisease = 0;
+			 for(var i = 0; i < mohAreaVsDiseaseSummaryList.length; i++){
+				 var diseaseVsPatientSummaryDtos = mohAreaVsDiseaseSummaryList[i].diseaseVsPatientSummaryDtos;
+				 
+				 for(var y = 0; y < diseaseVsPatientSummaryDtos.length; y++){
+					 var diseaseName = diseaseVsPatientSummaryDtos[y].diseaseName;
+					 
+					 if(diseaseNameArr[x] == diseaseName){
+						 totalForDisease = totalForDisease + diseaseVsPatientSummaryDtos[y].count;
+					 }
+				 }
+			 }
+			 
+			 diseaseTotalArr[x] = totalForDisease;
+		 }
+		 
+		 function totalOfInsideArrVals(arr){
+			 var total = 0;
+			 for(var counter = 0; counter < arr.length; counter++){
+				 total = total + arr[counter];
+			 }
+			 
+			 return total;
+		 }
+		 
+		 diseaseTotalArr.push(totalOfInsideArrVals(diseaseTotalArr));
+		 
+		 return diseaseTotalArr;
+	 }
+	 
 	 function drawReport(diseaseNameList, diseaseRows){
 		 for (i = 0; i < diseaseNameList.length; i++) {
 				$("#mohAreaVsDiseaseTblHeadings")
 						.append(
 								'<th>' + diseaseNameList[i] + '</th>');
 			}
+		 $("#mohAreaVsDiseaseTblHeadings")
+			.append(
+					'<th>' + "Total" + '</th>');
 		 
 		 for (i = 0; i < diseaseRows.length; i++) {
 				$("#mohAreaVsDiseaseTblBody")
@@ -100,7 +140,7 @@
 		 
 		 function generateCols(diseaseRow){
 			 var cols = "";
-			 for(var counter = 0; counter < (diseaseNameList.length)+1; counter++){
+			 for(var counter = 0; counter < (diseaseNameList.length)+2; counter++){
 				 cols = cols + "<td>" + decideValueOrDash(diseaseRow[counter]) + "</td>";
 			 }
 			 
