@@ -504,10 +504,12 @@ public class Form544Controller {
 	}
 
 	@RequestMapping(value = "diseaseVsMohArea", method = RequestMethod.GET)
-	public String getDiseaseVsMohAreaSummary(@RequestParam("district_id") final Long districtId, Model model) {
+	public String getDiseaseVsMohAreaSummary(@RequestParam("district_id") final Long districtId,
+			@RequestParam("from_year") final int fromYear, @RequestParam("from_month") final int fromMonth,
+			@RequestParam("to_year") final int toYear, @RequestParam("to_month") final int toMonth, Model model) {
 
 		List<MohAreaVsDiseaseSummaryDto> areaVsDiseaseSummaryDtos = form544Service
-				.generateMohAreaVaDiseaseSummary(districtId);
+				.generateMohAreaVaDiseaseSummary(districtId, fromYear, fromMonth, toYear, toMonth);
 
 		model.addAttribute("mohAreaVsDiseaseSummaryList", areaVsDiseaseSummaryDtos);
 

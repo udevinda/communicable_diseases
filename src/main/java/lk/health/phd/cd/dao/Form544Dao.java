@@ -69,7 +69,12 @@ public interface Form544Dao extends UniversalDao<Form544> {
 	 * 
 	 * @param inMohArea
 	 *            {@link MohArea}
+	 * @param inLowerDateLimit
+	 *            Lower date range to consider
+	 * @param inUpperDateLimit
+	 *            Upper date range to consider
 	 * @return List of Disease and its count pairs
 	 */
-	public List getEachDiseaseCountForGivenMohArea(final MohArea inMohArea);
+	public List getEachDiseaseCountForGivenMohArea(final MohArea inMohArea, final String inLowerDateLimit,
+			final String inUpperDateLimit);
 }

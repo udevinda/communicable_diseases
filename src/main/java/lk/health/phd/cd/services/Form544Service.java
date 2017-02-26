@@ -54,7 +54,17 @@ public interface Form544Service {
 	 * 
 	 * @param inDistrictId
 	 *            ID of the {@link District}
+	 * @param inLowerDateYear
+	 *            Lower date year to consider in report generation
+	 * @param inLowerDateMonth
+	 *            Lower date month to consider in report generation
+	 * @param inUpperDateYear
+	 *            Upper date year to consider in report generation
+	 * @param inUpperDateMonth
+	 *            Upper date month to consider in report generation
 	 * @return List of {@link MohAreaVsDiseaseSummaryDto}
 	 */
-	public List<MohAreaVsDiseaseSummaryDto> generateMohAreaVaDiseaseSummary(final Long inDistrictId);
+	public List<MohAreaVsDiseaseSummaryDto> generateMohAreaVaDiseaseSummary(final Long inDistrictId,
+			final int inLowerDateYear, final int inLowerDateMonth, final int inUpperDateYear,
+			final int inUpperDateMonth);
 }

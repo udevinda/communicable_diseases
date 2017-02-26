@@ -1,6 +1,7 @@
 package lk.health.phd.cd.services.impl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.json.simple.JSONArray;
@@ -131,12 +132,18 @@ public class Form544ServiceImpl implements Form544Service {
 	/**
 	 * {@inheritDoc}
 	 */
-	public List<MohAreaVsDiseaseSummaryDto> generateMohAreaVaDiseaseSummary(final Long inDistrictId) {
+	public List<MohAreaVsDiseaseSummaryDto> generateMohAreaVaDiseaseSummary(final Long inDistrictId,
+			final int inLowerDateYear, final int inLowerDateMonth, final int inUpperDateYear,
+			final int inUpperDateMonth) {
 		List<MohArea> mohAreas = mohAreaDao.getMohAreaByDistrictId(inDistrictId);
 		List<MohAreaVsDiseaseSummaryDto> mohAreaVsDiseaseSummaryDtos = new ArrayList<MohAreaVsDiseaseSummaryDto>();
 
+		String lowerDateLimit = inLowerDateYear + "-" + inLowerDateMonth + "-" + 1;
+		String upperDateLimit = inUpperDateYear + "-" + inUpperDateMonth + "-" + 31;
+
 		for (int i = 0; i < mohAreas.size(); i++) {
-			List diseaseCountForGivenMohAreaList = form544Dao.getEachDiseaseCountForGivenMohArea(mohAreas.get(i));
+			List diseaseCountForGivenMohAreaList = form544Dao.getEachDiseaseCountForGivenMohArea(mohAreas.get(i),
+					lowerDateLimit, upperDateLimit);
 			List<DiseaseVsPatientSummaryDto> diseaseVsPatientSummaryDtos = new ArrayList<DiseaseVsPatientSummaryDto>();
 
 			MohAreaVsDiseaseSummaryDto areaVsDiseaseSummaryDto = new MohAreaVsDiseaseSummaryDto();

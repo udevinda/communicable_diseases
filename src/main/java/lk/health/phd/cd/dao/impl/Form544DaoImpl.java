@@ -232,11 +232,20 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 	/**
 	 * {@inheritDoc}
 	 */
-	public List getEachDiseaseCountForGivenMohArea(final MohArea inMohArea) {
+	public List getEachDiseaseCountForGivenMohArea(final MohArea inMohArea, final String inLowerDateLimit,
+			final String inUpperDateLimit) {
 		Session session = getCurrentSession();
 
 		Criteria criteria = session.createCriteria(Form544.class);
-		criteria.add(Restrictions.eq("mohArea", inMohArea));
+
+		try {
+			criteria.add(Restrictions.eq("mohArea", inMohArea));
+			criteria.add(Restrictions.ge("systemNotifiedDate", Util.parseDate(inLowerDateLimit, "yyyy-MM-dd")));
+			criteria.add(Restrictions.le("systemNotifiedDate", Util.parseDate(inUpperDateLimit, "yyyy-MM-dd")));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
 		return criteria
 				.setProjection(Projections.projectionList().add(Projections.groupProperty("disease"), "disease")
 						.add(Projections.count("id"), "count"))
