@@ -9,10 +9,13 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.AliasToBeanResultTransformer;
 import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
 
 import lk.health.phd.cd.dao.Form544Dao;
+import lk.health.phd.cd.dto.DiseaseVsPatientSummaryDto;
+import lk.health.phd.cd.dto.DiseaseVsPatientSummaryDtoBk;
 import lk.health.phd.cd.dto.Form544FilterDto;
 import lk.health.phd.cd.models.Disease;
 import lk.health.phd.cd.models.Form544;
@@ -246,10 +249,32 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 			e.printStackTrace();
 		}
 
+		//TODO implement to map result to a DTO object
 		return criteria
 				.setProjection(Projections.projectionList().add(Projections.groupProperty("disease"), "disease")
 						.add(Projections.count("id"), "count"))
 				.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
+	}
+
+	public List getEachDiseaseCountForGivenWard(String inWard, String inLowerDateLimit, String inUpperDateLimit) {
+		Session session = getCurrentSession();
+
+		Criteria criteria = session.createCriteria(Form544.class, "form544");
+
+		try {
+			criteria.add(Restrictions.eq("ward", inWard));
+			criteria.add(Restrictions.ge("systemNotifiedDate", Util.parseDate(inLowerDateLimit, "yyyy-MM-dd")));
+			criteria.add(Restrictions.le("systemNotifiedDate", Util.parseDate(inUpperDateLimit, "yyyy-MM-dd")));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		criteria.createAlias("form544.disease", "disease");
+		
+		return criteria
+				.setProjection(Projections.projectionList().add(Projections.groupProperty("disease.diseaseName"), "disease")
+						.add(Projections.count("id"), "count"))
+				.setResultTransformer(new AliasToBeanResultTransformer(DiseaseVsPatientSummaryDtoBk.class)).list();
 	}
 
 }

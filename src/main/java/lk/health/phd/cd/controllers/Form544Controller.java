@@ -503,17 +503,47 @@ public class Form544Controller {
 		return mohAreaDao.getMohAreaByDistrictId(districtId);
 	}
 
+	/**
+	 * Controller method to retrieve Disease Vs MOH area report for given
+	 * period.
+	 * 
+	 * @param inDistrictId
+	 *            ID of the district to consider.
+	 * @param inFromYear
+	 *            From year of the considering period
+	 * @param inFromMonth
+	 *            From month of the considering period
+	 * @param inToYear
+	 *            To year of the considering period
+	 * @param inToMonth
+	 *            To month of the considering period
+	 * @param model
+	 *            {@link Model}
+	 * @return
+	 */
 	@RequestMapping(value = "diseaseVsMohArea", method = RequestMethod.GET)
-	public String getDiseaseVsMohAreaSummary(@RequestParam("district_id") final Long districtId,
-			@RequestParam("from_year") final int fromYear, @RequestParam("from_month") final int fromMonth,
-			@RequestParam("to_year") final int toYear, @RequestParam("to_month") final int toMonth, Model model) {
+	public String getDiseaseVsMohAreaSummary(@RequestParam("district_id") final Long inDistrictId,
+			@RequestParam("from_year") final int inFromYear, @RequestParam("from_month") final int inFromMonth,
+			@RequestParam("to_year") final int inToYear, @RequestParam("to_month") final int inToMonth, Model model) {
 
 		List<MohAreaVsDiseaseSummaryDto> areaVsDiseaseSummaryDtos = form544Service
-				.generateMohAreaVaDiseaseSummary(districtId, fromYear, fromMonth, toYear, toMonth);
+				.generateMohAreaVaDiseaseSummary(inDistrictId, inFromYear, inFromMonth, inToYear, inToMonth);
 
 		model.addAttribute("mohAreaVsDiseaseSummaryList", areaVsDiseaseSummaryDtos);
 
 		return "moh_area_vs_disease_count_report";
+	}
+
+	@RequestMapping(value = "diseaseVsWard", method = RequestMethod.GET)
+	@ResponseBody
+	public List getDiseaseVsWardSummary(@RequestParam("ward_id") final String wardId,
+			@RequestParam("from_year") final int inFromYear, @RequestParam("from_month") final int inFromMonth,
+			@RequestParam("to_year") final int inToYear, @RequestParam("to_month") final int inToMonth) {
+
+		String lowerDateLimit = inFromYear + "-" + inFromMonth + "-" + 1;
+		String upperDateLimit = inToYear + "-" + inToMonth + "-" + 31;
+
+		return form544Dao.getEachDiseaseCountForGivenWard(wardId, lowerDateLimit, upperDateLimit);
 	}
 
 	/**

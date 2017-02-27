@@ -77,4 +77,7 @@ public interface Form544Dao extends UniversalDao<Form544> {
 	 */
 	public List getEachDiseaseCountForGivenMohArea(final MohArea inMohArea, final String inLowerDateLimit,
 			final String inUpperDateLimit);
+
+	public List getEachDiseaseCountForGivenWard(final String inWard, final String inLowerDateLimit,
+			final String inUpperDateLimit);
 }
