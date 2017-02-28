@@ -11,7 +11,7 @@ import lk.health.phd.cd.models.Disease;
 public class DiseaseVsPatientSummaryDto {
 
 	private String diseaseName;
-	private int count;
+	private Long count;
 
 	/**
 	 * Getter to get disease name
@@ -37,7 +37,7 @@ public class DiseaseVsPatientSummaryDto {
 	 * 
 	 * @return Count of the patients
 	 */
-	public int getCount() {
+	public Long getCount() {
 		return count;
 	}
 
@@ -47,7 +47,7 @@ public class DiseaseVsPatientSummaryDto {
 	 * @param inCount
 	 *            Count of the patients
 	 */
-	public void setCount(final int inCount) {
+	public void setCount(final Long inCount) {
 		this.count = inCount;
 	}
 

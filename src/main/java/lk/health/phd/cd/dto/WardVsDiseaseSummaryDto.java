@@ -2,41 +2,32 @@ package lk.health.phd.cd.dto;
 
 import java.util.List;
 
-import lk.health.phd.cd.models.Disease;
-import lk.health.phd.cd.models.MohArea;
+public class WardVsDiseaseSummaryDto {
 
-/**
- * DTO class to hold moh area and reported each disease and its count.
- * 
- * @author admin
- *
- */
-public class MohAreaVsDiseaseSummaryDto {
-
-	private String mohAreaName;
+	private String ward;
 	private List<DiseaseVsPatientSummaryDto> diseaseVsPatientSummaryDtos;
 
 	/**
-	 * Getter for moh area name
+	 * Getter for ward
 	 * 
-	 * @return moh area name
+	 * @return ward name
 	 */
-	public String getMohArea() {
-		return mohAreaName;
+	public String getWard() {
+		return ward;
 	}
 
 	/**
-	 * Setter for moh area name
+	 * Setter for ward
 	 * 
-	 * @param inMohArea
-	 *            moh area name
+	 * @param inWard
+	 *            Ward
 	 */
-	public void setMohArea(final String inMohAreaName) {
-		this.mohAreaName = inMohAreaName;
+	public void setWard(final String inWard) {
+		this.ward = inWard;
 	}
 
 	/**
-	 * Getter for list of {@link DiseaseVsPatientSummaryDto}
+	 * Getter for {@link DiseaseVsPatientSummaryDto} list
 	 * 
 	 * @return List of {@link DiseaseVsPatientSummaryDto}
 	 */
@@ -48,6 +39,7 @@ public class MohAreaVsDiseaseSummaryDto {
 	 * Setter for list of {@link DiseaseVsPatientSummaryDto}
 	 * 
 	 * @param inDiseaseVsPatientSummaryDtos
+	 *            List of {@link DiseaseVsPatientSummaryDto}
 	 */
 	public void setDiseaseVsPatientSummaryDtos(final List<DiseaseVsPatientSummaryDto> inDiseaseVsPatientSummaryDtos) {
 		this.diseaseVsPatientSummaryDtos = inDiseaseVsPatientSummaryDtos;

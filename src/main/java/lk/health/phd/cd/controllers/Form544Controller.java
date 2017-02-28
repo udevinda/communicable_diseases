@@ -23,6 +23,7 @@ import lk.health.phd.cd.dao.MohAreaDao;
 import lk.health.phd.cd.dao.WorkflowDao;
 import lk.health.phd.cd.dto.Form544FilterDto;
 import lk.health.phd.cd.dto.MohAreaVsDiseaseSummaryDto;
+import lk.health.phd.cd.dto.WardVsDiseaseSummaryDto;
 import lk.health.phd.cd.models.Disease;
 import lk.health.phd.cd.models.DiseaseConfirmationTest;
 import lk.health.phd.cd.models.Form544;
@@ -536,14 +537,14 @@ public class Form544Controller {
 
 	@RequestMapping(value = "diseaseVsWard", method = RequestMethod.GET)
 	@ResponseBody
-	public List getDiseaseVsWardSummary(@RequestParam("ward_id") final String wardId,
+	public List getDiseaseVsWardSummary(@RequestParam("institute") final String inInstitute,
 			@RequestParam("from_year") final int inFromYear, @RequestParam("from_month") final int inFromMonth,
 			@RequestParam("to_year") final int inToYear, @RequestParam("to_month") final int inToMonth) {
 
-		String lowerDateLimit = inFromYear + "-" + inFromMonth + "-" + 1;
-		String upperDateLimit = inToYear + "-" + inToMonth + "-" + 31;
+		List<WardVsDiseaseSummaryDto> wardVsDiseaseSummaryDtos = form544Service
+				.generateWardVsDiseaseSummary(inInstitute, inFromYear, inFromMonth, inToYear, inToMonth);
 
-		return form544Dao.getEachDiseaseCountForGivenWard(wardId, lowerDateLimit, upperDateLimit);
+		return wardVsDiseaseSummaryDtos;
 	}
 
 	/**

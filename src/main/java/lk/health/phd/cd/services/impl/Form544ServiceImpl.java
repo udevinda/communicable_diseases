@@ -25,6 +25,7 @@ import lk.health.phd.cd.dao.MohAreaDao;
 import lk.health.phd.cd.dao.WorkflowDao;
 import lk.health.phd.cd.dto.DiseaseVsPatientSummaryDto;
 import lk.health.phd.cd.dto.MohAreaVsDiseaseSummaryDto;
+import lk.health.phd.cd.dto.WardVsDiseaseSummaryDto;
 import lk.health.phd.cd.models.DiseaseConfirmationTest;
 import lk.health.phd.cd.models.District;
 import lk.health.phd.cd.models.Form544;
@@ -142,30 +143,11 @@ public class Form544ServiceImpl implements Form544Service {
 		String upperDateLimit = inUpperDateYear + "-" + inUpperDateMonth + "-" + 31;
 
 		for (int i = 0; i < mohAreas.size(); i++) {
-			List diseaseCountForGivenMohAreaList = form544Dao.getEachDiseaseCountForGivenMohArea(mohAreas.get(i),
-					lowerDateLimit, upperDateLimit);
-			List<DiseaseVsPatientSummaryDto> diseaseVsPatientSummaryDtos = new ArrayList<DiseaseVsPatientSummaryDto>();
+			List<DiseaseVsPatientSummaryDto> diseaseVsPatientSummaryDtos = form544Dao
+					.getEachDiseaseCountForGivenMohArea(mohAreas.get(i), lowerDateLimit, upperDateLimit);
 
 			MohAreaVsDiseaseSummaryDto areaVsDiseaseSummaryDto = new MohAreaVsDiseaseSummaryDto();
-			for (int x = 0; x < diseaseCountForGivenMohAreaList.size(); x++) {
 
-				String diseaseCountForGivenMohAreaListItemJsonStr = new Gson()
-						.toJson(diseaseCountForGivenMohAreaList.get(x));
-
-				JsonParser jsonParser = new JsonParser();
-
-				JsonElement diseaseCountForGivenMohAreaListItemJsonObj = jsonParser
-						.parse(diseaseCountForGivenMohAreaListItemJsonStr);
-				int patientCount = diseaseCountForGivenMohAreaListItemJsonObj.getAsJsonObject().get("count").getAsInt();
-				JsonElement disease = diseaseCountForGivenMohAreaListItemJsonObj.getAsJsonObject().get("disease");
-				String diseaseName = disease.getAsJsonObject().get("diseaseName").getAsString();
-
-				DiseaseVsPatientSummaryDto diseaseVsPatientSummaryDto = new DiseaseVsPatientSummaryDto();
-				diseaseVsPatientSummaryDto.setDiseaseName(diseaseName);
-				diseaseVsPatientSummaryDto.setCount(patientCount);
-
-				diseaseVsPatientSummaryDtos.add(diseaseVsPatientSummaryDto);
-			}
 			areaVsDiseaseSummaryDto.setMohArea(((MohArea) mohAreas.get(i)).getMohAreaName());
 			areaVsDiseaseSummaryDto.setDiseaseVsPatientSummaryDtos(diseaseVsPatientSummaryDtos);
 
@@ -173,6 +155,31 @@ public class Form544ServiceImpl implements Form544Service {
 		}
 
 		return mohAreaVsDiseaseSummaryDtos;
+	}
+
+	public List<WardVsDiseaseSummaryDto> generateWardVsDiseaseSummary(String inInstitute, int inLowerDateYear,
+			int inLowerDateMonth, int inUpperDateYear, int inUpperDateMonth) {
+
+		String lowerDateLimit = inLowerDateYear + "-" + inLowerDateMonth + "-" + 1;
+		String upperDateLimit = inUpperDateYear + "-" + inUpperDateMonth + "-" + 31;
+		List wardList = form544Dao.getWardsForAInstitute(inInstitute);
+
+		List<WardVsDiseaseSummaryDto> wardVsDiseaseSummaryDtos = new ArrayList<WardVsDiseaseSummaryDto>();
+		for (int i = 0; i < wardList.size(); i++) {
+
+			String ward = ((List) wardList.get(i)).get(0) + "";
+			List<DiseaseVsPatientSummaryDto> diseaseVsPatientSummaryDtos = form544Dao
+					.getEachDiseaseCountForGivenWard(ward, lowerDateLimit, upperDateLimit);
+
+			WardVsDiseaseSummaryDto wardVsDiseaseSummaryDto = new WardVsDiseaseSummaryDto();
+			wardVsDiseaseSummaryDto.setWard(ward);
+			wardVsDiseaseSummaryDto.setDiseaseVsPatientSummaryDtos(diseaseVsPatientSummaryDtos);
+
+			wardVsDiseaseSummaryDtos.add(wardVsDiseaseSummaryDto);
+
+		}
+
+		return wardVsDiseaseSummaryDtos;
 	}
 
 }

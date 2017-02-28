@@ -3,6 +3,7 @@ package lk.health.phd.cd.services;
 import java.util.List;
 
 import lk.health.phd.cd.dto.MohAreaVsDiseaseSummaryDto;
+import lk.health.phd.cd.dto.WardVsDiseaseSummaryDto;
 import lk.health.phd.cd.models.Disease;
 import lk.health.phd.cd.models.DiseaseConfirmationTest;
 import lk.health.phd.cd.models.District;
@@ -65,6 +66,26 @@ public interface Form544Service {
 	 * @return List of {@link MohAreaVsDiseaseSummaryDto}
 	 */
 	public List<MohAreaVsDiseaseSummaryDto> generateMohAreaVaDiseaseSummary(final Long inDistrictId,
+			final int inLowerDateYear, final int inLowerDateMonth, final int inUpperDateYear,
+			final int inUpperDateMonth);
+
+	/**
+	 * Generate the summary of total number of reported cases according to each
+	 * ward of a institute under specified disease
+	 * 
+	 * @param inInstitute
+	 *            Name of the institute
+	 * @param inLowerDateYear
+	 *            Lower date year to consider in report generation
+	 * @param inLowerDateMonth
+	 *            Lower date month to consider in report generation
+	 * @param inUpperDateYear
+	 *            Upper date year to consider in report generation
+	 * @param inUpperDateMonth
+	 *            Upper date month to consider in report generation
+	 * @return List of {@link WardVsDiseaseSummaryDto}
+	 */
+	public List<WardVsDiseaseSummaryDto> generateWardVsDiseaseSummary(final String inInstitute,
 			final int inLowerDateYear, final int inLowerDateMonth, final int inUpperDateYear,
 			final int inUpperDateMonth);
 }

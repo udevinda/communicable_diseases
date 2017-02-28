@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.AliasToBeanResultTransformer;
@@ -15,9 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import lk.health.phd.cd.dao.Form544Dao;
 import lk.health.phd.cd.dto.DiseaseVsPatientSummaryDto;
-import lk.health.phd.cd.dto.DiseaseVsPatientSummaryDtoBk;
 import lk.health.phd.cd.dto.Form544FilterDto;
-import lk.health.phd.cd.models.Disease;
 import lk.health.phd.cd.models.Form544;
 import lk.health.phd.cd.models.MohArea;
 import lk.health.phd.util.Util;
@@ -235,11 +232,11 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 	/**
 	 * {@inheritDoc}
 	 */
-	public List getEachDiseaseCountForGivenMohArea(final MohArea inMohArea, final String inLowerDateLimit,
-			final String inUpperDateLimit) {
+	public List<DiseaseVsPatientSummaryDto> getEachDiseaseCountForGivenMohArea(final MohArea inMohArea,
+			final String inLowerDateLimit, final String inUpperDateLimit) {
 		Session session = getCurrentSession();
 
-		Criteria criteria = session.createCriteria(Form544.class);
+		Criteria criteria = session.createCriteria(Form544.class, "form544");
 
 		try {
 			criteria.add(Restrictions.eq("mohArea", inMohArea));
@@ -249,14 +246,20 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 			e.printStackTrace();
 		}
 
-		//TODO implement to map result to a DTO object
+		criteria.createAlias("form544.disease", "disease");
+
 		return criteria
-				.setProjection(Projections.projectionList().add(Projections.groupProperty("disease"), "disease")
+				.setProjection(Projections.projectionList()
+						.add(Projections.groupProperty("disease.diseaseName"), "diseaseName")
 						.add(Projections.count("id"), "count"))
-				.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list();
+				.setResultTransformer(new AliasToBeanResultTransformer(DiseaseVsPatientSummaryDto.class)).list();
 	}
 
-	public List getEachDiseaseCountForGivenWard(String inWard, String inLowerDateLimit, String inUpperDateLimit) {
+	/**
+	 * {@inheritDoc}
+	 */
+	public List<DiseaseVsPatientSummaryDto> getEachDiseaseCountForGivenWard(final String inWard,
+			final String inLowerDateLimit, final String inUpperDateLimit) {
 		Session session = getCurrentSession();
 
 		Criteria criteria = session.createCriteria(Form544.class, "form544");
@@ -270,11 +273,25 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 		}
 
 		criteria.createAlias("form544.disease", "disease");
-		
+
 		return criteria
-				.setProjection(Projections.projectionList().add(Projections.groupProperty("disease.diseaseName"), "disease")
+				.setProjection(Projections.projectionList()
+						.add(Projections.groupProperty("disease.diseaseName"), "diseaseName")
 						.add(Projections.count("id"), "count"))
-				.setResultTransformer(new AliasToBeanResultTransformer(DiseaseVsPatientSummaryDtoBk.class)).list();
+				.setResultTransformer(new AliasToBeanResultTransformer(DiseaseVsPatientSummaryDto.class)).list();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public List getWardsForAInstitute(final String inInstitute) {
+		Session session = getCurrentSession();
+
+		Criteria criteria = session.createCriteria(Form544.class, "form544");
+		criteria.add(Restrictions.eq("institute", inInstitute));
+
+		return criteria.setProjection(Projections.projectionList().add(Projections.groupProperty("ward"), "ward"))
+				.setResultTransformer(Transformers.TO_LIST).list();
 	}
 
 }
