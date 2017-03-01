@@ -536,15 +536,16 @@ public class Form544Controller {
 	}
 
 	@RequestMapping(value = "diseaseVsWard", method = RequestMethod.GET)
-	@ResponseBody
-	public List getDiseaseVsWardSummary(@RequestParam("institute") final String inInstitute,
+	public String getDiseaseVsWardSummary(@RequestParam("institute") final String inInstitute,
 			@RequestParam("from_year") final int inFromYear, @RequestParam("from_month") final int inFromMonth,
-			@RequestParam("to_year") final int inToYear, @RequestParam("to_month") final int inToMonth) {
+			@RequestParam("to_year") final int inToYear, @RequestParam("to_month") final int inToMonth, Model model) {
 
 		List<WardVsDiseaseSummaryDto> wardVsDiseaseSummaryDtos = form544Service
 				.generateWardVsDiseaseSummary(inInstitute, inFromYear, inFromMonth, inToYear, inToMonth);
 
-		return wardVsDiseaseSummaryDtos;
+		model.addAttribute("wardVsDiseaseList", wardVsDiseaseSummaryDtos);
+
+		return "ward_vs_disease_count_report";
 	}
 
 	/**

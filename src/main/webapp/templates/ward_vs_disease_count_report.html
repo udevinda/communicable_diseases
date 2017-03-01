@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+<meta charset="utf-8">
+<title>Disease Distribution Map</title>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/jquery-ui.css">
+<link rel="stylesheet" href="../css/custom.css">
+<link rel="stylesheet" href="../css/jquery.dataTables.min.css">
+<script src="../js/jquery-3.1.1.min.js"></script>
+<script src="../js/jquery-ui.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/jquery.dataTables.min.js"></script>
+</head>
+<body>
+
+	<table class="table" id="mohVsDiseaseTbl">
+		<thead>
+			<tr id="wardVsDiseaseTblHeadings">
+				<th>Ward</th>
+			</tr>
+		</thead>
+		<tbody id="wardVsDiseaseTblBody">
+		</tbody>
+	</table>
+
+
+</body>
+</html>
+
+<script th:inline="javascript">
+
+	/*<![CDATA[*/
+	           
+	console.log([[${wardVsDiseaseList}]]);
+	
+	processObjList([[${wardVsDiseaseList}]]);
+	 /*]]>*/
+	 
+	 function processObjList(wardVsDiseaseSummaryList){
+		 var wardArr = composeWardArr(wardVsDiseaseSummaryList);
+		 var diseaseNameArr = composeDiseaseNameArr(wardVsDiseaseSummaryList);
+		 var wardTotals = composeTotalForWards(wardArr, wardVsDiseaseSummaryList); 
+		 
+		 var wardRowArr = [];
+		 
+		 for(var counter1=0; counter1 < diseaseNameArr.length; counter1++){
+			 var wardRaw = [];
+			 var totalForDisease = 0;
+			 var diseaseName = diseaseNameArr[counter1];
+			 wardRaw[0] = diseaseName;
+			 
+			 for(var counter2=0; counter2 < wardVsDiseaseSummaryList.length; counter2++){
+				 var wardForRow = wardVsDiseaseSummaryList[counter2].ward;
+				 var diseaseVsPatientSummaryDtos = wardVsDiseaseSummaryList[counter2].diseaseVsPatientSummaryDtos;
+				 var arrayIndexForWardCount = (wardArr.indexOf(wardForRow)) + 1;
+				 
+				 for(var counter3=0; counter3<diseaseVsPatientSummaryDtos.length;counter3++){
+					 if(diseaseName == diseaseVsPatientSummaryDtos[counter3].diseaseName){
+					 	wardRaw[arrayIndexForWardCount] = diseaseVsPatientSummaryDtos[counter3].count;
+					 }else if(counter3 != 0 && !(wardRaw[counter3] > 0)){
+						wardRaw[counter3] = 0;
+					 }
+				 }
+			 }
+			 wardRaw = fillArrayBlanks(wardArr, wardRaw);
+			 wardRowArr.push(wardRaw);
+		 }
+		 
+		 
+		 
+		/* for(var counter1 = 0; counter1 < wardVsDiseaseSummaryList.length; counter1++){
+			 var diseaseVsPatientSummaryDtos = wardVsDiseaseSummaryList[counter1].diseaseVsPatientSummaryDtos;
+			 var wardRaw = [];
+			 var totalForDisease = 0;
+			 
+			 for(counter2=0; counter2<diseaseNameArr.length; counter2++){
+				 wardRow[0] = diseaseNameArr[counter]
+			 }
+		 }*/
+		 
+		 
+		 
+		 /*
+		 for(var counter1 = 0; counter1 < wardVsDiseaseSummaryList.length; counter1++){
+				var diseaseVsPatientSummaryDtos = wardVsDiseaseSummaryList[counter1].diseaseVsPatientSummaryDtos;
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				var wardRaw = [];
+				var totalForDisease = 0;
+				
+				for(var counter2= 0;counter2 < diseaseVsPatientSummaryDtos.length; counter2++){
+					var diseaseName = diseaseVsPatientSummaryDtos[counter2].diseaseName;
+					wardRaw[0] = diseaseName;
+					
+					
+					var wardForRow = wardVsDiseaseSummaryList[counter1].ward;
+					var arrayIndexForWardCount = (wardArr.indexOf(wardForRow)) + 1;
+					
+					for(var counter3 = 0; counter3 < (wardArr.length) + 1; counter3++){
+						if(arrayIndexForWardCount == counter3){
+							wardRaw[counter3] = diseaseVsPatientSummaryDtos[counter2].count;
+							totalForDisease = totalForDisease + diseaseVsPatientSummaryDtos[counter2].count;
+						}else if(counter3 != 0 && !(wardRaw[counter3] > 0)){
+							wardRaw[counter3] = 0;
+						}
+					}
+				}
+				wardRaw.push(totalForDisease);
+				wardRowArr.push(wardRaw);
+				
+			}
+		 	wardTotals.unshift("Total");
+			wardRowArr.push(wardTotals);
+			drawReport(wardArr, wardRowArr); */
+		 
+		console.log(wardRowArr);
+		//console.log(diseaseNameArr);
+	 }
+	 
+	 function composeTotalForWards(wardArr, wardVsDiseaseSummaryList){
+		 var wardTotalArr = [];
+		 
+		 for(var x = 0; x < wardArr.length; x++){
+			 var totalForWard = 0;
+			 for(var i = 0; i < wardVsDiseaseSummaryList.length; i++){
+				 var diseaseVsPatientSummaryDtos = wardVsDiseaseSummaryList[i].diseaseVsPatientSummaryDtos;
+				 
+				 for(var y = 0; y < diseaseVsPatientSummaryDtos.length; y++){
+					 var ward = wardVsDiseaseSummaryList[i].ward;
+					 
+					 if(wardArr[x] == ward){
+						 totalForWard = totalForWard + diseaseVsPatientSummaryDtos[y].count;
+					 }
+				 }
+			 }
+			 
+			 wardTotalArr[x] = totalForWard;
+		 }
+		 
+		 function totalOfInsideArrVals(arr){
+			 var total = 0;
+			 for(var counter = 0; counter < arr.length; counter++){
+				 total = total + arr[counter];
+			 }
+			 
+			 return total;
+		 }
+		 
+		 wardTotalArr.push(totalOfInsideArrVals(wardTotalArr));
+		 
+		 return wardTotalArr;
+	 }
+	 
+	 function composeWardArr(wardVsDiseaseSummaryList){
+		 var wardArr = [];
+		 
+		 for(var i = 0; i < wardVsDiseaseSummaryList.length; i++){
+			 wardArr.push(wardVsDiseaseSummaryList[i].ward);
+		}
+		
+		 return wardArr;
+	 }
+	 
+	 function composeDiseaseNameArr(wardVsDiseaseSummaryList){
+		 var diseaseNameArr = [];
+		 
+		 for(var i = 0; i < wardVsDiseaseSummaryList.length; i++){
+			 var diseaseVsPatientSummaryDtos = wardVsDiseaseSummaryList[i].diseaseVsPatientSummaryDtos;
+			 
+			 for(var x = 0; x < diseaseVsPatientSummaryDtos.length; x++){
+				 var diseaseName = diseaseVsPatientSummaryDtos[x].diseaseName;
+				 
+				 if(!diseaseNameArr.includes(diseaseName)){
+					 diseaseNameArr.push(diseaseName);
+				 }
+			 }
+		}
+		
+		 return diseaseNameArr;
+	 }
+	 
+	 function fillArrayBlanks(wardArr, diseaseRow){
+		 for(var counter1=0;counter1<wardArr.length;counter1++){
+			 if(diseaseRow[counter1+1] == undefined){
+				 diseaseRow[counter1+1] = 0;
+			 }
+		 }
+		 console.log(diseaseRow);
+		 return diseaseRow;
+	 }
+	 
+	 function drawReport(wardList, wardRows){
+		 for (var i = 0; i < wardList.length; i++) {
+				$("#wardVsDiseaseTblHeadings")
+						.append(
+								'<th>' + wardList[i] + '</th>');
+			}
+		 $("#wardVsDiseaseTblHeadings")
+			.append(
+					'<th>' + "Total" + '</th>');
+		 
+		 for (var i = 0; i < wardRows.length; i++) {
+				$("#wardVsDiseaseTblBody")
+						.append(
+								'<tr>' + generateCols(wardRows[i]) + '</tr>');
+			}
+		 
+		 function generateCols(wardRow){
+			 var cols = "";
+			 for(var counter = 0; counter < (wardList.length)+2; counter++){
+				 cols = cols + "<td>" + decideValueOrDash(wardRow[counter]) + "</td>";
+			 }
+			 
+			 return cols;
+		 }
+		 
+		 function decideValueOrDash(value){
+			 if(value == undefined || value==0){
+				 return "-";
+			 }else{
+				 return value;
+			 }
+		 }
+	 }
+</script>
