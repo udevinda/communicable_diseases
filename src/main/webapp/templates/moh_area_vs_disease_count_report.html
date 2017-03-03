@@ -3,7 +3,7 @@
 <head>
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
 <meta charset="utf-8">
-<title>Disease Distribution Map</title>
+<title>Summary of Communicable Diseases - WARDS</title>
 <link rel="stylesheet" href="../css/bootstrap.min.css">
 <link rel="stylesheet" href="../css/jquery-ui.css">
 <link rel="stylesheet" href="../css/custom.css">
@@ -18,7 +18,7 @@
 	<table class="table" id="mohAreaVsDiseaseTbl">
 		<thead>
 			<tr id="mohAreaVsDiseaseTblHeadings">
-				<th>MOH Area</th>
+				<th>MOH Area/Disease</th>
 			</tr>
 		</thead>
 		<tbody id="mohAreaVsDiseaseTblBody">
@@ -35,37 +35,73 @@
 	processObjList([[${mohAreaVsDiseaseSummaryList}]]);
 	 /*]]>*/
 	 
+	 
+	 /**
+	 
+	 mohAreaVsDiseaseSummaryList contains following structure
+	 [
+	  {"diseaseVsPatientSummaryDtos":[{"diseaseName":"Meningitis","count":2}],"mohArea":"Matale"},
+	  {"diseaseVsPatientSummaryDtos":[{"diseaseName":"Dengue Fever","count":7},{"diseaseName":"Meningitis","count":2}],"mohArea":"Ukuwela"}
+	 ]
+	 
+	 **/
+	 
+	 /**
+	 Summary table to be generated
+	 
+	 MOH Area/Disease	|	Meningitis	|	Dengue Fever	| 	Leptospirosis	|	Total
+	 Matale				|	2			|	-				|	-				|	2
+	 Ukuwela			|	2			|	7				|	-				|	9
+	 Total				|	4			|	7				|	-				|	11
+	 
+	 
+	 **/
+	 
 	 function processObjList(mohAreaVsDiseaseSummaryList){
+		 //Extracting and generate distinct set of disease name list from the mohAreaVsDiseaseSummaryList received from backend
 		 var diseaseNameArr = composeDiseaseNameArr(mohAreaVsDiseaseSummaryList);
 		 var diseaseRowArr = [];
 		
+		 //Compose the Disease totals row. which is the last row of the summary table
 		 var diseaseTotals = composeTotalForDiseases(diseaseNameArr, mohAreaVsDiseaseSummaryList);
 		 
+		 //Looping through the each item of the mohAreaVsDiseaseSummaryList
 			for(var counter1 = 0; counter1 < mohAreaVsDiseaseSummaryList.length; counter1++){
 				var mohAreaName = mohAreaVsDiseaseSummaryList[counter1].mohArea;
 				var diseaseVsPatientSummaryDtos = mohAreaVsDiseaseSummaryList[counter1].diseaseVsPatientSummaryDtos;
+				//This will be included data items for a row in the summary table
 				var diseaseRow = [];
 				var totalForMohArea = 0;
+				//Put the mohAreaName to the 1st column of the row
 				diseaseRow[0] = mohAreaName;
 				
+				//Looping through the each item of the diseaseVsPatientSummaryDtos. which contain disease and count under each mohArea
 				for(var counter2= 0;counter2 < diseaseVsPatientSummaryDtos.length; counter2++){
 					var diseaseNameForRow = diseaseVsPatientSummaryDtos[counter2].diseaseName;
+					//We find the column to put count for each disease. We use disease names index+1 of the diseaseNameArr as the place for count.
 					var arrayIndexForDiseaseCount = (diseaseNameArr.indexOf(diseaseNameForRow)) + 1;
 					
 					for(var counter3 = 0; counter3 < (diseaseNameArr.length) + 1; counter3++){
 						if(arrayIndexForDiseaseCount == counter3){
 							diseaseRow[counter3] = diseaseVsPatientSummaryDtos[counter2].count;
+							//At the same time we calculate the total for the particular row(mohAreas)
 							totalForMohArea = totalForMohArea + diseaseVsPatientSummaryDtos[counter2].count;
 						}else if(counter3 != 0 && !(diseaseRow[counter3] > 0)){
+							//We fill 0s to cells in the row where count is not available
 							diseaseRow[counter3] = 0;
 						}
 					}
 				}
+				//We push the total for each row
 				diseaseRow.push(totalForMohArea);
+				//We push whole row to the collection of array
 				diseaseRowArr.push(diseaseRow);
 				
 			}
+		 	//Now we have collection of rows
+		 	//We have a separate row with totals for each column(diseases). We include term "Total" to the row begining.
 			diseaseTotals.unshift("Total");
+		 	//We include diseaseTotals to our row collection
 			diseaseRowArr.push(diseaseTotals);
 			drawReport(diseaseNameArr, diseaseRowArr);
 	 }

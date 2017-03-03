@@ -3,7 +3,7 @@
 <head>
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
 <meta charset="utf-8">
-<title>Disease Distribution Map</title>
+<title>Summary of Communicable Diseases - MOH Area</title>
 <link rel="stylesheet" href="../css/bootstrap.min.css">
 <link rel="stylesheet" href="../css/jquery-ui.css">
 <link rel="stylesheet" href="../css/custom.css">
@@ -18,7 +18,7 @@
 	<table class="table" id="mohVsDiseaseTbl">
 		<thead>
 			<tr id="wardVsDiseaseTblHeadings">
-				<th>Ward</th>
+				<th>Disease/Ward</th>
 			</tr>
 		</thead>
 		<tbody id="wardVsDiseaseTblBody">
@@ -33,101 +33,88 @@
 
 	/*<![CDATA[*/
 	           
-	console.log([[${wardVsDiseaseList}]]);
+	//console.log([[${wardVsDiseaseList}]]);
 	
 	processObjList([[${wardVsDiseaseList}]]);
 	 /*]]>*/
 	 
+	 /**
+	 wardVsDiseaseList structure
+	 
+	 [
+	  {"ward":"03","diseaseVsPatientSummaryDtos":[{"diseaseName":"Dengue Fever","count":1},{"diseaseName":"Meningitis","count":9}]},
+	  {"ward":"04","diseaseVsPatientSummaryDtos":[{"diseaseName":"Dengue Fever","count":7}
+	 ]
+	  
+	 
+	 **/
+	 
+	 
+	 /**
+	 Summary table to be generated
+	 
+
+	 Disease/Ward	|	03	|	04	| 	06	|	Total
+	 Dengue			|	1	|	7	|	1	|	9
+	 Meningitis		|	9	|	-	|	-	|	9
+	 Total			|	10	|	7	|	1	|	18
+	 
+	 
+	 **/
+	 
 	 function processObjList(wardVsDiseaseSummaryList){
+		 
+		 //From the wardVsDiseaseList we create a distinct list of wards and diseaseNames
 		 var wardArr = composeWardArr(wardVsDiseaseSummaryList);
 		 var diseaseNameArr = composeDiseaseNameArr(wardVsDiseaseSummaryList);
+		 
+		 //We create the total row which is the fnal row of the summary tbl
 		 var wardTotals = composeTotalForWards(wardArr, wardVsDiseaseSummaryList); 
 		 
+		 //Bag for rows of the table
 		 var wardRowArr = [];
 		 
+		 //We select a disease from diseaseNameArr and try to create a row
 		 for(var counter1=0; counter1 < diseaseNameArr.length; counter1++){
+			 //This will be included a data for each row in the summary table
 			 var wardRaw = [];
 			 var totalForDisease = 0;
 			 var diseaseName = diseaseNameArr[counter1];
+			 //Put the disease name to the first column of the row
 			 wardRaw[0] = diseaseName;
 			 
+			 //We are looping wardVsDiseaseSummaryList
 			 for(var counter2=0; counter2 < wardVsDiseaseSummaryList.length; counter2++){
 				 var wardForRow = wardVsDiseaseSummaryList[counter2].ward;
 				 var diseaseVsPatientSummaryDtos = wardVsDiseaseSummaryList[counter2].diseaseVsPatientSummaryDtos;
+				 //To include the count we find the table column as value's index+1 in the wardForRow
 				 var arrayIndexForWardCount = (wardArr.indexOf(wardForRow)) + 1;
 				 
+				 //Now we loop through the diseaseVsPatientSummaryDtos
 				 for(var counter3=0; counter3<diseaseVsPatientSummaryDtos.length;counter3++){
 					 if(diseaseName == diseaseVsPatientSummaryDtos[counter3].diseaseName){
-					 	wardRaw[arrayIndexForWardCount] = diseaseVsPatientSummaryDtos[counter3].count;
+					 	//We include the count value to the correct column cell
+						wardRaw[arrayIndexForWardCount] = diseaseVsPatientSummaryDtos[counter3].count;
+					 	//Same time we calculate total for each disease and include
+					 	totalForDisease = totalForDisease + diseaseVsPatientSummaryDtos[counter3].count;
 					 }else if(counter3 != 0 && !(wardRaw[counter3] > 0)){
-						wardRaw[counter3] = 0;
+						//We put 0s to every cell in the row where a count is missing
+						 wardRaw[counter3] = 0;
 					 }
 				 }
 			 }
+			 //Even though we fill 0s there are occassions no counts available for some indexes of the array. We put 0s for all those arrays.
 			 wardRaw = fillArrayBlanks(wardArr, wardRaw);
+			 //We add disease total to the row
+			 wardRaw.push(totalForDisease);
+			 //We add the created row to the row collection
 			 wardRowArr.push(wardRaw);
 		 }
-		 
-		 
-		 
-		/* for(var counter1 = 0; counter1 < wardVsDiseaseSummaryList.length; counter1++){
-			 var diseaseVsPatientSummaryDtos = wardVsDiseaseSummaryList[counter1].diseaseVsPatientSummaryDtos;
-			 var wardRaw = [];
-			 var totalForDisease = 0;
-			 
-			 for(counter2=0; counter2<diseaseNameArr.length; counter2++){
-				 wardRow[0] = diseaseNameArr[counter]
-			 }
-		 }*/
-		 
-		 
-		 
-		 /*
-		 for(var counter1 = 0; counter1 < wardVsDiseaseSummaryList.length; counter1++){
-				var diseaseVsPatientSummaryDtos = wardVsDiseaseSummaryList[counter1].diseaseVsPatientSummaryDtos;
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				var wardRaw = [];
-				var totalForDisease = 0;
-				
-				for(var counter2= 0;counter2 < diseaseVsPatientSummaryDtos.length; counter2++){
-					var diseaseName = diseaseVsPatientSummaryDtos[counter2].diseaseName;
-					wardRaw[0] = diseaseName;
-					
-					
-					var wardForRow = wardVsDiseaseSummaryList[counter1].ward;
-					var arrayIndexForWardCount = (wardArr.indexOf(wardForRow)) + 1;
-					
-					for(var counter3 = 0; counter3 < (wardArr.length) + 1; counter3++){
-						if(arrayIndexForWardCount == counter3){
-							wardRaw[counter3] = diseaseVsPatientSummaryDtos[counter2].count;
-							totalForDisease = totalForDisease + diseaseVsPatientSummaryDtos[counter2].count;
-						}else if(counter3 != 0 && !(wardRaw[counter3] > 0)){
-							wardRaw[counter3] = 0;
-						}
-					}
-				}
-				wardRaw.push(totalForDisease);
-				wardRowArr.push(wardRaw);
-				
-			}
-		 	wardTotals.unshift("Total");
-			wardRowArr.push(wardTotals);
-			drawReport(wardArr, wardRowArr); */
-		 
-		console.log(wardRowArr);
-		//console.log(diseaseNameArr);
+		 //We add term "Total" to the wardTotal row
+		 wardTotals.unshift("Total");
+		 //We add that row to the row collection
+		 wardRowArr.push(wardTotals);
+		 drawReport(wardArr, wardRowArr);	 
 	 }
 	 
 	 function composeTotalForWards(wardArr, wardVsDiseaseSummaryList){
@@ -198,7 +185,7 @@
 				 diseaseRow[counter1+1] = 0;
 			 }
 		 }
-		 console.log(diseaseRow);
+		 //console.log(diseaseRow);
 		 return diseaseRow;
 	 }
 	 
