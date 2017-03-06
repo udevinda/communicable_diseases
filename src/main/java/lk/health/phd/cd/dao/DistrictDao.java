@@ -19,4 +19,13 @@ public interface DistrictDao extends UniversalDao<District> {
 	 */
 	public List<District> getAllDistrict();
 
+	/**
+	 * Get {@link District} by ID
+	 * 
+	 * @param inDistrictId
+	 *            ID of the {@link District}
+	 * @return {@link District}
+	 */
+	public District getDistrictById(final Long inDistrictId);
+
 }

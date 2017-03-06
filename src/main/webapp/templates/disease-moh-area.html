@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Communicable Disease - MOH Area</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/jquery-ui.css">
+<link rel="stylesheet" href="../css/custom.css">
+<script src="../js/jquery-3.1.1.min.js"></script>
+<script src="../js/jquery-ui.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/report-custom.js"></script>
+
+</head>
+
+<body>
+	<div id="banner"></div>
+
+	<div id="navigation"></div>
+
+	<div class="container">
+		<form th:action="@{/reports/diseaseVsMohArea}" method="post"
+			target="_blank">
+			<div class="form-group">
+				<label for="myRef">My Ref:</label> <input type="text"
+					class="form-control" id="myRef" name="my_ref"
+					placeholder="Enter sender's reference number" maxlength="50"
+					required>
+			</div>
+			<div class="form-group">
+				<label for="yourRef">Your Ref:</label> <input type="text"
+					class="form-control" id="yourRef" name="your_ref"
+					placeholder="Enter receiver's reference number" maxlength="50"
+					required>
+			</div>
+			<div class="form-group">
+				<label for="reportDate">Date of Report:</label> <input type="text"
+					class="form-control" id="reportDate" name="report_date"
+					placeholder="Select date of report" required>
+			</div>
+			<div class="form-group">
+				<label for="resAddr">Receiver Address:</label> <input type="text"
+					class="form-control" id="resAddr" name="res_addr"
+					placeholder="Enter receiver's address" maxlength="150" required>
+			</div>
+			<div class="form-group">
+				<label for="district">District:</label> <select class="form-control"
+					id="district" name="district">
+					<option th:each="district:${districtList}"
+						th:value="${district.id}" th:text="${district.districtName}"></option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="district">Start from:</label>
+				<div class="row">
+					<div class="col-md-6">
+						<select class="form-control" id="fromYear" name="from_year">
+							<option value="" disabled selected>Year</option>
+						</select>
+					</div>
+					<div class="col-md-6">
+						<select class="form-control" id="fromMonth" name="from_month">
+							<option value="" disabled selected>Month</option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="district">End to:</label>
+				<div class="row">
+					<div class="col-md-6">
+						<select class="form-control" id="toYear" name="to_year">
+							<option value="" disabled selected>Year</option>
+						</select>
+					</div>
+					<div class="col-md-6">
+						<select class="form-control" id="toMonth" name="to_month">
+							<option value="" disabled selected>Month</option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<button type="submit" class="btn btn-success pull-right">Submit</button>
+			</div>
+		</form>
+	</div>
+	<div id="footer"></div>
+</body>

@@ -505,50 +505,6 @@ public class Form544Controller {
 	}
 
 	/**
-	 * Controller method to retrieve Disease Vs MOH area report for given
-	 * period.
-	 * 
-	 * @param inDistrictId
-	 *            ID of the district to consider.
-	 * @param inFromYear
-	 *            From year of the considering period
-	 * @param inFromMonth
-	 *            From month of the considering period
-	 * @param inToYear
-	 *            To year of the considering period
-	 * @param inToMonth
-	 *            To month of the considering period
-	 * @param model
-	 *            {@link Model}
-	 * @return
-	 */
-	@RequestMapping(value = "diseaseVsMohArea", method = RequestMethod.GET)
-	public String getDiseaseVsMohAreaSummary(@RequestParam("district_id") final Long inDistrictId,
-			@RequestParam("from_year") final int inFromYear, @RequestParam("from_month") final int inFromMonth,
-			@RequestParam("to_year") final int inToYear, @RequestParam("to_month") final int inToMonth, Model model) {
-
-		List<MohAreaVsDiseaseSummaryDto> areaVsDiseaseSummaryDtos = form544Service
-				.generateMohAreaVaDiseaseSummary(inDistrictId, inFromYear, inFromMonth, inToYear, inToMonth);
-
-		model.addAttribute("mohAreaVsDiseaseSummaryList", areaVsDiseaseSummaryDtos);
-
-		return "moh_area_vs_disease_count_report";
-	}
-
-	@RequestMapping(value = "diseaseVsWard", method = RequestMethod.GET)
-	public String getDiseaseVsWardSummary(@RequestParam("institute") final String inInstitute,
-			@RequestParam("from_year") final int inFromYear, @RequestParam("from_month") final int inFromMonth,
-			@RequestParam("to_year") final int inToYear, @RequestParam("to_month") final int inToMonth, Model model) {
-
-		List<WardVsDiseaseSummaryDto> wardVsDiseaseSummaryDtos = form544Service
-				.generateWardVsDiseaseSummary(inInstitute, inFromYear, inFromMonth, inToYear, inToMonth);
-
-		model.addAttribute("wardVsDiseaseList", wardVsDiseaseSummaryDtos);
-
-		return "ward_vs_disease_count_report";
-	}
-
-	/**
 	 * Return the disease object by ID.
 	 * 
 	 * @param inDiseaseId
