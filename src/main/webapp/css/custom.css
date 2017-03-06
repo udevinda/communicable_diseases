@@ -30,3 +30,11 @@ input[data-readonly] {
 .age-view-headings {
 	font-weight: bold;
 }
+
+.report-header-img{
+	width:100%
+}
+
+.report-footer-img{
+	width:100%
+}
