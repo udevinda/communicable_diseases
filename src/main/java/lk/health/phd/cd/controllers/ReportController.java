@@ -10,8 +10,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import lk.health.phd.cd.dao.DistrictDao;
+import lk.health.phd.cd.dao.Form544Dao;
 import lk.health.phd.cd.dto.MohAreaVsDiseaseSummaryDto;
 import lk.health.phd.cd.dto.WardVsDiseaseSummaryDto;
 import lk.health.phd.cd.services.Form544Service;
@@ -33,6 +35,9 @@ public class ReportController {
 
 	@Autowired
 	private DistrictDao districtDao;
+
+	@Autowired
+	private Form544Dao form544Dao;
 
 	Logger logger = LoggerFactory.getLogger(ReportController.class);
 
@@ -110,12 +115,31 @@ public class ReportController {
 		return "ward_vs_disease_count_report";
 	}
 
+	/**
+	 * Controller to load page disease-moh-area.html
+	 * 
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = "communicable-disease-moh-area", method = RequestMethod.GET)
 	public String getCommunicablDiseaseMohAreaReportGenPage(Model model) {
 
 		model.addAttribute("districtList", districtDao.getAllDistrict());
 
 		return "disease-moh-area";
+	}
+
+	/**
+	 * Controller to load page disease-ward.html
+	 * 
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "communicable-disease-ward", method = RequestMethod.GET)
+	public String getCommunicableDiseaseWardReportGenPage(Model model) {
+		model.addAttribute("instituteList", form544Dao.getDistinctInstituteList());
+
+		return "disease-ward";
 	}
 
 }

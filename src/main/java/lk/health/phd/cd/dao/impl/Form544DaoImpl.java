@@ -294,4 +294,17 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 				.setResultTransformer(Transformers.TO_LIST).list();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	public List getDistinctInstituteList() {
+		Session session = getCurrentSession();
+
+		Criteria criteria = session.createCriteria(Form544.class, "form544");
+
+		return criteria
+				.setProjection(Projections.projectionList().add(Projections.groupProperty("institute"), "institute"))
+				.setResultTransformer(Transformers.TO_LIST).list();
+	}
+
 }
