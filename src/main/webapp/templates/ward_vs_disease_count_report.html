@@ -12,20 +12,75 @@
 <script src="../js/jquery-ui.js"></script>
 <script src="../js/bootstrap.min.js"></script>
 <script src="../js/jquery.dataTables.min.js"></script>
+<script src="../js/report-custom.js"></script>
+
+<style>
+#myRef {
+	position: absolute;
+	top: 89%;
+	left: 17%;
+	font-size: 10px;
+}
+
+#rptDateTxt {
+	position: absolute;
+	top: 89%;
+	left: 81%;
+	font-size: 10px;
+}
+
+#yourRef {
+	position: absolute;
+	top: 89%;
+	left: 52%;
+	font-size: 10px;
+}
+
+#headerDiv {
+	position: relative
+}
+
+</style>
 </head>
 <body>
-	<div>
+	<div style="position: relative" id="headerDiv">
+		<div th:text="${my_ref}" id="myRef"></div>
+		<div th:text="${report_date}" id="rptDateTxt"></div>
+		<div th:text="${your_ref}" id="yourRef"></div>
 		<img class="report-header-img" src="../img/summary_letter_head.png">
 	</div>
-	<table class="table" id="mohVsDiseaseTbl">
-		<thead>
-			<tr id="wardVsDiseaseTblHeadings">
-				<th>Disease/Ward</th>
-			</tr>
-		</thead>
-		<tbody id="wardVsDiseaseTblBody">
-		</tbody>
-	</table>
+	<div>
+		<div style="color: crimson">
+			<h5>
+				<span th:text="${res_addr}" id="resAddr"></span>
+			</h5>
+		</div>
+		<div style="text-align: center; color: blueviolet">
+			<h4>
+				SUMMARY OF COMMUNICABLE DISEASES - WARDS <br><span th:text="${institute}"></span>
+			</h4>
+		</div>
+	</div>
+	<br>
+	<div style="color: goldenrod">
+		<h5>
+			Starting from <span th:text="${from_year}"></span>/<span
+				th:text="${from_month}" id="fromMonth"></span> to end of <span
+				th:text="${to_year}"></span>/<span th:text="${to_month}"
+				id="toMonth"></span>
+		</h5>
+	</div>
+	<div style="min-height:550px">
+		<table class="table" id="mohVsWardsTbl">
+			<thead>
+				<tr id="wardVsDiseaseTblHeadings">
+					<th>Disease/Ward</th>
+				</tr>
+			</thead>
+			<tbody id="wardVsDiseaseTblBody">
+			</tbody>
+		</table>
+	</div>
 	<div>
 		<img class="report-footer-img" src="../img/summary_letter_footer.png">
 	</div>
@@ -226,4 +281,17 @@
 			 }
 		 }
 	 }
+	 
+	 function formatPeriod(){
+		 var fromMonthIndex = document.getElementById('fromMonth').innerHTML;
+		 document.getElementById('fromMonth').innerHTML = getMonthByIndex(parseInt(fromMonthIndex));
+		 
+		 var toMonthIndex = document.getElementById('toMonth').innerHTML;
+		 document.getElementById('toMonth').innerHTML = getMonthByIndex(parseInt(toMonthIndex));
+	 }
+	 
+	 $(document).ready(function() {
+		 formatReseiverAddr();
+		 formatPeriod();
+	 });
 </script>

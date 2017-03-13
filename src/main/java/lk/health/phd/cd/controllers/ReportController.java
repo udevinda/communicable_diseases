@@ -55,6 +55,14 @@ public class ReportController {
 	 *            To year of the considering period
 	 * @param inToMonth
 	 *            To month of the considering period
+	 * @param inMyRef
+	 *            Reference number of the PHI
+	 * @param inYourRef
+	 *            Reference number of the receiver
+	 * @param inReportDate
+	 *            Date which the report is related to
+	 * @param inResAddr
+	 *            Receiver's address
 	 * @param model
 	 *            {@link Model}
 	 * @return moh_area_vs_disease_count_report.html file
@@ -98,19 +106,39 @@ public class ReportController {
 	 *            To year to generate the report
 	 * @param inToMonth
 	 *            To month to generate the report
+	 * @param inMyRef
+	 *            Reference number of the PHI
+	 * @param inYourRef
+	 *            Reference number of the receiver
+	 * @param inReportDate
+	 *            Date which the report is related to
+	 * @param inResAddr
+	 *            Receiver's address
 	 * @param model
 	 * 
 	 * @return ward_vs_disease_count_report.html file
 	 */
-	@RequestMapping(value = "diseaseVsWard", method = RequestMethod.GET)
+	@RequestMapping(value = "diseaseVsWard", method = RequestMethod.POST)
 	public String getDiseaseVsWardSummary(@RequestParam("institute") final String inInstitute,
 			@RequestParam("from_year") final int inFromYear, @RequestParam("from_month") final int inFromMonth,
-			@RequestParam("to_year") final int inToYear, @RequestParam("to_month") final int inToMonth, Model model) {
+			@RequestParam("to_year") final int inToYear, @RequestParam("to_month") final int inToMonth,
+			@RequestParam("my_ref") final String inMyRef, @RequestParam("your_ref") final String inYourRef,
+			@RequestParam("report_date") final String inReportDate, @RequestParam("res_addr") final String inResAddr,
+			Model model) {
 
 		List<WardVsDiseaseSummaryDto> wardVsDiseaseSummaryDtos = form544Service
 				.generateWardVsDiseaseSummary(inInstitute, inFromYear, inFromMonth, inToYear, inToMonth);
 
 		model.addAttribute("wardVsDiseaseList", wardVsDiseaseSummaryDtos);
+		model.addAttribute("from_year", inFromYear);
+		model.addAttribute("from_month", inFromMonth);
+		model.addAttribute("to_year", inToYear);
+		model.addAttribute("to_month", inToMonth);
+		model.addAttribute("my_ref", inMyRef);
+		model.addAttribute("your_ref", inYourRef);
+		model.addAttribute("report_date", inReportDate);
+		model.addAttribute("res_addr", inResAddr);
+		model.addAttribute("institute", inInstitute);
 
 		return "ward_vs_disease_count_report";
 	}

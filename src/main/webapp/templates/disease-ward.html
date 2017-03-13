@@ -12,6 +12,7 @@
 <script src="../js/bootstrap.min.js"></script>
 <script src="../js/report-custom.js"></script>
 
+
 </head>
 
 <body>
@@ -20,7 +21,7 @@
 	<div id="navigation"></div>
 
 	<div class="container">
-		<form th:action="@{/reports/diseaseVsMohArea}" method="post"
+		<form th:action="@{/reports/diseaseVsWard}" method="post"
 			target="_blank">
 			<div class="form-group">
 				<label for="myRef">My Ref:</label> <input type="text"
@@ -45,8 +46,8 @@
 					placeholder="Enter receiver's address" maxlength="150" required>
 			</div>
 			<div class="form-group">
-				<label for="district">Institute:</label> <select class="form-control"
-					id="district" name="district">
+				<label for="institute">Institute:</label> <select class="form-control"
+					id="institute" name="institute">
 					<option th:each="institute:${instituteList}"
 						th:value="${institute[0]}" th:text="${institute[0]}"></option>
 				</select>
