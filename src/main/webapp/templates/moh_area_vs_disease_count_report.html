@@ -14,64 +14,77 @@
 <script src="../js/jquery.dataTables.min.js"></script>
 <script src="../js/report-custom.js"></script>
 
-<style>
-#myRef {
+<style media="screen, print">
+.myRef {
 	position: absolute;
 	top: 89%;
 	left: 17%;
 	font-size: 10px;
 }
 
-#rptDateTxt {
+.rptDateTxt {
 	position: absolute;
 	top: 89%;
 	left: 81%;
 	font-size: 10px;
 }
 
-#yourRef {
+.yourRef {
 	position: absolute;
 	top: 89%;
 	left: 52%;
 	font-size: 10px;
 }
 
-#headerDiv {
+.headerDiv {
 	position: relative
 }
 
+.reportTitle {
+	text-align: center !important;
+	color: blueviolet !important;
+}
+
+.resAddr {
+	color: crimson !important
+}
+
+.datePeriod {
+	color: goldenrod !important
+}
 </style>
+
 </head>
 <body>
-	<div style="position: relative" id="headerDiv">
-		<div th:text="${my_ref}" id="myRef"></div>
-		<div th:text="${report_date}" id="rptDateTxt"></div>
-		<div th:text="${your_ref}" id="yourRef"></div>
+	<div style="position: relative" class="headerDiv">
+		<div th:text="${my_ref}" class="myRef"></div>
+		<div th:text="${report_date}" class="rptDateTxt"></div>
+		<div th:text="${your_ref}" class="yourRef"></div>
 		<img class="report-header-img" src="../img/summary_letter_head.png">
 	</div>
 	<div>
-		<div style="color: crimson">
+		<div>
 			<h5>
-				<span th:text="${res_addr}" id="resAddr"></span>
+				<span th:text="${res_addr}" class="resAddr" id="resAddr"></span>
 			</h5>
 		</div>
-		<div style="text-align: center; color: blueviolet">
-			<h4>
+		<div>
+			<h4 class="reportTitle">
 				SUMMARY OF COMMUNICABLE DISEASES - MOH <br> DISTRICT GENERAL
-				HOSPITAL - <span th:text="${district}"></span>
+				HOSPITAL - <span class="reportTitle" th:text="${district}"></span>
 			</h4>
 		</div>
 	</div>
 	<br>
-	<div style="color: goldenrod">
-		<h5>
-			Starting from <span th:text="${from_year}"></span>/<span
-				th:text="${from_month}" id="fromMonth"></span> to end of <span
-				th:text="${to_year}"></span>/<span th:text="${to_month}"
-				id="toMonth"></span>
+	<div>
+		<h5 class="datePeriod">
+			Starting from <span class="datePeriod" th:text="${from_year}"></span>/<span
+				class="datePeriod" th:text="${from_month}" id="fromMonth"></span> to
+			end of <span class="datePeriod" th:text="${to_year}"></span>/<span
+				class="datePeriod" th:text="${to_month}" id="toMonth"></span>
 		</h5>
 	</div>
-	<div style="min-height:550px">
+	<div style="min-height: 550px">
 		<table class="table" id="mohAreaVsDiseaseTbl">
 			<thead>
 				<tr id="mohAreaVsDiseaseTblHeadings">
