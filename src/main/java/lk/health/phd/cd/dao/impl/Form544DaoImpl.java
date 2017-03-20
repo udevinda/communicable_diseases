@@ -5,16 +5,23 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.dialect.function.StandardSQLFunction;
 import org.hibernate.transform.AliasToBeanResultTransformer;
 import org.hibernate.transform.Transformers;
+import org.hibernate.type.IntegerType;
+import org.hibernate.type.StringType;
+import org.hibernate.type.Type;
 import org.springframework.stereotype.Repository;
 
 import lk.health.phd.cd.dao.Form544Dao;
 import lk.health.phd.cd.dto.DiseaseVsPatientSummaryDto;
 import lk.health.phd.cd.dto.Form544FilterDto;
+import lk.health.phd.cd.dto.MonthVsPatientSummaryDto;
+import lk.health.phd.cd.models.Disease;
 import lk.health.phd.cd.models.Form544;
 import lk.health.phd.cd.models.MohArea;
 import lk.health.phd.util.Util;
@@ -305,6 +312,24 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 		return criteria
 				.setProjection(Projections.projectionList().add(Projections.groupProperty("institute"), "institute"))
 				.setResultTransformer(Transformers.TO_LIST).list();
+	}
+
+	public List<MonthVsPatientSummaryDto> getDiseaseCountForEachMonth(final Disease inDisease, final MohArea inMohArea,
+			final String inYear) {
+		Session session = getCurrentSession();
+
+		Criteria criteria = session.createCriteria(Form544.class, "form544");
+		criteria.add(Restrictions.eq("mohArea", inMohArea));
+		criteria.add(Restrictions.eq("disease", inDisease));
+		criteria.add(Restrictions.sqlRestriction("year({alias}.date_of_admission)=?", inYear, StringType.INSTANCE));
+
+		return criteria
+				.setProjection(Projections.projectionList()
+						.add(Projections.sqlGroupProjection("month({alias}.date_of_admission) as month",
+								"month({alias}.date_of_admission)", new String[] { "month" },
+								new Type[] { IntegerType.INSTANCE }), "month")
+						.add(Projections.count("id"), "count"))
+				.setResultTransformer(new AliasToBeanResultTransformer(MonthVsPatientSummaryDto.class)).list();
 	}
 
 }

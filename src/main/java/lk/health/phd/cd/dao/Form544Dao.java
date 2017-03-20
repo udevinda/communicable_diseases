@@ -3,6 +3,7 @@ package lk.health.phd.cd.dao;
 import java.util.List;
 
 import lk.health.phd.cd.dto.Form544FilterDto;
+import lk.health.phd.cd.dto.MonthVsPatientSummaryDto;
 import lk.health.phd.cd.models.Disease;
 import lk.health.phd.cd.models.Form544;
 import lk.health.phd.cd.models.MohArea;
@@ -109,4 +110,6 @@ public interface Form544Dao extends UniversalDao<Form544> {
 	 * 		List of institutes
 	 */
 	public List getDistinctInstituteList();
+
+	public List getDiseaseCountForEachMonth(final Disease inDisease, final MohArea mohAreaId, final String inYear);
 }
