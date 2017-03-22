@@ -25,7 +25,9 @@ import lk.health.phd.cd.dao.MohAreaDao;
 import lk.health.phd.cd.dao.WorkflowDao;
 import lk.health.phd.cd.dto.DiseaseVsPatientSummaryDto;
 import lk.health.phd.cd.dto.MohAreaVsDiseaseSummaryDto;
+import lk.health.phd.cd.dto.MonthVsPatientSummaryDto;
 import lk.health.phd.cd.dto.WardVsDiseaseSummaryDto;
+import lk.health.phd.cd.models.Disease;
 import lk.health.phd.cd.models.DiseaseConfirmationTest;
 import lk.health.phd.cd.models.District;
 import lk.health.phd.cd.models.Form544;
@@ -180,6 +182,25 @@ public class Form544ServiceImpl implements Form544Service {
 		}
 
 		return wardVsDiseaseSummaryDtos;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public List generateMonthlyDiseaseTrendDataSet(final Disease inDisease, final Long inDistrictId,
+			final String inYear) {
+
+		List<MohArea> mohAreas = mohAreaDao.getMohAreaByDistrictId(inDistrictId);
+		ArrayList trendDataList = new ArrayList();
+
+		for (int i = 0; i < mohAreas.size(); i++) {
+			List<MonthVsPatientSummaryDto> monthVsPatientSummaryDtos = form544Dao.getDiseaseCountForEachMonth(inDisease,
+					mohAreas.get(i), inYear);
+
+			trendDataList.add(monthVsPatientSummaryDtos);
+		}
+
+		return trendDataList;
 	}
 
 }

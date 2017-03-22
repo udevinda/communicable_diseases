@@ -88,4 +88,19 @@ public interface Form544Service {
 	public List<WardVsDiseaseSummaryDto> generateWardVsDiseaseSummary(final String inInstitute,
 			final int inLowerDateYear, final int inLowerDateMonth, final int inUpperDateYear,
 			final int inUpperDateMonth);
+
+	/**
+	 * Generate the list of total disease count for each month for a specific
+	 * disease and specific district.
+	 * 
+	 * @param inDisease
+	 *            {@link Disease}
+	 * @param inDistrictId
+	 *            ID of the {@link District}
+	 * @param inYear
+	 *            Year to consider
+	 * @return List of group of disease counts for each month.
+	 */
+	public List generateMonthlyDiseaseTrendDataSet(final Disease inDisease, final Long inDistrictId,
+			final String inYear);
 }

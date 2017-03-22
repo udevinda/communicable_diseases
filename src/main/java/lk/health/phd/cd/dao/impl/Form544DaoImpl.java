@@ -314,6 +314,9 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 				.setResultTransformer(Transformers.TO_LIST).list();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public List<MonthVsPatientSummaryDto> getDiseaseCountForEachMonth(final Disease inDisease, final MohArea inMohArea,
 			final String inYear) {
 		Session session = getCurrentSession();

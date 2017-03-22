@@ -111,5 +111,17 @@ public interface Form544Dao extends UniversalDao<Form544> {
 	 */
 	public List getDistinctInstituteList();
 
-	public List getDiseaseCountForEachMonth(final Disease inDisease, final MohArea mohAreaId, final String inYear);
+	/**
+	 * Get disease count for each month related to a specific {@link MohArea}
+	 * 
+	 * @param inDisease
+	 *            {@link Disease}
+	 * @param mohAreaId
+	 *            {@link MohArea}
+	 * @param inYear
+	 *            Year to consider
+	 * @return list of {@link MonthVsPatientSummaryDto}
+	 */
+	public List<MonthVsPatientSummaryDto> getDiseaseCountForEachMonth(final Disease inDisease, final MohArea mohArea,
+			final String inYear);
 }
