@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Trend of Disease</title>
+<script src="../js/Chart.min.js"></script>
+</head>
+<body>
+	<div width="400" height="100vh">
+		<canvas id="monthlyDiseaseTrend"></canvas>
+	</div>
+</body>
+
+<script th:inline="javascript">
+	/*<![CDATA[*/
+	drawGraph([[${diseaseMonthTrendDataSet}]], [[${diseaseName}]]);
+	 /*]]>*/	
+	 
+	 function drawGraph(diseaseMonthTrendDataSet, diseaseName){
+		 var totalsForMonth = processObjList(diseaseMonthTrendDataSet);
+		 var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+		 
+		 var data = {
+				    labels: months,
+				    datasets: [
+				        {
+				            data: totalsForMonth,
+				            label: diseaseName,
+							backgroundColor: "rgba(75,192,192,0.4)"
+				        }
+				    ]
+				};
+		 
+		 var options = {
+				 title: {
+			            display: true,
+			            text: 'Monthly Trend of ' + diseaseName
+			        },
+				 scales: {
+					    yAxes: [{
+					      scaleLabel: {
+					        display: true,
+					        labelString: 'Reported Count'
+					      }
+					    }]
+					  }     
+		 };
+		 
+		 var ctx = document.getElementById("monthlyDiseaseTrend").getContext("2d");
+		 var myChart = new Chart(ctx, {
+			 type: 'bar',
+			 maintainAspectRatio:true,
+			 options:options,
+			 data:data
+		 });
+	 }
+	 
+	 function processObjList(diseaseMonthTrendDataSet){
+		 //Goes from Jan (index 0) to Dec (index 11)
+		 var totalCountForEachMonth = [0,0,0,0,0,0,0,0,0,0,0,0];
+		 for(var counter = 0; counter < diseaseMonthTrendDataSet.length; counter++){
+			 for(var counter1 = 0; counter1 < diseaseMonthTrendDataSet[counter].length; counter1++){
+				 switch(diseaseMonthTrendDataSet[counter][counter1].month){
+				 	case 1:
+				 		totalCountForEachMonth[0] = totalCountForEachMonth[0] + diseaseMonthTrendDataSet[counter][counter1].count;
+				 		break;
+				 	case 2:
+				 		totalCountForEachMonth[1] = totalCountForEachMonth[1] + diseaseMonthTrendDataSet[counter][counter1].count;
+				 		break;
+				 	case 3:
+				 		totalCountForEachMonth[2] = totalCountForEachMonth[2] + diseaseMonthTrendDataSet[counter][counter1].count;
+				 		break;
+				 	case 4:
+				 		totalCountForEachMonth[3] = totalCountForEachMonth[3] + diseaseMonthTrendDataSet[counter][counter1].count;
+				 		break;
+				 	case 5:
+				 		totalCountForEachMonth[4] = totalCountForEachMonth[4] + diseaseMonthTrendDataSet[counter][counter1].count;
+				 		break;
+				 	case 6:
+				 		totalCountForEachMonth[5] = totalCountForEachMonth[5] + diseaseMonthTrendDataSet[counter][counter1].count;
+				 		break;
+				 	case 7:
+				 		totalCountForEachMonth[6] = totalCountForEachMonth[6] + diseaseMonthTrendDataSet[counter][counter1].count;
+				 		break;
+				 	case 8:
+				 		totalCountForEachMonth[7] = totalCountForEachMonth[7] + diseaseMonthTrendDataSet[counter][counter1].count;
+				 		break;
+				 	case 9:
+				 		totalCountForEachMonth[8] = totalCountForEachMonth[8] + diseaseMonthTrendDataSet[counter][counter1].count;
+				 		break;
+				 	case 10:
+				 		totalCountForEachMonth[9] = totalCountForEachMonth[9] + diseaseMonthTrendDataSet[counter][counter1].count;
+				 		break;
+				 	case 11:
+				 		totalCountForEachMonth[10] = totalCountForEachMonth[10] + diseaseMonthTrendDataSet[counter][counter1].count;
+				 		break;
+				 	case 12:
+				 		totalCountForEachMonth[11] = totalCountForEachMonth[11] + diseaseMonthTrendDataSet[counter][counter1].count;
+				 		break;
+				 }
+			 }
+		 }
+		 
+		 return totalCountForEachMonth;
+	 }
+</script>
+
+</html>

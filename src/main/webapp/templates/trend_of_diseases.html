@@ -3,89 +3,51 @@
 <head>
 <meta charset="UTF-8">
 <title>Trend of Disease</title>
-<script src="../js/Chart.min.js"></script>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/jquery-ui.css">
+<link rel="stylesheet" href="../css/custom.css">
+<script src="../js/jquery-3.1.1.min.js"></script>
+<script src="../js/jquery-ui.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/graph-custom.js"></script>
 </head>
 <body>
-	<canvas id="monthlyDiseaseTrend" width="400" height="400"></canvas>
+	<div id="banner"></div>
+
+	<div id="navigation"></div>
+
+	<div class="container">
+		<form th:action="@{/graphs/monthlyDiseaseTrend}" method="get"
+			target="_blank">
+			<div class="form-group">
+				<label for="district">District:</label> <select class="form-control"
+					id="district" name="district">
+					<option th:each="district:${districtList}"
+						th:value="${district.id}" th:text="${district.districtName}"></option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="disease">Disease:</label> <select class="form-control"
+					id="disease" name="disease">
+					<option th:each="disease:${diseaseList}" th:value="${disease.id}"
+						th:text="${disease.diseaseName}"></option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="district">Year:</label> <select class="form-control"
+					id="year" name="year" required>
+					<option value="" disabled selected>Year</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<button type="submit" class="btn btn-success pull-right">Submit</button>
+			</div>
+		</form>
+	</div>
 </body>
-
-<script th:inline="javascript">
-	/*<![CDATA[*/
-	drawGraph([[${diseaseMonthTrendDataSet}]]);
-	 /*]]>*/	
-	 
-	 function drawGraph(diseaseMonthTrendDataSet){
-		 var totalsForMonth = processObjList(diseaseMonthTrendDataSet);
-		 var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-		 
-		 console.log(totalsForMonth);
-		 
-		 var data = {
-				    labels: months,
-				    datasets: [
-				        {
-				            data: totalsForMonth,
-				            label: 'Bowser',
-							backgroundColor: "rgba(75,192,192,0.4)"
-				        }
-				    ]
-				};
-		 
-		 var ctx = document.getElementById("monthlyDiseaseTrend").getContext("2d");
-		 var myChart = new Chart(ctx, {
-			 type: 'bar',
-			 data:data
-		 });
-	 }
-	 
-	 function processObjList(diseaseMonthTrendDataSet){
-		 //Goes from Jan (index 0) to Dec (index 11)
-		 var totalCountForEachMonth = [0,0,0,0,0,0,0,0,0,0,0,0];
-		 for(var counter = 0; counter < diseaseMonthTrendDataSet.length; counter++){
-			 for(var counter1 = 0; counter1 < diseaseMonthTrendDataSet[counter].length; counter1++){
-				 switch(diseaseMonthTrendDataSet[counter][counter1].month){
-				 	case 1:
-				 		totalCountForEachMonth[0] = totalCountForEachMonth[0] + diseaseMonthTrendDataSet[counter][counter1].count;
-				 		break;
-				 	case 2:
-				 		totalCountForEachMonth[1] = totalCountForEachMonth[1] + diseaseMonthTrendDataSet[counter][counter1].count;
-				 		break;
-				 	case 3:
-				 		totalCountForEachMonth[2] = totalCountForEachMonth[2] + diseaseMonthTrendDataSet[counter][counter1].count;
-				 		break;
-				 	case 4:
-				 		totalCountForEachMonth[3] = totalCountForEachMonth[3] + diseaseMonthTrendDataSet[counter][counter1].count;
-				 		break;
-				 	case 5:
-				 		totalCountForEachMonth[4] = totalCountForEachMonth[4] + diseaseMonthTrendDataSet[counter][counter1].count;
-				 		break;
-				 	case 6:
-				 		totalCountForEachMonth[5] = totalCountForEachMonth[5] + diseaseMonthTrendDataSet[counter][counter1].count;
-				 		break;
-				 	case 7:
-				 		totalCountForEachMonth[6] = totalCountForEachMonth[6] + diseaseMonthTrendDataSet[counter][counter1].count;
-				 		break;
-				 	case 8:
-				 		totalCountForEachMonth[7] = totalCountForEachMonth[7] + diseaseMonthTrendDataSet[counter][counter1].count;
-				 		break;
-				 	case 9:
-				 		totalCountForEachMonth[8] = totalCountForEachMonth[8] + diseaseMonthTrendDataSet[counter][counter1].count;
-				 		break;
-				 	case 10:
-				 		totalCountForEachMonth[9] = totalCountForEachMonth[9] + diseaseMonthTrendDataSet[counter][counter1].count;
-				 		break;
-				 	case 11:
-				 		totalCountForEachMonth[10] = totalCountForEachMonth[10] + diseaseMonthTrendDataSet[counter][counter1].count;
-				 		break;
-				 	case 12:
-				 		totalCountForEachMonth[11] = totalCountForEachMonth[11] + diseaseMonthTrendDataSet[counter][counter1].count;
-				 		break;
-				 }
-			 }
-		 }
-		 
-		 return totalCountForEachMonth;
-	 }
+<script type="text/javascript">
+	$(document).ready(function() {
+		generateYearList('year');
+	});
 </script>
-
 </html>

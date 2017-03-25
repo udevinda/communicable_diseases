@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import lk.health.phd.cd.dao.DiseaseDao;
+import lk.health.phd.cd.dao.DistrictDao;
 import lk.health.phd.cd.dao.Form544Dao;
 import lk.health.phd.cd.dao.MohAreaDao;
+import lk.health.phd.cd.models.Disease;
 import lk.health.phd.cd.services.Form544Service;
 
 /**
@@ -32,16 +34,28 @@ public class GraphController {
 	@Autowired
 	private DiseaseDao diseaeDao;
 
-	@RequestMapping(value = "/monthlyDiseaseTrend", method = RequestMethod.GET)
-	public String generateMonthlyDiseaseTrend(@RequestParam("diseaseId") final Long inDiseaseId,
-			@RequestParam("districtId") final Long inDistrictId, @RequestParam("year") final String inYear,
-			Model model) {
+	@Autowired
+	private DistrictDao districtDao;
 
-		List diseaseMonthDataList = form544Service
-				.generateMonthlyDiseaseTrendDataSet(diseaeDao.findDiseaseById(inDiseaseId), inDistrictId, inYear);
+	@RequestMapping(value = "/monthlyDiseaseTrendPanel", method = RequestMethod.GET)
+	public String getMonthlyDiseaseGraphPanel(Model model) {
 
-		model.addAttribute("diseaseMonthTrendDataSet", diseaseMonthDataList);
+		model.addAttribute("districtList", districtDao.getAllDistrict());
+		model.addAttribute("diseaseList", diseaeDao.getAllDiseases());
 
 		return "trend_of_diseases";
+	}
+
+	@RequestMapping(value = "/monthlyDiseaseTrend", method = RequestMethod.GET)
+	public String generateMonthlyDiseaseTrend(@RequestParam("disease") final Long inDiseaseId,
+			@RequestParam("district") final Long inDistrictId, @RequestParam("year") final String inYear, Model model) {
+
+		Disease disease = diseaeDao.findDiseaseById(inDiseaseId);
+		List diseaseMonthDataList = form544Service.generateMonthlyDiseaseTrendDataSet(disease, inDistrictId, inYear);
+
+		model.addAttribute("diseaseMonthTrendDataSet", diseaseMonthDataList);
+		model.addAttribute("diseaseName", disease.getDiseaseName());
+
+		return "trend_of_diseases_graph";
 	}
 }
