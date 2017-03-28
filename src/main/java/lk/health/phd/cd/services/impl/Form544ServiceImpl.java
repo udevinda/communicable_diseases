@@ -203,4 +203,23 @@ public class Form544ServiceImpl implements Form544Service {
 		return trendDataList;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	public List generateAgeListForAgeWiseGraph(final Disease inDisease, final Long inDistrictId, final String inYear,
+			final String inMonth) {
+		List<MohArea> mohAreas = mohAreaDao.getMohAreaByDistrictId(inDistrictId);
+
+		ArrayList ageList = new ArrayList();
+
+		for (int i = 0; i < mohAreas.size(); i++) {
+			ArrayList mohAreaAgeList = (ArrayList) form544Dao.getReportedAgesForDisease(inDisease, mohAreas.get(i),
+					inYear, inMonth);
+
+			ageList.add(mohAreaAgeList);
+		}
+
+		return ageList;
+	}
+
 }

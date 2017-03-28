@@ -7,6 +7,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
+import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.dialect.function.StandardSQLFunction;
@@ -333,6 +334,27 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 								new Type[] { IntegerType.INSTANCE }), "month")
 						.add(Projections.count("id"), "count"))
 				.setResultTransformer(new AliasToBeanResultTransformer(MonthVsPatientSummaryDto.class)).list();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public List getReportedAgesForDisease(final Disease inDisease, final MohArea inMohArea, final String inYear,
+			final String inMonth) {
+		Session session = getCurrentSession();
+
+		Criteria criteria = session.createCriteria(Form544.class, "form544");
+		criteria.add(Restrictions.eq("mohArea", inMohArea));
+		criteria.add(Restrictions.eq("disease", inDisease));
+		criteria.add(Restrictions.sqlRestriction("year({alias}.date_of_admission)=?", inYear, StringType.INSTANCE));
+		criteria.add(Restrictions.sqlRestriction("month({alias}.date_of_admission)=?", inMonth, StringType.INSTANCE));
+
+		ProjectionList proList = Projections.projectionList();
+		proList.add(Projections.property("age"));
+
+		criteria.setProjection(proList);
+
+		return criteria.list();
 	}
 
 }

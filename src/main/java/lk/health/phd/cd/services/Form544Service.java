@@ -103,4 +103,21 @@ public interface Form544Service {
 	 */
 	public List generateMonthlyDiseaseTrendDataSet(final Disease inDisease, final Long inDistrictId,
 			final String inYear);
+
+	/**
+	 * Generates the age list from the reported form 544s according to the
+	 * parameters.
+	 * 
+	 * @param inDisease
+	 *            {@link Disease}
+	 * @param inDistrictId
+	 *            ID of the {@link District}
+	 * @param inYear
+	 *            Year to consider
+	 * @param inMonth
+	 *            Month to consider
+	 * @return List of age values
+	 */
+	public List generateAgeListForAgeWiseGraph(final Disease inDisease, final Long inDistrictId, final String inYear,
+			final String inMonth);
 }

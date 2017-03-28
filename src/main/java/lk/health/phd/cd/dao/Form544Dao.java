@@ -124,4 +124,20 @@ public interface Form544Dao extends UniversalDao<Form544> {
 	 */
 	public List<MonthVsPatientSummaryDto> getDiseaseCountForEachMonth(final Disease inDisease, final MohArea mohArea,
 			final String inYear);
+
+	/**
+	 * Get ages list from reported form 544 related to given parameters.
+	 * 
+	 * @param inDisease
+	 *            {@link Disease}
+	 * @param inMohArea
+	 *            {@link MohArea}
+	 * @param inYear
+	 *            Year to consider
+	 * @param inMonth
+	 *            Month to consider
+	 * @return List of age values
+	 */
+	public List getReportedAgesForDisease(final Disease inDisease, final MohArea inMohArea, final String inYear,
+			final String inMonth);
 }

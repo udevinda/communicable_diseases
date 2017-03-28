@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Age Wise Trend of Disease</title>
+<script src="../js/Chart.min.js"></script>
+<script src="../js/jquery-3.1.1.min.js"></script>
+<script src="../js/jquery-ui.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/graph-custom.js"></script>
+</head>
+<body>
+	<div width="400" height="100vh">
+		<canvas id="diseaseAgeWise"></canvas>
+	</div>
+</body>
+
+<script th:inline="javascript">
+	/*<![CDATA[*/
+	drawGraph([[${ageList}]], [[${diseaseName}]], [[${district}]], [[${year}]], [[${month}]]);
+	 /*]]>*/	
+	 
+	 function drawGraph(ageList, diseaseName, district, year, month){
+		 var totalsAgeGroups = processObjList(ageList);
+		 var ageGroups = ['1-5', '6-10', '11-15', '16-20', '20<'];
+		 var monthText = getMonthByIndex(parseInt(month));
+		 
+		 var data = {
+				    labels: ageGroups,
+				    datasets: [
+				        {
+				            data: totalsAgeGroups,
+				            label: diseaseName,
+							backgroundColor: "rgba(75,192,192,0.4)"
+				        }
+				    ]
+				};
+		 
+		 var options = {
+				 title: {
+			            display: true,
+			            text: district + ' district Age wise Trend of ' + diseaseName + '\n' + year + '-' + monthText
+			        },
+				 scales: {
+					    yAxes: [{
+					      scaleLabel: {
+					        display: true,
+					        labelString: 'Reported Count'
+					      }
+					    }],
+					    xAxes: [{
+						      scaleLabel: {
+						        display: true,
+						        labelString: 'Age Groups'
+						      }
+						    }]
+					  }     
+		 };
+		 
+		 var ctx = document.getElementById("diseaseAgeWise").getContext("2d");
+		 var myChart = new Chart(ctx, {
+			 type: 'bar',
+			 maintainAspectRatio:true,
+			 options:options,
+			 data:data
+		 });
+		 
+	 }
+	 
+	 function processObjList(totalsAgeGroups){
+		 var totalCountForEachAgeGroup = [0,0,0,0,0];
+		 for(var counter = 0; counter < totalsAgeGroups.length; counter++){
+			 for(var counter1 = 0; counter1 < totalsAgeGroups[counter].length; counter1++){
+				 var age = Math.round(totalsAgeGroups[counter][counter1]/365); 
+				 if(age < 6){
+					totalCountForEachAgeGroup[0] = totalCountForEachAgeGroup[0] + 1;	 
+				 }else if(age < 11){
+				 	totalCountForEachAgeGroup[1] = totalCountForEachAgeGroup[1] + 1;
+				 }else if(age < 16){
+					totalCountForEachAgeGroup[2] = totalCountForEachAgeGroup[2] + 1;
+				 }else if(age < 21){
+					totalCountForEachAgeGroup[3] = totalCountForEachAgeGroup[3] + 1;
+				 }else{
+					totalCountForEachAgeGroup[4] = totalCountForEachAgeGroup[4] + 1; 
+				 }
+			 }
+		 }
+		 
+		 return totalCountForEachAgeGroup;
+	 }
+</script>
+
+</html>

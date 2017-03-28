@@ -58,4 +58,21 @@ public class GraphController {
 
 		return "trend_of_diseases_graph";
 	}
+
+	@RequestMapping(value = "/diseaseAgeWise", method = RequestMethod.GET)
+	public String generateDiseaseAgeWiseDataGroups(@RequestParam("disease") final Long inDiseaseId,
+			@RequestParam("district") final Long inDistrictId, @RequestParam("year") final String inYear,
+			@RequestParam("month") final String inMonth, Model model) {
+
+		Disease disease = diseaeDao.findDiseaseById(inDiseaseId);
+		List ageList = form544Service.generateAgeListForAgeWiseGraph(disease, inDistrictId, inYear, inMonth);
+
+		model.addAttribute("ageList", ageList);
+		model.addAttribute("diseaseName", disease.getDiseaseName());
+		model.addAttribute("year", inYear);
+		model.addAttribute("month", inMonth);
+		model.addAttribute("district", districtDao.getDistrictById(inDistrictId).getDistrictName());
+
+		return "age_wise_graph";
+	}
 }
