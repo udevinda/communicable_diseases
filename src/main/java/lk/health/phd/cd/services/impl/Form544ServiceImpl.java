@@ -95,13 +95,22 @@ public class Form544ServiceImpl implements Form544Service {
 
 		DiseaseConfirmationTest diseaseConfirmationTest = diseaseConfirmationTestDao
 				.getDiseaseConfirmationTestByForm544Id(form544.getId());
-		diseaseConfirmationTest.setNameOfLab(inDiseaseConfirmationTest.getNameOfLab());
-		diseaseConfirmationTest.setResult(inDiseaseConfirmationTest.getResult());
-		diseaseConfirmationTest.setSampleCollectionDate(inDiseaseConfirmationTest.getSampleCollectionDate());
-		diseaseConfirmationTest.setTestName(inDiseaseConfirmationTest.getTestName());
 
+		if (diseaseConfirmationTest != null) {
+			diseaseConfirmationTest.setNameOfLab(inDiseaseConfirmationTest.getNameOfLab());
+			diseaseConfirmationTest.setResult(inDiseaseConfirmationTest.getResult());
+			diseaseConfirmationTest.setSampleCollectionDate(inDiseaseConfirmationTest.getSampleCollectionDate());
+			diseaseConfirmationTest.setTestName(inDiseaseConfirmationTest.getTestName());
+
+			diseaseConfirmationTestDao.merge(diseaseConfirmationTest);
+		} else {
+			inDiseaseConfirmationTest.setForm544(form544);
+
+			diseaseConfirmationTestDao.save(inDiseaseConfirmationTest);
+		}
+		
 		form544Dao.merge(form544);
-		diseaseConfirmationTestDao.merge(diseaseConfirmationTest);
+
 		logger.debug("Form544 ID : " + form544.getId() + " updated and persisted to DB.");
 
 		return form544;
