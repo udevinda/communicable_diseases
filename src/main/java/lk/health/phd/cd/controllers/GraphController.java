@@ -59,6 +59,15 @@ public class GraphController {
 		return "trend_of_diseases_graph";
 	}
 
+	@RequestMapping(value = "/diseaseAgeWisePanel", method = RequestMethod.GET)
+	public String getDiseaseAgeWiseGraphPanel(Model model) {
+
+		model.addAttribute("districtList", districtDao.getAllDistrict());
+		model.addAttribute("diseaseList", diseaeDao.getAllDiseases());
+
+		return "disease_age_wise";
+	}
+
 	@RequestMapping(value = "/diseaseAgeWise", method = RequestMethod.GET)
 	public String generateDiseaseAgeWiseDataGroups(@RequestParam("disease") final Long inDiseaseId,
 			@RequestParam("district") final Long inDistrictId, @RequestParam("year") final String inYear,
