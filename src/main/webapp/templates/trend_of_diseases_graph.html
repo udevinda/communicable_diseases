@@ -13,10 +13,10 @@
 
 <script th:inline="javascript">
 	/*<![CDATA[*/
-	drawGraph([[${diseaseMonthTrendDataSet}]], [[${diseaseName}]]);
+	drawGraph([[${diseaseMonthTrendDataSet}]], [[${diseaseName}]], [[${district}]], [[${year}]]);
 	 /*]]>*/	
 	 
-	 function drawGraph(diseaseMonthTrendDataSet, diseaseName){
+	 function drawGraph(diseaseMonthTrendDataSet, diseaseName, district, year){
 		 var totalsForMonth = processObjList(diseaseMonthTrendDataSet);
 		 var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 		 
@@ -34,7 +34,7 @@
 		 var options = {
 				 title: {
 			            display: true,
-			            text: 'Monthly Trend of ' + diseaseName
+			            text: district +' district Monthly Trend of ' + diseaseName + ' - ' + year
 			        },
 				 scales: {
 					    yAxes: [{

@@ -55,6 +55,8 @@ public class GraphController {
 
 		model.addAttribute("diseaseMonthTrendDataSet", diseaseMonthDataList);
 		model.addAttribute("diseaseName", disease.getDiseaseName());
+		model.addAttribute("year", inYear);
+		model.addAttribute("district", districtDao.getDistrictById(inDistrictId).getDistrictName());
 
 		return "trend_of_diseases_graph";
 	}
