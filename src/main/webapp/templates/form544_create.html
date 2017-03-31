@@ -21,6 +21,9 @@
 
 	<div>
 		<div class="container">
+			<div class="page-header page-title-header">
+				<h2>Compose Form 544</h2>
+			</div>
 			<form th:action="@{/Form544/submit}" method="post">
 				<div class="form-group">
 					<!-- Set this to be auto generated -->
@@ -62,7 +65,7 @@
 							<div>
 								<input type="number" class="form-control readonly" id="age"
 									name="age" placeholder="Patient's Age in days"
-									style="width: 200px" required data-readonly>
+									style="width: 200px; display: none" required data-readonly>
 							</div>
 						</div>
 					</div>
