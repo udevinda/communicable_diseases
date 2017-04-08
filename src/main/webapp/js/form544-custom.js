@@ -92,9 +92,10 @@ $(function() {
 
 function doSearch(pageGenerationOn) {
 	var offset = 0;
+	var limit = parseInt($("#limit").val());
 
 	if ($("#pageNo").val() != undefined && parseInt($("#pageNo").val()) != 1) {
-		offset = parseInt($("#pageNo").val()) * parseInt($("#limit").val())
+		offset = parseInt($("#pageNo").val()) * limit
 				- parseInt($("#limit").val());
 	}
 	$
@@ -122,7 +123,7 @@ function doSearch(pageGenerationOn) {
 					"notifyToMohFromDate" : $("#notifyToMohFromDate").val(),
 					"notifyToMohToDate" : $("#notifyToMohToDate").val(),
 					"offset" : offset,
-					"limit" : $("#limit").val(),
+					"limit" : limit,
 				},
 				success : function(result) {
 					$("#form544FilterTblBody").empty();
@@ -166,26 +167,31 @@ function doSearch(pageGenerationOn) {
 												+ '</td>' + '</tr>');
 					}
 
-					totalRowCount = result.totalRowCount;
+					var totalRows = result.totalRowCount;
+					generateTblSummaryStatement(limit, offset, totalRows);
 
 					if (pageGenerationOn == true) {
 						$("#pages").empty();
-						generatePages();
+						generatePages(totalRows);
 					}
 
 				}
 			});
+
 }
 
-function generatePages() {
+function generateTblSummaryStatement(limit, offset, totalRows) {
+	var tblSummaryStatement = "Showing " + limit + " records (" + (offset + 1)
+			+ "-" + (offset + limit) + ") from total " + totalRows
+			+ " records."
+	document.getElementById("tblSummary").innerHTML = tblSummaryStatement;
+}
 
-	console.log("Method called");
-
+function generatePages(totalRowCount) {
 	var pageCount = Math.ceil(totalRowCount / parseInt($("#limit").val()));
-	var sel = $('<select id="pageNo" onchange="doSearch(false)">').appendTo(
-			'#pages');
-
-	console.log(pageCount);
+	var sel = $(
+			'<select id="pageNo" onchange="doSearch(false)" class="form-control">')
+			.appendTo('#pages');
 
 	for (i = 0; i < pageCount; i++) {
 		sel.append($("<option>").attr('value', i + 1).text(i + 1));

@@ -139,12 +139,21 @@
 					placeholder="Enter Patient's Age To" value="">
 			</div>
 
+			<div class="form-group">
+				<div class="row">
+					<div class="col-sm-1">
+						<label>Limit : </label>
+					</div>
+					<div class="col-md-1">
+						<select id="limit" class="form-control">
+							<option value="10">10</option>
+							<option value="20">20</option>
+							<option value="50">50</option>
+						</select>
+					</div>
+				</div>
+			</div>
 			<div>
-				<span>Limit : </span><select id="limit">
-					<option value="10">10</option>
-					<option value="20">20</option>
-					<option value="50">50</option>
-				</select>
 				<button type="button" class="btn btn-success pull-right"
 					onclick="doSearch(true)">Search</button>
 				<button type="button" class="btn btn-default pull-right"
@@ -173,9 +182,16 @@
 			<tbody id="form544FilterTblBody">
 			</tbody>
 		</table>
-		<div class="pages-outer-container-div">
-			<span>Pages : </span>
-			<div id="pages" class="pages-selectbox-container-div"></div>
+		<div class="row" style="margin-right: 0px">
+			<div class="form-group">
+				<div class="col-md-9">
+					<span id="tblSummary" style="font-weight:bold"></span>
+				</div>
+				<div class="col-xs-2" style="padding-left: 125px;">
+					<label>Got to Page : </label>
+				</div>
+				<div id="pages" class="col-md-1"></div>
+			</div>
 		</div>
 	</div>
 	<div id="footer"></div>
