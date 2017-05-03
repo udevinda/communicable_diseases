@@ -106,6 +106,10 @@ public class Form544Controller {
 	 *            Date of notified to MOH
 	 * @param inRemarks
 	 *            Any remarks
+	 * @param inLattitude
+	 *            Latitude of the location
+	 * @param inLongitude
+	 *            Longitude of the location
 	 * @return form544_view.html
 	 */
 	@RequestMapping(value = "/submit", method = RequestMethod.POST)
@@ -127,6 +131,7 @@ public class Form544Controller {
 			@RequestParam("remarks") final String inRemarks, @RequestParam("testName") final String inTestName,
 			@RequestParam("smpleCollectionDate") final String inSampleCollectiondate,
 			@RequestParam("labName") final String inLabName, @RequestParam("testResult") final String inTestResult,
+			@RequestParam("lattitude") final String inLattitude, @RequestParam("longitude") final String inLongitude,
 			Model model) {
 
 		logger.info("Hit the /Form544/submit ");
@@ -154,6 +159,8 @@ public class Form544Controller {
 			form544.setNotificationByUnitDate(Util.parseDate(inNotifyByUnitDate, "yyyy-MM-dd"));
 			form544.setNotificationToMohDate(Util.parseDate(inNotifyToMohDate, "yyyy-MM-dd"));
 			form544.setRemarks(inRemarks);
+			form544.setLattitude(Double.parseDouble(inLattitude));
+			form544.setLongitude(Double.parseDouble(inLongitude));
 
 			DiseaseConfirmationTest diseaseConfirmationTest = new DiseaseConfirmationTest();
 			diseaseConfirmationTest.setNameOfLab(inLabName);
@@ -238,6 +245,10 @@ public class Form544Controller {
 	 *            Notifier status
 	 * @param inMohArea
 	 *            MOH area of the institute
+	 * @param inLattitude
+	 *            Latitude of the location
+	 * @param inLongitude
+	 *            Longitude of the location
 	 * @return form544_create.html
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
@@ -257,7 +268,8 @@ public class Form544Controller {
 			@RequestParam("notifyToMohDate") final String inNotifyToMohDate,
 			@RequestParam("remarks") final String inRemarks, @RequestParam("testName") final String inTestName,
 			@RequestParam("smpleCollectionDate") final String inSampleCollectiondate,
-			@RequestParam("labName") final String inLabName, @RequestParam("testResult") final String inTestResult) {
+			@RequestParam("labName") final String inLabName, @RequestParam("testResult") final String inTestResult,
+			@RequestParam("lattitude") final String inLattitude, @RequestParam("longitude") final String inLongitude) {
 
 		logger.info("Hit the /Form544/update ");
 		logger.info("Request update for Form544 ID " + inForm544Id);
@@ -286,6 +298,8 @@ public class Form544Controller {
 			form544.setNotificationByUnitDate(Util.parseDate(inNotifyByUnitDate, "yyyy-MM-dd"));
 			form544.setNotificationToMohDate(Util.parseDate(inNotifyToMohDate, "yyyy-MM-dd"));
 			form544.setRemarks(inRemarks);
+			form544.setLattitude(Double.parseDouble(inLattitude));
+			form544.setLongitude(Double.parseDouble(inLongitude));
 
 			DiseaseConfirmationTest diseaseConfirmationTest = new DiseaseConfirmationTest();
 			diseaseConfirmationTest.setNameOfLab(inLabName);

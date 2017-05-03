@@ -104,6 +104,12 @@ public class Form544 implements Serializable {
 	@Column(name = "remarks")
 	private String remarks;
 
+	@Column(name = "lattitude")
+	private Double lattitude;
+
+	@Column(name = "longitude")
+	private Double longitude;
+
 	/**
 	 * Getter for Id.
 	 * 
@@ -521,6 +527,44 @@ public class Form544 implements Serializable {
 	 */
 	public void setRemarks(final String inRemarks) {
 		this.remarks = inRemarks;
+	}
+
+	/**
+	 * Getter for lattitude of the location.
+	 * 
+	 * @return lattitude value of the location
+	 */
+	public Double getLattitude() {
+		return lattitude;
+	}
+
+	/**
+	 * Setter for lattitude of the location.
+	 * 
+	 * @param inLattitude
+	 *            Lattitude of the location.
+	 */
+	public void setLattitude(final Double inLattitude) {
+		this.lattitude = inLattitude;
+	}
+
+	/**
+	 * Getter for longitude of the location.
+	 * 
+	 * @return Longitude of the location.
+	 */
+	public Double getLongitude() {
+		return longitude;
+	}
+
+	/**
+	 * Setter for longitude of the location.
+	 * 
+	 * @param inLongitude
+	 *            Longitude of the location
+	 */
+	public void setLongitude(final Double inLongitude) {
+		this.longitude = inLongitude;
 	}
 
 }

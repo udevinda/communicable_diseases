@@ -92,6 +92,8 @@ public class Form544ServiceImpl implements Form544Service {
 		form544.setNotificationByUnitDate(inForm544.getNotificationByUnitDate());
 		form544.setNotificationToMohDate(inForm544.getNotificationToMohDate());
 		form544.setRemarks(inForm544.getRemarks());
+		form544.setLattitude(inForm544.getLattitude());
+		form544.setLongitude(inForm544.getLongitude());
 
 		DiseaseConfirmationTest diseaseConfirmationTest = diseaseConfirmationTestDao
 				.getDiseaseConfirmationTestByForm544Id(form544.getId());
@@ -103,7 +105,8 @@ public class Form544ServiceImpl implements Form544Service {
 			diseaseConfirmationTest.setTestName(inDiseaseConfirmationTest.getTestName());
 
 			diseaseConfirmationTestDao.merge(diseaseConfirmationTest);
-		} else if (inDiseaseConfirmationTest.getTestName() != null && !inDiseaseConfirmationTest.getTestName().isEmpty()) {
+		} else if (inDiseaseConfirmationTest.getTestName() != null
+				&& !inDiseaseConfirmationTest.getTestName().isEmpty()) {
 			inDiseaseConfirmationTest.setForm544(form544);
 
 			diseaseConfirmationTestDao.save(inDiseaseConfirmationTest);
