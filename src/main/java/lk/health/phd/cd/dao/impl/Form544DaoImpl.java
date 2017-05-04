@@ -248,8 +248,8 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 
 		try {
 			criteria.add(Restrictions.eq("mohArea", inMohArea));
-			criteria.add(Restrictions.ge("systemNotifiedDate", Util.parseDate(inLowerDateLimit, "yyyy-MM-dd")));
-			criteria.add(Restrictions.le("systemNotifiedDate", Util.parseDate(inUpperDateLimit, "yyyy-MM-dd")));
+			criteria.add(Restrictions.ge("notificationByUnitDate", Util.parseDate(inLowerDateLimit, "yyyy-MM-dd")));
+			criteria.add(Restrictions.le("notificationByUnitDate", Util.parseDate(inUpperDateLimit, "yyyy-MM-dd")));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -274,8 +274,8 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 
 		try {
 			criteria.add(Restrictions.eq("ward", inWard));
-			criteria.add(Restrictions.ge("systemNotifiedDate", Util.parseDate(inLowerDateLimit, "yyyy-MM-dd")));
-			criteria.add(Restrictions.le("systemNotifiedDate", Util.parseDate(inUpperDateLimit, "yyyy-MM-dd")));
+			criteria.add(Restrictions.ge("notificationByUnitDate", Util.parseDate(inLowerDateLimit, "yyyy-MM-dd")));
+			criteria.add(Restrictions.le("notificationByUnitDate", Util.parseDate(inUpperDateLimit, "yyyy-MM-dd")));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
