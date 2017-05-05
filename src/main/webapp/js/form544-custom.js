@@ -250,6 +250,66 @@ function composeAge() {
 
 }
 
+function initMap() {
+	var map = new google.maps.Map(document.getElementById('map_canvas'), {
+		zoom : 1,
+		center : new google.maps.LatLng(35.137879, -82.836914),
+		mapTypeId : google.maps.MapTypeId.ROADMAP
+	});
+
+	var diseaseLocation = new google.maps.Marker({
+		position : new google.maps.LatLng(47.651968, 9.478485),
+		draggable : true
+	});
+
+	google.maps.event.addListener(diseaseLocation, 'dragend', function(evt) {
+		document.getElementById('latitude').innerHTML = evt.latLng.lat()
+				.toFixed(6);
+		document.getElementById('longitude').innerHTML = evt.latLng.lng()
+				.toFixed(6);
+
+		document.getElementById('latitudeTxt').value = evt.latLng.lat()
+				.toFixed(6);
+		document.getElementById('longitudeTxt').value = evt.latLng.lng()
+				.toFixed(6);
+	});
+
+	google.maps.event.addListener(diseaseLocation, 'dragstart', function(evt) {
+
+	});
+
+	google.maps.event.addListener(map, 'click', function(evt) {
+		document.getElementById('latitude').innerHTML = evt.latLng.lat()
+				.toFixed(6);
+		document.getElementById('longitude').innerHTML = evt.latLng.lng()
+				.toFixed(6);
+
+		document.getElementById('latitudeTxt').value = evt.latLng.lat()
+				.toFixed(6);
+		document.getElementById('longitudeTxt').value = evt.latLng.lng()
+				.toFixed(6);
+
+		diseaseLocation.setPosition(evt.latLng);
+	});
+
+	map.setCenter(diseaseLocation.position);
+	diseaseLocation.setMap(map);
+}
+
+var isCorrdinationMapLoaded = false;
+function popupCoordinateMap() {
+	if (!isCorrdinationMapLoaded) {
+		$
+				.getScript(
+						'https://maps.googleapis.com/maps/api/js?key=AIzaSyDN2cxxcRtxmmIu_9uwYJ7gjD5r7djFtGk&callback=initMap',
+						function(data, textStatus, jqxhr) {
+
+						});
+
+		isCorrdinationMapLoaded = true;
+	}
+}
+
 $(document).ready(function() {
 
 	// Following default set should be removed or changed according to target
