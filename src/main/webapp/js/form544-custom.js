@@ -252,13 +252,13 @@ function composeAge() {
 
 function initMap() {
 	var map = new google.maps.Map(document.getElementById('map_canvas'), {
-		zoom : 1,
-		center : new google.maps.LatLng(35.137879, -82.836914),
+		zoom : defaultZoom,
+		center : new google.maps.LatLng(defaultLat, defaultLng),
 		mapTypeId : google.maps.MapTypeId.ROADMAP
 	});
 
 	var diseaseLocation = new google.maps.Marker({
-		position : new google.maps.LatLng(47.651968, 9.478485),
+		position : new google.maps.LatLng(defaultLat, defaultLng),
 		draggable : true
 	});
 
@@ -297,13 +297,21 @@ function initMap() {
 }
 
 var isCorrdinationMapLoaded = false;
-function popupCoordinateMap() {
+var defaultLng = 0;
+var defaultLat = 0;
+var defaultZoom = 0;
+
+function popupCoordinateMap(inDefaultLat, inDefaultLng, inDefaultZoom) {
+	defaultLng = inDefaultLng;
+	defaultLat = inDefaultLat;
+	defaultZoom = inDefaultZoom;
+	
 	if (!isCorrdinationMapLoaded) {
 		$
 				.getScript(
 						'https://maps.googleapis.com/maps/api/js?key=AIzaSyDN2cxxcRtxmmIu_9uwYJ7gjD5r7djFtGk&callback=initMap',
 						function(data, textStatus, jqxhr) {
-
+							
 						});
 
 		isCorrdinationMapLoaded = true;
