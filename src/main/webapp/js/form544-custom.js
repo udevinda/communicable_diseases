@@ -302,16 +302,22 @@ var defaultLat = 0;
 var defaultZoom = 0;
 
 function popupCoordinateMap(inDefaultLat, inDefaultLng, inDefaultZoom) {
-	defaultLng = inDefaultLng;
-	defaultLat = inDefaultLat;
 	defaultZoom = inDefaultZoom;
-	
+
+	if (inDefaultLat != "" && inDefaultLng != "") {
+		defaultLng = inDefaultLng;
+		defaultLat = inDefaultLat;
+	} else {
+		defaultLng = parseFloat(document.getElementById("longitudeTxt").value);
+		defaultLat = parseFloat(document.getElementById("latitudeTxt").value);
+	}
+
 	if (!isCorrdinationMapLoaded) {
 		$
 				.getScript(
 						'https://maps.googleapis.com/maps/api/js?key=AIzaSyDN2cxxcRtxmmIu_9uwYJ7gjD5r7djFtGk&callback=initMap',
 						function(data, textStatus, jqxhr) {
-							
+
 						});
 
 		isCorrdinationMapLoaded = true;
