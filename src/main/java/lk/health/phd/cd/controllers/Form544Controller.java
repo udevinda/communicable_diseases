@@ -159,9 +159,10 @@ public class Form544Controller {
 			form544.setNotificationByUnitDate(Util.parseDate(inNotifyByUnitDate, "yyyy-MM-dd"));
 			form544.setNotificationToMohDate(Util.parseDate(inNotifyToMohDate, "yyyy-MM-dd"));
 			form544.setRemarks(inRemarks);
-			form544.setLattitude(Double.parseDouble(inLattitude));
-			form544.setLongitude(Double.parseDouble(inLongitude));
-
+			if (isMapLocationAvailable(inLattitude, inLongitude)) {
+				form544.setLattitude(Double.parseDouble(inLattitude));
+				form544.setLongitude(Double.parseDouble(inLongitude));
+			}
 			DiseaseConfirmationTest diseaseConfirmationTest = new DiseaseConfirmationTest();
 			diseaseConfirmationTest.setNameOfLab(inLabName);
 			diseaseConfirmationTest.setResult(inTestResult);
@@ -298,8 +299,10 @@ public class Form544Controller {
 			form544.setNotificationByUnitDate(Util.parseDate(inNotifyByUnitDate, "yyyy-MM-dd"));
 			form544.setNotificationToMohDate(Util.parseDate(inNotifyToMohDate, "yyyy-MM-dd"));
 			form544.setRemarks(inRemarks);
-			form544.setLattitude(Double.parseDouble(inLattitude));
-			form544.setLongitude(Double.parseDouble(inLongitude));
+			if (isMapLocationAvailable(inLattitude, inLongitude)) {
+				form544.setLattitude(Double.parseDouble(inLattitude));
+				form544.setLongitude(Double.parseDouble(inLongitude));
+			}
 
 			DiseaseConfirmationTest diseaseConfirmationTest = new DiseaseConfirmationTest();
 			diseaseConfirmationTest.setNameOfLab(inLabName);
@@ -542,6 +545,24 @@ public class Form544Controller {
 		MohArea mohArea = mohAreaDao.findMohAreaById(mohAreaId);
 
 		return mohArea;
+	}
+
+	/**
+	 * Decides weather the map location is given by the user.
+	 * 
+	 * @param inLattitude
+	 *            Latitude of the location
+	 * @param inLongitude
+	 *            Longitude of the location
+	 * @return true - location is available | false - location is not available
+	 */
+	private boolean isMapLocationAvailable(final String inLattitude, final String inLongitude) {
+		if (!inLattitude.isEmpty() || inLattitude != "" || !inLongitude.isEmpty() || inLongitude != "") {
+			return true;
+		} else {
+			return false;
+		}
+
 	}
 
 }

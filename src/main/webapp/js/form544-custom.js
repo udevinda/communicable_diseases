@@ -297,8 +297,8 @@ function initMap() {
 }
 
 var isCorrdinationMapLoaded = false;
-var defaultLng = 0;
-var defaultLat = 0;
+var defaultLng = 80.623641;
+var defaultLat = 7.467399;
 var defaultZoom = 0;
 
 function popupCoordinateMap(inDefaultLat, inDefaultLng, inDefaultZoom) {
@@ -308,8 +308,13 @@ function popupCoordinateMap(inDefaultLat, inDefaultLng, inDefaultZoom) {
 		defaultLng = inDefaultLng;
 		defaultLat = inDefaultLat;
 	} else {
-		defaultLng = parseFloat(document.getElementById("longitudeTxt").value);
-		defaultLat = parseFloat(document.getElementById("latitudeTxt").value);
+		var longitude = document.getElementById("longitudeTxt").value;
+		var latitude = document.getElementById("latitudeTxt").value;
+
+		if (longitude != "" && latitude != "") {
+			defaultLng = longitude;
+			defaultLat = latitude;
+		}
 	}
 
 	if (!isCorrdinationMapLoaded) {
@@ -326,8 +331,14 @@ function popupCoordinateMap(inDefaultLat, inDefaultLng, inDefaultZoom) {
 
 function popupViewMap(inDefaultZoom) {
 	defaultZoom = inDefaultZoom;
-	defaultLng = document.getElementById('longitudeVal').innerHTML;
-	defaultLat = document.getElementById('latitudeVal').innerHTML;
+
+	var longitude = document.getElementById('longitudeVal').innerHTML;
+	var latitude = document.getElementById('latitudeVal').innerHTML;
+
+	if (longitude != "" && latitude != "") {
+		defaultLng = longitude;
+		defaultLat = latitude;
+	}
 
 	if (!isCorrdinationMapLoaded) {
 		$
