@@ -324,6 +324,38 @@ function popupCoordinateMap(inDefaultLat, inDefaultLng, inDefaultZoom) {
 	}
 }
 
+function popupViewMap(inDefaultZoom) {
+	defaultZoom = inDefaultZoom;
+	defaultLng = document.getElementById('longitudeVal').innerHTML;
+	defaultLat = document.getElementById('latitudeVal').innerHTML;
+
+	if (!isCorrdinationMapLoaded) {
+		$
+				.getScript(
+						'https://maps.googleapis.com/maps/api/js?key=AIzaSyDN2cxxcRtxmmIu_9uwYJ7gjD5r7djFtGk&callback=initViewMap',
+						function(data, textStatus, jqxhr) {
+
+						});
+
+		isCorrdinationMapLoaded = true;
+	}
+}
+
+function initViewMap() {
+	var map = new google.maps.Map(document.getElementById('map_canvas'), {
+		zoom : defaultZoom,
+		center : new google.maps.LatLng(defaultLat, defaultLng),
+		mapTypeId : google.maps.MapTypeId.ROADMAP
+	});
+
+	var diseaseLocation = new google.maps.Marker({
+		position : new google.maps.LatLng(defaultLat, defaultLng),
+	});
+
+	map.setCenter(diseaseLocation.position);
+	diseaseLocation.setMap(map);
+}
+
 $(document).ready(function() {
 
 	// Following default set should be removed or changed according to target

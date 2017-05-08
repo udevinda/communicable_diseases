@@ -304,6 +304,26 @@
 					</div>
 				</div>
 			</div>
+			<div class="control-group">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<label class="control-label">Location</label>
+					</div>
+					<div class="panel-body">
+						<div class="controls readonly">
+							<span class="age-view-headings">Latitude :</span> <span
+								th:text="${form544Object.lattitude}" id="latitudeVal"></span> |
+							<span class="age-view-headings">Longitude :</span> <span
+								th:text="${form544Object.longitude}" id="longitudeVal"></span> <span
+								style="padding-left: 20px">
+								<button type="button" onclick="popupViewMap(17)"
+									class="btn btn-default" data-toggle="modal"
+									data-target="#coordinateMap">Map View</button>
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
 			<div>
 				<a th:href="@{'/Form544/update_view?id=' + ${form544Object.id}}"><button
 						type="submit" class="btn btn-success pull-right"
@@ -315,6 +335,34 @@
 
 	<div id="footer"></div>
 </body>
+
+
+<!-- Modal Section start-->
+
+<!-- Map Modal-->
+<div class="modal fade" id="coordinateMap" role="dialog">
+	<div class="modal-dialog modal-lg" style="width: 1013px">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Disease Reported Location</h4>
+			</div>
+			<div class="modal-body">
+				<div id='map_canvas'></div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+
+
+<!-- Modal Section end -->
 
 <!-- TODO
 Header, Footer, menu should be included.
