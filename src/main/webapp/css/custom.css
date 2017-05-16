@@ -31,19 +31,34 @@ input[data-readonly] {
 	font-weight: bold;
 }
 
-.report-header-img{
-	width:100%
+.report-header-img {
+	width: 100%
 }
 
-.report-footer-img{
-	width:100%
+.report-footer-img {
+	width: 100%
 }
 
-.page-title-header{
-	margin-bottom:50px
+.page-title-header {
+	margin-bottom: 50px
 }
 
 #map_canvas {
 	width: 980px;
 	height: 500px;
+}
+
+.pac-container {
+	z-index: 10000 !important;
+}
+
+#pac-input {
+	background-color: #fff;
+	font-family: Roboto;
+	font-size: 15px;
+	font-weight: 300;
+	margin-left: 12px;
+	padding: 0 11px 0 13px;
+	text-overflow: ellipsis;
+	width: 400px;
 }

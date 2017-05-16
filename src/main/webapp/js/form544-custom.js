@@ -263,15 +263,7 @@ function initMap() {
 	});
 
 	google.maps.event.addListener(diseaseLocation, 'dragend', function(evt) {
-		document.getElementById('latitude').innerHTML = evt.latLng.lat()
-				.toFixed(6);
-		document.getElementById('longitude').innerHTML = evt.latLng.lng()
-				.toFixed(6);
-
-		document.getElementById('latitudeTxt').value = evt.latLng.lat()
-				.toFixed(6);
-		document.getElementById('longitudeTxt').value = evt.latLng.lng()
-				.toFixed(6);
+		setMapCoordinatesToTxtBoxes(evt.latLng);
 	});
 
 	google.maps.event.addListener(diseaseLocation, 'dragstart', function(evt) {
@@ -279,21 +271,63 @@ function initMap() {
 	});
 
 	google.maps.event.addListener(map, 'click', function(evt) {
-		document.getElementById('latitude').innerHTML = evt.latLng.lat()
-				.toFixed(6);
-		document.getElementById('longitude').innerHTML = evt.latLng.lng()
-				.toFixed(6);
-
-		document.getElementById('latitudeTxt').value = evt.latLng.lat()
-				.toFixed(6);
-		document.getElementById('longitudeTxt').value = evt.latLng.lng()
-				.toFixed(6);
-
+		setMapCoordinatesToTxtBoxes(evt.latLng);
 		diseaseLocation.setPosition(evt.latLng);
 	});
 
 	map.setCenter(diseaseLocation.position);
 	diseaseLocation.setMap(map);
+
+	var input = document.getElementById('pac-input');
+	var searchBox = new google.maps.places.SearchBox(input);
+	map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+	map.addListener('bounds_changed', function() {
+		searchBox.setBounds(map.getBounds());
+	});
+
+	var markers = [];
+
+	searchBox.addListener('places_changed', function() {
+		var places = searchBox.getPlaces();
+
+		if (places.length == 0) {
+			return;
+		}
+
+		markers.forEach(function(marker) {
+			marker.setMap(null);
+		});
+		markers = [];
+
+		var bounds = new google.maps.LatLngBounds();
+		places.forEach(function(place) {
+			if (!place.geometry) {
+				console.log("Returned place contains no geometry");
+				return;
+			}
+			var icon = {
+				url : place.icon,
+				size : new google.maps.Size(71, 71),
+				origin : new google.maps.Point(0, 0),
+				anchor : new google.maps.Point(17, 34),
+				scaledSize : new google.maps.Size(25, 25)
+			};
+
+			diseaseLocation.setPosition(place.geometry.location);
+			diseaseLocation.setMap(map);
+
+			setMapCoordinatesToTxtBoxes(place.geometry.location);
+
+			if (place.geometry.viewport) {
+				// Only geocodes have viewport.
+				bounds.union(place.geometry.viewport);
+			} else {
+				bounds.extend(place.geometry.location);
+			}
+		});
+		map.fitBounds(bounds);
+	});
 }
 
 var isCorrdinationMapLoaded = false;
@@ -320,7 +354,7 @@ function popupCoordinateMap(inDefaultLat, inDefaultLng, inDefaultZoom) {
 	if (!isCorrdinationMapLoaded) {
 		$
 				.getScript(
-						'https://maps.googleapis.com/maps/api/js?key=AIzaSyDN2cxxcRtxmmIu_9uwYJ7gjD5r7djFtGk&callback=initMap',
+						'https://maps.googleapis.com/maps/api/js?key=AIzaSyDN2cxxcRtxmmIu_9uwYJ7gjD5r7djFtGk&libraries=places&callback=initMap',
 						function(data, textStatus, jqxhr) {
 
 						});
@@ -365,6 +399,18 @@ function initViewMap() {
 
 	map.setCenter(diseaseLocation.position);
 	diseaseLocation.setMap(map);
+}
+
+function setMapCoordinatesToTxtBoxes(locationCoordinates) {
+	document.getElementById('latitude').innerHTML = locationCoordinates.lat()
+			.toFixed(6);
+	document.getElementById('longitude').innerHTML = locationCoordinates.lng()
+			.toFixed(6);
+
+	document.getElementById('latitudeTxt').value = locationCoordinates.lat()
+			.toFixed(6);
+	document.getElementById('longitudeTxt').value = locationCoordinates.lng()
+			.toFixed(6);
 }
 
 $(document).ready(function() {
