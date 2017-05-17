@@ -248,8 +248,8 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 
 		try {
 			criteria.add(Restrictions.eq("mohArea", inMohArea));
-			criteria.add(Restrictions.ge("notificationByUnitDate", Util.parseDate(inLowerDateLimit, "yyyy-MM-dd")));
-			criteria.add(Restrictions.le("notificationByUnitDate", Util.parseDate(inUpperDateLimit, "yyyy-MM-dd")));
+			criteria.add(Restrictions.ge("notificationToMohDate", Util.parseDate(inLowerDateLimit, "yyyy-MM-dd")));
+			criteria.add(Restrictions.le("notificationToMohDate", Util.parseDate(inUpperDateLimit, "yyyy-MM-dd")));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -274,8 +274,8 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 
 		try {
 			criteria.add(Restrictions.eq("ward", inWard));
-			criteria.add(Restrictions.ge("notificationByUnitDate", Util.parseDate(inLowerDateLimit, "yyyy-MM-dd")));
-			criteria.add(Restrictions.le("notificationByUnitDate", Util.parseDate(inUpperDateLimit, "yyyy-MM-dd")));
+			criteria.add(Restrictions.ge("notificationToMohDate", Util.parseDate(inLowerDateLimit, "yyyy-MM-dd")));
+			criteria.add(Restrictions.le("notificationToMohDate", Util.parseDate(inUpperDateLimit, "yyyy-MM-dd")));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -325,12 +325,12 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 		Criteria criteria = session.createCriteria(Form544.class, "form544");
 		criteria.add(Restrictions.eq("mohArea", inMohArea));
 		criteria.add(Restrictions.eq("disease", inDisease));
-		criteria.add(Restrictions.sqlRestriction("year({alias}.date_of_admission)=?", inYear, StringType.INSTANCE));
+		criteria.add(Restrictions.sqlRestriction("year({alias}.noti_to_moh_date)=?", inYear, StringType.INSTANCE));
 
 		return criteria
 				.setProjection(Projections.projectionList()
-						.add(Projections.sqlGroupProjection("month({alias}.date_of_admission) as month",
-								"month({alias}.date_of_admission)", new String[] { "month" },
+						.add(Projections.sqlGroupProjection("month({alias}.noti_to_moh_date) as month",
+								"month({alias}.noti_to_moh_date)", new String[] { "month" },
 								new Type[] { IntegerType.INSTANCE }), "month")
 						.add(Projections.count("id"), "count"))
 				.setResultTransformer(new AliasToBeanResultTransformer(MonthVsPatientSummaryDto.class)).list();
@@ -346,8 +346,8 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 		Criteria criteria = session.createCriteria(Form544.class, "form544");
 		criteria.add(Restrictions.eq("mohArea", inMohArea));
 		criteria.add(Restrictions.eq("disease", inDisease));
-		criteria.add(Restrictions.sqlRestriction("year({alias}.date_of_admission)=?", inYear, StringType.INSTANCE));
-		criteria.add(Restrictions.sqlRestriction("month({alias}.date_of_admission)=?", inMonth, StringType.INSTANCE));
+		criteria.add(Restrictions.sqlRestriction("year({alias}.noti_to_moh_date)=?", inYear, StringType.INSTANCE));
+		criteria.add(Restrictions.sqlRestriction("month({alias}.noti_to_moh_date)=?", inMonth, StringType.INSTANCE));
 
 		ProjectionList proList = Projections.projectionList();
 		proList.add(Projections.property("age"));
