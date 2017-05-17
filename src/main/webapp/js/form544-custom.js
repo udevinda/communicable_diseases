@@ -338,13 +338,19 @@ var defaultZoom = 0;
 
 function popupCoordinateMap(inDefaultLat, inDefaultLng, inDefaultZoom) {
 	defaultZoom = inDefaultZoom;
+	var longitude = document.getElementById("longitudeTxt").value;
+	var latitude = document.getElementById("latitudeTxt").value;
 
 	if (inDefaultLat != "" && inDefaultLng != "") {
 		defaultLng = inDefaultLng;
 		defaultLat = inDefaultLat;
+		if (longitude != "" && latitude != "") {
+			setMapCoordinatesInMapModel(latitude, longitude);
+		} else {
+			setMapCoordinatesInMapModel(defaultLat, defaultLng);
+		}
 	} else {
-		var longitude = document.getElementById("longitudeTxt").value;
-		var latitude = document.getElementById("latitudeTxt").value;
+		setMapCoordinatesInMapModel(latitude, longitude);
 
 		if (longitude != "" && latitude != "") {
 			defaultLng = longitude;
@@ -422,6 +428,11 @@ function setMapCoordinatesToTxtBoxes(locationCoordinates) {
 			.toFixed(6);
 	document.getElementById('longitudeTxt').value = locationCoordinates.lng()
 			.toFixed(6);
+}
+
+function setMapCoordinatesInMapModel(defaultLat, defaultLng) {
+	document.getElementById('latitude').innerHTML = defaultLat;
+	document.getElementById('longitude').innerHTML = defaultLng;
 }
 
 $(document).ready(function() {
