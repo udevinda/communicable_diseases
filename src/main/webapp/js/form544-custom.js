@@ -320,14 +320,15 @@ function initMap() {
 			setMapCoordinatesToTxtBoxes(place.geometry.location);
 
 			if (place.geometry.viewport) {
-				// Only geocodes have viewport.
 				bounds.union(place.geometry.viewport);
 			} else {
 				bounds.extend(place.geometry.location);
 			}
 		});
 		map.fitBounds(bounds);
+
 	});
+
 }
 
 var isCorrdinationMapLoaded = false;
@@ -356,11 +357,21 @@ function popupCoordinateMap(inDefaultLat, inDefaultLng, inDefaultZoom) {
 				.getScript(
 						'https://maps.googleapis.com/maps/api/js?key=AIzaSyDN2cxxcRtxmmIu_9uwYJ7gjD5r7djFtGk&libraries=places&callback=initMap',
 						function(data, textStatus, jqxhr) {
-
 						});
 
 		isCorrdinationMapLoaded = true;
 	}
+
+}
+
+function mapSearchByAddress() {
+	var mapSearchInput = document.getElementById('pac-input');
+	mapSearchInput.value = document.getElementById('patientHomeAddress').value;
+
+	google.maps.event.trigger(mapSearchInput, 'focus')
+	google.maps.event.trigger(mapSearchInput, 'keydown', {
+		keyCode : 13
+	});
 }
 
 function popupViewMap(inDefaultZoom) {
