@@ -4,10 +4,35 @@
 }
 
 .banner {
-	background-color: #AAD1EF;
+	background-color: transparent;
 	padding-top: 20px;
 	padding-bottom: 20px;
-	padding-left: 100px
+	width:100%;
+	display:inline-block;
+	text-align:center
+}
+
+.emblem-sri-lanka{
+	width:15%;
+	float:left;
+}
+
+.emblem-sri-lanka > img{
+	width:60%;
+}
+
+.emblem-matale-hos{
+	width:15%;
+	float:left;
+}
+
+.emblem-matale-hos > img{
+	width:85%
+}
+
+.banner-title{
+	width:67.8%;
+	float:left;
 }
 
 .navigation-bar {
