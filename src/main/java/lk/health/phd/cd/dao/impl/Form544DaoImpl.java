@@ -357,4 +357,36 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 		return criteria.list();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	public List getForm544DetailsForGivenPeriodByDisease(final Disease inDisease, final String fromDate,
+			final String toDate) {
+		Session session = getCurrentSession();
+
+		Criteria criteria = session.createCriteria(Form544.class, "form544");
+
+		try {
+			criteria.add(Restrictions.eq("disease", inDisease));
+			criteria.add(Restrictions.ge("notificationToMohDate", Util.parseDate(fromDate, "yyyy-MM-dd")));
+			criteria.add(Restrictions.le("notificationToMohDate", Util.parseDate(toDate, "yyyy-MM-dd")));
+
+			ProjectionList proList = Projections.projectionList();
+			proList.add(Projections.property("notificationToMohDate"));
+			proList.add(Projections.property("patientName"));
+			proList.add(Projections.property("age"));
+			proList.add(Projections.property("sex"));
+			proList.add(Projections.property("patientsHomePhoneNo"));
+			proList.add(Projections.property("patientHomeAddress"));
+			proList.add(Projections.property("remarks"));
+
+			criteria.setProjection(proList);
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+		return criteria.list();
+	}
+
 }
