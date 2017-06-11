@@ -360,14 +360,15 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 	/**
 	 * {@inheritDoc}
 	 */
-	public List getForm544DetailsForGivenPeriodByDisease(final Disease inDisease, final String fromDate,
-			final String toDate) {
+	public List getForm544DetailsForGivenPeriodByDisease(final Disease inDisease, final MohArea inMohArea,
+			final String fromDate, final String toDate) {
 		Session session = getCurrentSession();
 
 		Criteria criteria = session.createCriteria(Form544.class, "form544");
 
 		try {
 			criteria.add(Restrictions.eq("disease", inDisease));
+			criteria.add(Restrictions.eq("mohArea", inMohArea));
 			criteria.add(Restrictions.ge("notificationToMohDate", Util.parseDate(fromDate, "yyyy-MM-dd")));
 			criteria.add(Restrictions.le("notificationToMohDate", Util.parseDate(toDate, "yyyy-MM-dd")));
 

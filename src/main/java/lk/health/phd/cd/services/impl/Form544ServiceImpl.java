@@ -20,6 +20,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
 import lk.health.phd.cd.dao.DiseaseConfirmationTestDao;
+import lk.health.phd.cd.dao.DiseaseDao;
 import lk.health.phd.cd.dao.Form544Dao;
 import lk.health.phd.cd.dao.MohAreaDao;
 import lk.health.phd.cd.dao.WorkflowDao;
@@ -61,6 +62,9 @@ public class Form544ServiceImpl implements Form544Service {
 
 	@Autowired
 	private MohAreaDao mohAreaDao;
+
+	@Autowired
+	private DiseaseDao diseaseDao;
 
 	/**
 	 * {@inheritDoc}
@@ -232,6 +236,27 @@ public class Form544ServiceImpl implements Form544Service {
 		}
 
 		return ageList;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public List getForm544DetailsByDistrictDiseaseDatePeriod(Long inDistrictId, Long inDiseaseId, String inLowerDate,
+			String inUpperDate) {
+		List<MohArea> mohAreas = mohAreaDao.getMohAreaByDistrictId(inDistrictId);
+		Disease disease = diseaseDao.findDiseaseById(inDiseaseId);
+
+		ArrayList form544DetailList = new ArrayList();
+
+		for (int i = 0; i < mohAreas.size(); i++) {
+
+			ArrayList mohAreaForm544DetailList = (ArrayList) form544Dao
+					.getForm544DetailsForGivenPeriodByDisease(disease, mohAreas.get(i), inLowerDate, inUpperDate);
+
+			form544DetailList.add(mohAreaForm544DetailList);
+		}
+
+		return form544DetailList;
 	}
 
 }

@@ -143,13 +143,16 @@ public interface Form544Dao extends UniversalDao<Form544> {
 
 	/**
 	 * Get list of {@link Form544} details considering a
-	 * {@link Form544.notificationToMohDate} period
+	 * {@link Form544.notificationToMohDate} period, {@link Disease} and
+	 * {@link MohArea}
 	 * 
 	 * @param inDisease
 	 *            {@link Disease}
-	 * @param fromDate
+	 * @param inFromDate
 	 *            From date of {@link Form544.notificationToMohDate}
-	 * @param toDate
+	 * @param inMohArea
+	 *            {@link MohArea} to consider
+	 * @param inToDate
 	 *            To date of {@link Form544.notificationToMohDate}
 	 * @return List of {@link Form544.notificationToMohDate},
 	 *         {@link Form544.patientName}, {@link Form544.age},
@@ -157,6 +160,6 @@ public interface Form544Dao extends UniversalDao<Form544> {
 	 *         {@link Form544.patientsHomePhoneNo},
 	 *         {@link Form544.patientHomeAddress}, {@link Form544.remarks}
 	 */
-	public List getForm544DetailsForGivenPeriodByDisease(final Disease inDisease, final String fromDate,
-			final String toDate);
+	public List getForm544DetailsForGivenPeriodByDisease(final Disease inDisease, final MohArea inMohArea,
+			final String inFromDate, final String inToDate);
 }

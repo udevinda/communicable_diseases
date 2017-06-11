@@ -12,10 +12,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import lk.health.phd.cd.dao.DiseaseDao;
 import lk.health.phd.cd.dao.DistrictDao;
 import lk.health.phd.cd.dao.Form544Dao;
 import lk.health.phd.cd.dto.MohAreaVsDiseaseSummaryDto;
 import lk.health.phd.cd.dto.WardVsDiseaseSummaryDto;
+import lk.health.phd.cd.models.Disease;
+import lk.health.phd.cd.models.Form544;
 import lk.health.phd.cd.services.Form544Service;
 
 /**
@@ -38,6 +41,9 @@ public class ReportController {
 
 	@Autowired
 	private Form544Dao form544Dao;
+
+	@Autowired
+	private DiseaseDao diseaseDao;
 
 	Logger logger = LoggerFactory.getLogger(ReportController.class);
 
@@ -168,6 +174,13 @@ public class ReportController {
 		model.addAttribute("instituteList", form544Dao.getDistinctInstituteList());
 
 		return "disease-ward";
+	}
+
+	@RequestMapping(value = "weekly-dengue-report", method = RequestMethod.GET)
+	public @ResponseBody List getWeeklyDengueReport(@RequestParam("district") final Long inDistrictId,
+			@RequestParam("fromDate") String inFromDate, @RequestParam("toDate") String inToDate) {
+
+		return form544Service.getForm544DetailsByDistrictDiseaseDatePeriod(inDistrictId, 6l, inFromDate, inToDate);
 	}
 
 }

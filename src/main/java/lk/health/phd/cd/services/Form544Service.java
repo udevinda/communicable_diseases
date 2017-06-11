@@ -120,4 +120,27 @@ public interface Form544Service {
 	 */
 	public List generateAgeListForAgeWiseGraph(final Disease inDisease, final Long inDistrictId, final String inYear,
 			final String inMonth);
+
+	/**
+	 * Generate the {@link Form544} details list considering the
+	 * {@link District}, {@link Disease} and
+	 * {@link Form544.notificationToMohDate} period.
+	 * 
+	 * @param inDistrictId
+	 * ID of the {@link District} to consider
+	 * @param inDiseaseId
+	 * ID of the {@link Disease} to consider
+	 * @param inLowerDate
+	 * From date of the {@link Form544.notificationToMohDate} to consider
+	 * @param inUpperDate
+	 * To date of the {@link Form544.notificationToMohDate} to consider
+	 * @return
+	 * List of {@link Form544.notificationToMohDate},
+	 *         {@link Form544.patientName}, {@link Form544.age},
+	 *         {@link Form544.sex}, {@link Form544.mohArea},
+	 *         {@link Form544.patientsHomePhoneNo},
+	 *         {@link Form544.patientHomeAddress}, {@link Form544.remarks}
+	 */
+	public List getForm544DetailsByDistrictDiseaseDatePeriod(final Long inDistrictId, final Long inDiseaseId,
+			final String inLowerDate, final String inUpperDate);
 }
