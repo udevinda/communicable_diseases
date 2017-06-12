@@ -1,5 +1,6 @@
 package lk.health.phd.cd.services.impl;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -24,6 +25,7 @@ import lk.health.phd.cd.dao.DiseaseDao;
 import lk.health.phd.cd.dao.Form544Dao;
 import lk.health.phd.cd.dao.MohAreaDao;
 import lk.health.phd.cd.dao.WorkflowDao;
+import lk.health.phd.cd.dto.DiseaseCountDto;
 import lk.health.phd.cd.dto.DiseaseVsPatientSummaryDto;
 import lk.health.phd.cd.dto.MohAreaVsDiseaseSummaryDto;
 import lk.health.phd.cd.dto.MonthVsPatientSummaryDto;
@@ -35,6 +37,7 @@ import lk.health.phd.cd.models.Form544;
 import lk.health.phd.cd.models.MohArea;
 import lk.health.phd.cd.services.Form544Service;
 import lk.health.phd.cd.services.WorkflowService;
+import lk.health.phd.util.Util;
 
 /**
  * 
@@ -257,6 +260,34 @@ public class Form544ServiceImpl implements Form544Service {
 		}
 
 		return form544DetailList;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public DiseaseCountDto getTotalForm544CountByDiseaseDistrictAndYearMonth(final Long inDistrictId,
+			final Long inDiseaseId, final String inLowerDate) {
+		try {
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(Util.parseDate(inLowerDate, "yyyy-MM-dd"));
+			String yearToConsider = cal.get(Calendar.YEAR) + "";
+			String monthToConsider = cal.get(Calendar.MONTH) + 1 + "";
+
+			Long yearlyCount = form544Dao.getTotalReportedDiseaseCountByDistrictPeriodForYear(inDiseaseId, inDistrictId,
+					yearToConsider);
+			Long monthlyCount = form544Dao.getTotalReportedDiseaseCountByDistrictPeriodForMonth(inDiseaseId,
+					inDistrictId, yearToConsider, monthToConsider);
+
+			DiseaseCountDto diseaseCountDto = new DiseaseCountDto();
+			diseaseCountDto.setYearlyCount(yearlyCount);
+			diseaseCountDto.setMonthlyCount(monthlyCount);
+
+			return diseaseCountDto;
+		} catch (ParseException e) {
+			e.printStackTrace();
+
+			return null;
+		}
 	}
 
 }

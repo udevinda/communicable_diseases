@@ -5,6 +5,7 @@ import java.util.List;
 import lk.health.phd.cd.dto.Form544FilterDto;
 import lk.health.phd.cd.dto.MonthVsPatientSummaryDto;
 import lk.health.phd.cd.models.Disease;
+import lk.health.phd.cd.models.District;
 import lk.health.phd.cd.models.Form544;
 import lk.health.phd.cd.models.MohArea;
 
@@ -56,6 +57,7 @@ public interface Form544Dao extends UniversalDao<Form544> {
 	 * 
 	 * @return Returns the total count of {@link Form544} for current month.
 	 */
+	// TODO Logic Wrong. This should be consider district wise
 	public Long getForm544CountForCurrentMonth();
 
 	/**
@@ -63,6 +65,7 @@ public interface Form544Dao extends UniversalDao<Form544> {
 	 * 
 	 * @return Returns the total count of {@link Form544} for current year.
 	 */
+	// TODO Logic wrong. This should be consisder district wise
 	public Long getForm544CountForCurrentYear();
 
 	/**
@@ -162,4 +165,37 @@ public interface Form544Dao extends UniversalDao<Form544> {
 	 */
 	public List getForm544DetailsForGivenPeriodByDisease(final Disease inDisease, final MohArea inMohArea,
 			final String inFromDate, final String inToDate);
+
+	/**
+	 * Get total count of {@link Form544} related to specific disease by the
+	 * given {@link Form544.notificationToMohDate}.year and the {@link District}
+	 * 
+	 * @param inDiseaseId
+	 *            Id of the {@link Disease}
+	 * @param inDistrictId
+	 *            Id of the {@link District}
+	 * @param inYear
+	 *            year of the {@link Form544.notificationToMohDate}
+	 * @return Total count of the reported {@link Form544}
+	 */
+	public Long getTotalReportedDiseaseCountByDistrictPeriodForYear(final Long inDiseaseId, final Long inDistrictId,
+			final String inYear);
+
+	/**
+	 * Get total count of {@link Form544} related to specific {@link Disease} by
+	 * given {@link Form544.notificationToMohDate}.year,
+	 * {@link Form544.notificationToMohDate}.month and the {@link District}
+	 * 
+	 * @param inDiseaseId
+	 *            {@link Disease.id}
+	 * @param inDistrictId
+	 *            {@link District.id}
+	 * @param inYear
+	 *            {@link Form544.notificationToMohDate}.year
+	 * @param inMonth
+	 *            {@link Form544.notificationToMohDate}.month
+	 * @return Total of the reported {@link Form544}
+	 */
+	public Long getTotalReportedDiseaseCountByDistrictPeriodForMonth(final Long inDiseaseId, final Long inDistrictId,
+			final String inYear, final String inMonth);
 }

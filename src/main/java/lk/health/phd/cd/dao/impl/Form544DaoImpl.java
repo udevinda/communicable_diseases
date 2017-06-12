@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
@@ -388,6 +389,39 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 		}
 
 		return criteria.list();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public Long getTotalReportedDiseaseCountByDistrictPeriodForYear(final Long inDiseaseId, final Long inDistrictId,
+			final String inYear) {
+
+		Session session = getCurrentSession();
+
+		Query query = session.createQuery(
+				"select count(a.id) from Form544 a, MohArea b, District c where a.mohArea.id=b.id and b.district.id=c.id and c.id=:districtId and a.disease.id=:diseaseId and year(a.notificationToMohDate)=:year");
+		query.setLong("districtId", inDistrictId);
+		query.setLong("diseaseId", inDiseaseId);
+		query.setString("year", inYear);
+
+		return (Long) query.uniqueResult();
+	}
+
+	public Long getTotalReportedDiseaseCountByDistrictPeriodForMonth(final Long inDiseaseId, final Long inDistrictId,
+			final String inYear, final String inMonth) {
+
+		Session session = getCurrentSession();
+
+		Query query = session.createQuery(
+				"select count(a.id) from Form544 a, MohArea b, District c where a.mohArea.id=b.id and b.district.id=c.id and c.id=:districtId and a.disease.id=:diseaseId and year(a.notificationToMohDate)=:year and month(a.notificationToMohDate)=:month");
+		query.setLong("districtId", inDistrictId);
+		query.setLong("diseaseId", inDiseaseId);
+		query.setString("year", inYear);
+		query.setString("month", inMonth);
+
+		return (Long) query.uniqueResult();
+
 	}
 
 }

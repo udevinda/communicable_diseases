@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import lk.health.phd.cd.dao.DiseaseDao;
 import lk.health.phd.cd.dao.DistrictDao;
 import lk.health.phd.cd.dao.Form544Dao;
+import lk.health.phd.cd.dto.DiseaseCountDto;
 import lk.health.phd.cd.dto.MohAreaVsDiseaseSummaryDto;
 import lk.health.phd.cd.dto.WardVsDiseaseSummaryDto;
 import lk.health.phd.cd.models.Disease;
@@ -177,10 +178,13 @@ public class ReportController {
 	}
 
 	@RequestMapping(value = "weekly-dengue-report", method = RequestMethod.GET)
-	public @ResponseBody List getWeeklyDengueReport(@RequestParam("district") final Long inDistrictId,
+	public @ResponseBody DiseaseCountDto getWeeklyDengueReport(@RequestParam("district") final Long inDistrictId,
 			@RequestParam("fromDate") String inFromDate, @RequestParam("toDate") String inToDate) {
 
-		return form544Service.getForm544DetailsByDistrictDiseaseDatePeriod(inDistrictId, 6l, inFromDate, inToDate);
+		return form544Service.getTotalForm544CountByDiseaseDistrictAndYearMonth(inDistrictId, 6l, inFromDate);
+		// return
+		// form544Service.getForm544DetailsByDistrictDiseaseDatePeriod(inDistrictId,
+		// 6l, inFromDate, inToDate);
 	}
 
 }

@@ -2,6 +2,7 @@ package lk.health.phd.cd.services;
 
 import java.util.List;
 
+import lk.health.phd.cd.dto.DiseaseCountDto;
 import lk.health.phd.cd.dto.MohAreaVsDiseaseSummaryDto;
 import lk.health.phd.cd.dto.WardVsDiseaseSummaryDto;
 import lk.health.phd.cd.models.Disease;
@@ -127,15 +128,16 @@ public interface Form544Service {
 	 * {@link Form544.notificationToMohDate} period.
 	 * 
 	 * @param inDistrictId
-	 * ID of the {@link District} to consider
+	 *            ID of the {@link District} to consider
 	 * @param inDiseaseId
-	 * ID of the {@link Disease} to consider
+	 *            ID of the {@link Disease} to consider
 	 * @param inLowerDate
-	 * From date of the {@link Form544.notificationToMohDate} to consider
+	 *            From date of the {@link Form544.notificationToMohDate} to
+	 *            consider
 	 * @param inUpperDate
-	 * To date of the {@link Form544.notificationToMohDate} to consider
-	 * @return
-	 * List of {@link Form544.notificationToMohDate},
+	 *            To date of the {@link Form544.notificationToMohDate} to
+	 *            consider
+	 * @return List of {@link Form544.notificationToMohDate},
 	 *         {@link Form544.patientName}, {@link Form544.age},
 	 *         {@link Form544.sex}, {@link Form544.mohArea},
 	 *         {@link Form544.patientsHomePhoneNo},
@@ -143,4 +145,21 @@ public interface Form544Service {
 	 */
 	public List getForm544DetailsByDistrictDiseaseDatePeriod(final Long inDistrictId, final Long inDiseaseId,
 			final String inLowerDate, final String inUpperDate);
+
+	/**
+	 * Get the total count of reported {@link Form544} by the {@link Disease},
+	 * {@link District} and {@link Form544.notificationToMohDate}.year,
+	 * {@link Form544.notificationToMohDate}.month
+	 * 
+	 * 
+	 * @param districtId
+	 *            ID of the {@link District}
+	 * @param inDiseaseId
+	 *            ID of the {@link Disease}
+	 * @param inLowerDate
+	 *            {@link Form544.notificationToMohDate}
+	 * @return {@link DiseaseCountDto}
+	 */
+	public DiseaseCountDto getTotalForm544CountByDiseaseDistrictAndYearMonth(final Long inDistrictId,
+			final Long inDiseaseId, final String inLowerDate);
 }
