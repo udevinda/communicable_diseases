@@ -19,6 +19,7 @@ import lk.health.phd.cd.dto.DiseaseCountDto;
 import lk.health.phd.cd.dto.MohAreaVsDiseaseSummaryDto;
 import lk.health.phd.cd.dto.WardVsDiseaseSummaryDto;
 import lk.health.phd.cd.models.Disease;
+import lk.health.phd.cd.models.District;
 import lk.health.phd.cd.models.Form544;
 import lk.health.phd.cd.services.Form544Service;
 
@@ -188,19 +189,42 @@ public class ReportController {
 	@RequestMapping(value = "periodic-dengue", method = RequestMethod.GET)
 	public String getPeriodicDengureReportGenPage(Model model) {
 		model.addAttribute("instituteList", form544Dao.getDistinctInstituteList());
+		model.addAttribute("districtList", districtDao.getAllDistrict());
 
 		return "dengue-periodic";
 	}
 
-	@RequestMapping(value = "periodic-dengue-report", method = RequestMethod.GET)
-	public @ResponseBody List getPeriodicDengueReport(@RequestParam("district") final Long inDistrictId,
+	/**
+	 * Controller to load page dengue-periodic-report.html
+	 * 
+	 * @param inDistrictId
+	 *            {@link District} ID
+	 * @param inFromDate
+	 *            From date for {@link Form544.notificationToMohDate}
+	 * @param inToDate
+	 *            To date for {@link Form544.notificationToMohDate}
+	 * @param institute
+	 *            {@link Form544.institute}
+	 * @param senderAddress
+	 *            Address of the report sender
+	 * @param model
+	 * @return dengue-periodic-report.html
+	 */
+	@RequestMapping(value = "periodic-dengue-report", method = RequestMethod.POST)
+	public String getPeriodicDengueReport(@RequestParam("district") final Long inDistrictId,
 			@RequestParam("fromDate") String inFromDate, @RequestParam("toDate") String inToDate,
-			@RequestParam("institute") String institute, @RequestParam("senderAddr") String senderAddress) {
+			@RequestParam("institute") String institute, @RequestParam("senderAddr") String senderAddress,
+			Model model) {
 
-		// return
-		// form544Service.getTotalForm544CountByDiseaseDistrictAndYearMonth(inDistrictId,
-		// 6l, inFromDate);
-		return form544Service.getForm544DetailsByDistrictDiseaseDatePeriod(inDistrictId, 6l, inFromDate, inToDate);
+		List form544DetailList = form544Service.getForm544DetailsByDistrictDiseaseDatePeriod(inDistrictId, 6l,
+				inFromDate, inToDate);
+		DiseaseCountDto periodicCounts = form544Service.getTotalForm544CountByDiseaseDistrictAndYearMonth(inDistrictId,
+				6l, inFromDate);
+
+		model.addAttribute("form544DetailList", form544DetailList);
+		model.addAttribute("periodicCounts", periodicCounts);
+
+		return "dengue-periodic-report";
 	}
 
 }
