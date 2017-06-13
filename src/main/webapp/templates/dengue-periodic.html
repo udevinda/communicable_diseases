@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Dengue Periodic Report</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/jquery-ui.css">
+<link rel="stylesheet" href="../css/custom.css">
+<script src="../js/jquery-3.1.1.min.js"></script>
+<script src="../js/jquery-ui.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/report-custom.js"></script>
+
+
+</head>
+
+<body>
+	<div id="banner"></div>
+
+	<div id="navigation"></div>
+
+	<div class="container">
+		<div class="page-header page-title-header">
+			<h2>Generate Dengue Periodic Report</h2>
+		</div>
+		<form th:action="@{/reports/periodic-dengue-report}" method="post"
+			target="_blank">
+			<div class="form-group">
+				<label for="institute">Institute:</label> <select
+					class="form-control" id="institute" name="institute">
+					<option th:each="institute:${instituteList}"
+						th:value="${institute[0]}" th:text="${institute[0]}"></option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="resAddr">Sender Address:</label> <input type="text"
+					class="form-control" id="sendAddr" name="res_addr"
+					placeholder="Enter sender's address" maxlength="150" required>
+			</div>
+			<div class="form-group">
+				<label for="reportDate">From Date:</label> <input type="text"
+					class="form-control" id="fromDate" name="fromDate"
+					placeholder="Select start date for report" required>
+			</div>
+			<div class="form-group">
+				<label for="reportDate">To Date:</label> <input type="text"
+					class="form-control" id="toDate" name="toDate"
+					placeholder="Select to date for report" required>
+			</div>
+
+			<div class="form-group">
+				<button type="submit" class="btn btn-success pull-right">Submit</button>
+			</div>
+		</form>
+	</div>
+	<div id="footer"></div>
+</body>
+</html>

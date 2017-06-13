@@ -5,6 +5,18 @@ $(function() {
 });
 
 $(function() {
+	$("#fromDate").datepicker({
+		dateFormat : 'yy-mm-dd'
+	});
+});
+
+$(function() {
+	$("#toDate").datepicker({
+		dateFormat : 'yy-mm-dd'
+	});
+});
+
+$(function() {
 	$("#footer").load("/communicable-disease/page/footer");
 });
 

@@ -179,9 +179,23 @@ public class ReportController {
 		return "disease-ward";
 	}
 
-	@RequestMapping(value = "weekly-dengue-report", method = RequestMethod.GET)
-	public @ResponseBody List getWeeklyDengueReport(@RequestParam("district") final Long inDistrictId,
-			@RequestParam("fromDate") String inFromDate, @RequestParam("toDate") String inToDate) {
+	/**
+	 * Controller to load page dengue-periodic.html
+	 * 
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "periodic-dengue", method = RequestMethod.GET)
+	public String getPeriodicDengureReportGenPage(Model model) {
+		model.addAttribute("instituteList", form544Dao.getDistinctInstituteList());
+
+		return "dengue-periodic";
+	}
+
+	@RequestMapping(value = "periodic-dengue-report", method = RequestMethod.GET)
+	public @ResponseBody List getPeriodicDengueReport(@RequestParam("district") final Long inDistrictId,
+			@RequestParam("fromDate") String inFromDate, @RequestParam("toDate") String inToDate,
+			@RequestParam("institute") String institute, @RequestParam("senderAddr") String senderAddress) {
 
 		// return
 		// form544Service.getTotalForm544CountByDiseaseDistrictAndYearMonth(inDistrictId,
