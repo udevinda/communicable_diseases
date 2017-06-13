@@ -361,34 +361,20 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 	/**
 	 * {@inheritDoc}
 	 */
-	public List getForm544DetailsForGivenPeriodByDisease(final Disease inDisease, final MohArea inMohArea,
+	public List getForm544DetailsForGivenPeriodByDisease(final Long inDiseaseId, final Long inDistrictId,
 			final String fromDate, final String toDate) {
+
 		Session session = getCurrentSession();
 
-		Criteria criteria = session.createCriteria(Form544.class, "form544");
+		Query query = session.createQuery(
+				"select a.notificationToMohDate, a.patientName, a.age, a.sex, a.patientsHomePhoneNo, a.patientHomeAddress, a.remarks from Form544 a, MohArea b, District c where a.mohArea.id=b.id and b.district.id=c.id and c.id=:districtId and a.disease.id=:diseaseId and a.notificationToMohDate between :fromDate and :toDate");
+		query.setLong("districtId", inDistrictId);
+		query.setLong("diseaseId", inDiseaseId);
+		query.setString("fromDate", fromDate);
+		query.setString("toDate", toDate);
 
-		try {
-			criteria.add(Restrictions.eq("disease", inDisease));
-			criteria.add(Restrictions.eq("mohArea", inMohArea));
-			criteria.add(Restrictions.ge("notificationToMohDate", Util.parseDate(fromDate, "yyyy-MM-dd")));
-			criteria.add(Restrictions.le("notificationToMohDate", Util.parseDate(toDate, "yyyy-MM-dd")));
+		return (List) query.list();
 
-			ProjectionList proList = Projections.projectionList();
-			proList.add(Projections.property("notificationToMohDate"));
-			proList.add(Projections.property("patientName"));
-			proList.add(Projections.property("age"));
-			proList.add(Projections.property("sex"));
-			proList.add(Projections.property("patientsHomePhoneNo"));
-			proList.add(Projections.property("patientHomeAddress"));
-			proList.add(Projections.property("remarks"));
-
-			criteria.setProjection(proList);
-
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-
-		return criteria.list();
 	}
 
 	/**
@@ -408,6 +394,9 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 		return (Long) query.uniqueResult();
 	}
 
+	/**
+	 * {@inheritDoc}}
+	 */
 	public Long getTotalReportedDiseaseCountByDistrictPeriodForMonth(final Long inDiseaseId, final Long inDistrictId,
 			final String inYear, final String inMonth) {
 

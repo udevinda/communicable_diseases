@@ -49,6 +49,8 @@ import lk.health.phd.util.Util;
 @Transactional
 public class Form544ServiceImpl implements Form544Service {
 
+	// TODO replace moh level looping logic with hql single query logic
+
 	Logger logger = LoggerFactory.getLogger(Form544ServiceImpl.class);
 
 	@Autowired
@@ -246,18 +248,10 @@ public class Form544ServiceImpl implements Form544Service {
 	 */
 	public List getForm544DetailsByDistrictDiseaseDatePeriod(Long inDistrictId, Long inDiseaseId, String inLowerDate,
 			String inUpperDate) {
-		List<MohArea> mohAreas = mohAreaDao.getMohAreaByDistrictId(inDistrictId);
-		Disease disease = diseaseDao.findDiseaseById(inDiseaseId);
 
 		ArrayList form544DetailList = new ArrayList();
-
-		for (int i = 0; i < mohAreas.size(); i++) {
-
-			ArrayList mohAreaForm544DetailList = (ArrayList) form544Dao
-					.getForm544DetailsForGivenPeriodByDisease(disease, mohAreas.get(i), inLowerDate, inUpperDate);
-
-			form544DetailList.add(mohAreaForm544DetailList);
-		}
+		form544DetailList = (ArrayList) form544Dao.getForm544DetailsForGivenPeriodByDisease(inDiseaseId, inDistrictId, inLowerDate,
+				inUpperDate);
 
 		return form544DetailList;
 	}

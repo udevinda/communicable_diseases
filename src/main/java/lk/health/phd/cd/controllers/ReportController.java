@@ -34,6 +34,8 @@ import lk.health.phd.cd.services.Form544Service;
 @RequestMapping("/reports")
 public class ReportController {
 
+	// TODO remove dao level callings and move them to service level callings
+
 	@Autowired
 	private Form544Service form544Service;
 
@@ -178,13 +180,13 @@ public class ReportController {
 	}
 
 	@RequestMapping(value = "weekly-dengue-report", method = RequestMethod.GET)
-	public @ResponseBody DiseaseCountDto getWeeklyDengueReport(@RequestParam("district") final Long inDistrictId,
+	public @ResponseBody List getWeeklyDengueReport(@RequestParam("district") final Long inDistrictId,
 			@RequestParam("fromDate") String inFromDate, @RequestParam("toDate") String inToDate) {
 
-		return form544Service.getTotalForm544CountByDiseaseDistrictAndYearMonth(inDistrictId, 6l, inFromDate);
 		// return
-		// form544Service.getForm544DetailsByDistrictDiseaseDatePeriod(inDistrictId,
-		// 6l, inFromDate, inToDate);
+		// form544Service.getTotalForm544CountByDiseaseDistrictAndYearMonth(inDistrictId,
+		// 6l, inFromDate);
+		return form544Service.getForm544DetailsByDistrictDiseaseDatePeriod(inDistrictId, 6l, inFromDate, inToDate);
 	}
 
 }
