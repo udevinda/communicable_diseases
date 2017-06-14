@@ -213,7 +213,7 @@ public class ReportController {
 	@RequestMapping(value = "periodic-dengue-report", method = RequestMethod.POST)
 	public String getPeriodicDengueReport(@RequestParam("district") final Long inDistrictId,
 			@RequestParam("fromDate") String inFromDate, @RequestParam("toDate") String inToDate,
-			@RequestParam("institute") String institute, @RequestParam("senderAddr") String senderAddress,
+			@RequestParam("institute") String inInstitute, @RequestParam("senderAddr") String inSenderAddress,
 			Model model) {
 
 		List form544DetailList = form544Service.getForm544DetailsByDistrictDiseaseDatePeriod(inDistrictId, 6l,
@@ -223,6 +223,10 @@ public class ReportController {
 
 		model.addAttribute("form544DetailList", form544DetailList);
 		model.addAttribute("periodicCounts", periodicCounts);
+		model.addAttribute("institute", inInstitute);
+		model.addAttribute("fromDate", inFromDate);
+		model.addAttribute("toDate", inToDate);
+		model.addAttribute("senderAddress", inSenderAddress);
 
 		return "dengue-periodic-report";
 	}

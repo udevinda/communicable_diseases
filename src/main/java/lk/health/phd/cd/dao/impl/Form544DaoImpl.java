@@ -367,7 +367,7 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 		Session session = getCurrentSession();
 
 		Query query = session.createQuery(
-				"select a.notificationToMohDate, a.patientName, a.age, a.sex, a.patientsHomePhoneNo, a.patientHomeAddress, a.remarks from Form544 a, MohArea b, District c where a.mohArea.id=b.id and b.district.id=c.id and c.id=:districtId and a.disease.id=:diseaseId and a.notificationToMohDate between :fromDate and :toDate");
+				"select a.notificationToMohDate, a.patientName, a.age, a.sex, b.mohAreaName, a.patientsHomePhoneNo, a.patientHomeAddress, a.remarks from Form544 a, MohArea b, District c where a.mohArea.id=b.id and b.district.id=c.id and c.id=:districtId and a.disease.id=:diseaseId and a.notificationToMohDate between :fromDate and :toDate");
 		query.setLong("districtId", inDistrictId);
 		query.setLong("diseaseId", inDiseaseId);
 		query.setString("fromDate", fromDate);

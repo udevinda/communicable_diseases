@@ -112,6 +112,12 @@ function formatReseiverAddr() {
 			",<br>");
 }
 
+function formatSenderAddr() {
+	var content = document.getElementById('senderAddr').innerHTML;
+	document.getElementById('senderAddr').innerHTML = content.replace(/,/g,
+			",<br>");
+}
+
 function getMonthByIndex(monthIndex) {
 	var month = "";
 	switch (monthIndex) {

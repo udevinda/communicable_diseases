@@ -14,22 +14,84 @@
 <script src="../js/jquery.dataTables.min.js"></script>
 <script src="../js/report-custom.js"></script>
 
-<style media="screen, print">
 
+<style media="screen, print">
+.denguePeriodicHeading {
+	font-weight: bold !important;
+	color: #214767 !important;
+}
+
+.denguePeriodicSubHeading {
+	font-weight: bold !important;
+	color: blueviolet !important;
+}
+
+.senderAddress {
+	color: brown !important;
+}
 </style>
 
 </head>
 <body>
-
+	<div>
+		<h3 class="denguePeriodicHeading">Periodic Dengue Report</h3>
+		<h4 class="denguePeriodicSubHeading">
+			<span th:text="${institute}"></span> <span th:text="${fromDate}"></span>
+			- <span th:text="${toDate}"></span>
+		</h4>
+	</div>
+	<br>
+	<br>
+	<div class="table-responsive">
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>No</th>
+					<th>Date</th>
+					<th>Name</th>
+					<th>Age</th>
+					<th>Sex</th>
+					<th>MOH</th>
+					<th>Telephone No</th>
+					<th>Address</th>
+					<th>Remarks</th>
+				</tr>
+			</thead>
+			<tbody id="denguePeriodicReportBody"></tbody>
+		</table>
+		<div>
+			<h5 class="senderAddress">
+				<span th:text="${senderAddress}" class="senderAddr" id="senderAddr"></span>
+			</h5>
+		</div>
+	</div>
 </body>
 </html>
 
 <script th:inline="javascript">
 
 	/*<![CDATA[*/
-	//processObjList([[${mohAreaVsDiseaseSummaryList}]]);
+	processObjList([[${form544DetailList}]]);
 	 /*]]>*/
 	 
+	 function processObjList(form544DetailList){
+		 for(var i = 0; i < form544DetailList.length; i++){
+
+			 	$("#denguePeriodicReportBody").append('<tr><td>' + (i+1) + '</td>'+
+			 			'<td>' + form544DetailList[i][0] + '</td>'+
+			 			'<td>' + form544DetailList[i][1] + '</td>'+
+			 			'<td>' + (form544DetailList[i][2]/365) + '</td>'+
+			 			'<td>' + form544DetailList[i][3] + '</td>'+
+			 			'<td>' + form544DetailList[i][4] + '</td>'+
+			 			'<td>' + form544DetailList[i][5] + '</td>'+
+			 			'<td>' + form544DetailList[i][6] + '</td>'+
+			 			'<td>' + form544DetailList[i][7] + '</td></tr>');
+
+		 }
+	 }
 	 
+	 $(document).ready(function() {
+		 formatSenderAddr();
+	 });
 	
 </script>
