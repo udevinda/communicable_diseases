@@ -29,21 +29,39 @@
 .senderAddress {
 	color: brown !important;
 }
+
+table tr {
+	border-style: solid;
+	border-width: 0.5px
+}
+
+table {
+	width: 100%
+}
+
+td {
+	padding: 10px
+}
+
+th {
+	text-align: center
+}
 </style>
 
 </head>
 <body>
 	<div>
 		<h3 class="denguePeriodicHeading">Periodic Dengue Report</h3>
-		<h4 class="denguePeriodicSubHeading">
-			<span th:text="${institute}"></span> <span th:text="${fromDate}"></span>
-			- <span th:text="${toDate}"></span>
+		<h4>
+			<span class="denguePeriodicSubHeading" th:text="${institute}"></span>
+			<span class="denguePeriodicSubHeading" th:text="${fromDate}"></span>
+			- <span class="denguePeriodicSubHeading" th:text="${toDate}"></span>
 		</h4>
 	</div>
 	<br>
 	<br>
-	<div class="table-responsive">
-		<table class="table table-bordered">
+	<div>
+		<table>
 			<thead>
 				<tr>
 					<th>No</th>
@@ -59,11 +77,12 @@
 			</thead>
 			<tbody id="denguePeriodicReportBody"></tbody>
 		</table>
-		<div>
-			<h5 class="senderAddress">
-				<span th:text="${senderAddress}" class="senderAddr" id="senderAddr"></span>
-			</h5>
-		</div>
+	</div>
+	<div>
+		<h5>
+			<span class="senderAddress" th:text="${senderAddress}"
+				id="senderAddr"></span>
+		</h5>
 	</div>
 </body>
 </html>
