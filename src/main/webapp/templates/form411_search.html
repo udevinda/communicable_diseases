@@ -176,6 +176,8 @@
 				<button type="button" class="btn btn-default pull-right"
 					style="margin-right: 5px; width: 70px">Reset</button>
 			</div>
+			<input type="hidden" th:name="${_csrf.parameterName}"
+				th:value="${_csrf.token}" id="csrfToken" />
 		</form>
 	</div>
 	<div>

@@ -141,6 +141,7 @@ function doSearch(pageGenerationOn) {
 					"isolated" : $("#isolated").val(),
 					"phiRange" : $("#phiRange").val(),
 					"mohRange" : $("#mohArea").val(),
+					"_csrf" : $("#csrfToken").val(),
 					"offset" : offset,
 					"limit" : $("#limit").val(),
 				},

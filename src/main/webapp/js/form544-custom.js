@@ -122,6 +122,7 @@ function doSearch(pageGenerationOn) {
 					"notifyByUnitToDate" : $("#notifyByUnitToDate").val(),
 					"notifyToMohFromDate" : $("#notifyToMohFromDate").val(),
 					"notifyToMohToDate" : $("#notifyToMohToDate").val(),
+					"_csrf" : $("#csrfToken").val(),
 					"offset" : offset,
 					"limit" : limit,
 				},
