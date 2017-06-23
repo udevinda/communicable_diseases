@@ -12,13 +12,17 @@
 	text-align:center
 }
 
+#banner{
+	height:155px
+}
+
 .emblem-sri-lanka{
 	width:15%;
 	float:left;
 }
 
 .emblem-sri-lanka > img{
-	width:60%;
+	width:43%;
 }
 
 .emblem-matale-hos{
@@ -27,7 +31,7 @@
 }
 
 .emblem-matale-hos > img{
-	width:85%
+	width:61%
 }
 
 .banner-title{
