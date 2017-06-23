@@ -227,6 +227,7 @@ public class ReportController {
 		model.addAttribute("fromDate", inFromDate);
 		model.addAttribute("toDate", inToDate);
 		model.addAttribute("senderAddress", inSenderAddress);
+		model.addAttribute("periodicCounts", periodicCounts);
 
 		return "dengue-periodic-report";
 	}

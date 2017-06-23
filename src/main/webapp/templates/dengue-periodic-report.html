@@ -77,7 +77,13 @@ th {
 			</thead>
 			<tbody id="denguePeriodicReportBody"></tbody>
 		</table>
+		<br><br>
+		<div>
+			<p>Total Dengue reported count for the starting month : <span th:text="${periodicCounts.monthlyCount}"></span></p>
+			<p>Total Dengue reported count for the starting year : <span th:text="${periodicCounts.yearlyCount}"></span></p>
+		</div>
 	</div>
+	<br>
 	<div>
 		<h5>
 			<span class="senderAddress" th:text="${senderAddress}"
