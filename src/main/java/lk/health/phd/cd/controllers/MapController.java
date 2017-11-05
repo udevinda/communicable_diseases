@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import lk.health.phd.cd.dao.DiseaseDao;
+import lk.health.phd.cd.dao.DistrictDao;
 import lk.health.phd.cd.dao.Form411Dao;
 import lk.health.phd.cd.dao.WorkflowDao;
 import lk.health.phd.cd.dto.Form411FilterDto;
@@ -38,6 +39,9 @@ public class MapController {
 
 	@Autowired
 	private DiseaseDao diseaseDao;
+	
+	@Autowired
+	private DistrictDao districtDao;
 
 	@Autowired
 	private Form411Dao form411Dao;
@@ -129,6 +133,16 @@ public class MapController {
 		model.addAttribute("diseaseList", diseaseDao.getAllDiseases());
 
 		return "map_filter";
+	}
+	
+	@RequestMapping(value="dis_wise_dist_map_filter", method = RequestMethod.GET)
+	public String viewDiseaseWiseMapFilter(Model model){
+		logger.info("Hit the /Maps/dis_wise_dist_map_filter");
+		
+		model.addAttribute("diseaseList", diseaseDao.getAllDiseases());
+		model.addAttribute("districtList", districtDao.getAllDistrict());
+		
+		return "disease_wise_distribution_map";
 	}
 
 	/**
