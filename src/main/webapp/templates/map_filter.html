@@ -97,6 +97,8 @@
 					class="form-control" id="mohRange" name="mohRange"
 					placeholder="Enter the MOH Area">
 			</div>
+			<input type="hidden" th:name="${_csrf.parameterName}"
+				th:value="${_csrf.token}" id="csrfToken"/>
 			<div>
 				<button type="submit" class="btn btn-success pull-right">Search</button>
 				<button type="button" class="btn btn-default pull-right"

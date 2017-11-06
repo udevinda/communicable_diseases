@@ -1,79 +1,109 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Map Filter</title>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="../css/bootstrap.min.css">
-<link rel="stylesheet" href="../css/jquery-ui.css">
-<link rel="stylesheet" href="../css/custom.css">
-<link rel="stylesheet" href="../css/jquery.dataTables.min.css">
-<script src="../js/jquery-3.1.1.min.js"></script>
-<script src="../js/jquery-ui.js"></script>
-<script src="../js/bootstrap.min.js"></script>
-<script src="../js/jquery.dataTables.min.js"></script>
-<script src="../js/map-custom.js"></script>
-
+<title>Disease Wise Distribution Map</title>
+<style>
+/* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+#map {
+	height: 100%;
+}
+/* Optional: Makes the sample page fill the window. */
+html, body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+</style>
 </head>
-
 <body>
-	<div id="banner"></div>
+	<div id="map"></div>
+	<script th:inline="javascript">
+		function initMap() {
+		    
+			var map = new google.maps.Map(document.getElementById('map'), {
+				zoom : 10,
+				center : {
+					lat : 7.522809,
+					lng : 80.722046
+				}
+			});
 
-	<div id="navigation"></div>
+			var infoWindow = new google.maps.InfoWindow();
 
-	<div class="container">
-		<div class="page-header page-title-header">
-			<h2>Disease Wise Distribution Map</h2>
-		</div>
-		<form id="mapFilterTbl" th:action="@{/Maps/distributionMap}"
-			method="post" target="_blank">
-			<div class="form-group">
-				<label for="disease">Disease:</label> <select
-					class="form-control" id="disease"
-					name="disease">
-					<option value="">Select Disease</option>
-					<option th:each="disease:${diseaseList}"
-						th:value="${disease.id}"
-						th:text="${disease.diseaseName}"></option>
-				</select>
-			</div>
-			<div class="form-group">
-				<label for="district">District:</label> <select class="form-control"
-					id="district" name="district">
-					<option value="" selected>Select District</option>
-					<option th:each="district:${districtList}"
-						th:value="${district.id}" th:text="${district.districtName}"></option>
-				</select>
-			</div>
-			<div class="form-group">
-				<label for="district">MOH Area:</label> <select class="form-control"
-					id="mohArea" name="mohArea"></select>
-			</div>
-			<div class="form-group">
-				<label for="diseaseConfirmedDateFrom">Filter Period [From]:</label> 
-				<input type="text" class="form-control"
-					id="fromPeriod" name="fromPeriod"
-					placeholder="Select a start date for filtering period">
-			</div>
-			<div class="form-group">
-				<label for="toPeriod">Filter Period [To]:</label> 
-				<input type="text" class="form-control"
-					id="toPeriod" name="toPeriod"
-					placeholder="Select a end date for filtering period">
-			</div>
-			
-			<div>
-				<button type="submit" class="btn btn-success pull-right">Search</button>
-				<button type="button" class="btn btn-default pull-right"
-					style="margin-right: 5px; width: 70px">Reset</button>
-			</div>
-		</form>
-	</div>
-	<div id="footer"></div>
+			// Create an array of alphabetical characters used to label the markers.
+			var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+			// Add some markers to the map.
+			// Note: The code uses the JavaScript Array.prototype.map() method to
+			// create an array of markers based on a given "locations" array.
+			// The map() method here has nothing to do with the Google Maps API.
+			var markers = locations.map(function(location, i) {
+				
+				var marker = new google.maps.Marker({
+					position : location,
+					title : location.title,
+					//icon : location.marker_type,
+					label : location.id
+				});
+
+				google.maps.event.addListener(marker, "click", function(e) {
+					infoWindow.setContent(location.description);
+					infoWindow.open(map, marker);
+				});
+
+				return marker;
+			});
+
+			// Add a marker clusterer to manage the markers.
+			var markerCluster = new MarkerClusterer(
+					map,
+					markers,
+					{
+						imagePath : 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
+					});
+		}
+		// Creating the JSON data
+		
+		/*<![CDATA[*/
+		           
+		           console.log([[${distMapDet}]]);
+		var locations = processJsonArray([[${distMapDet}]]);
+		 /*]]>*/
+		 
+		 
+		 function processJsonArray(unprocessedJSON){
+			 var processedJsonArray = [];
+			 for(var i=0; i<unprocessedJSON.length; i++){
+				 var obj = unprocessedJSON[i];
+				 
+				 testVar = obj;
+				 
+				 if(obj.lat != null && obj.lng != null){
+					 processedJsonArray.push({
+						 "id":obj.diseaseShortCode,
+						 "title":obj.form411Id+"",
+						 "lat":obj.lat,
+						 "lng":obj.lng,
+						 "description":"<strong>"+obj.patientAddress+"</strong><p><a href='\/communicable-disease/Form411/view?form411Id="+obj.form411Id+"' target='_blank'>Form411</a></p><p><a href='\/communicable-disease/Form544/view?form544Id="+obj.form544Id+"' target='_blank'>Form544</a></p>"
+						 
+					 });
+				 }
+			 }
+			 
+			 return processedJsonArray;
+		 }
+		 
+	</script>
+	<script
+		src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
+		
+	</script>
+	<script async defer
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDN2cxxcRtxmmIu_9uwYJ7gjD5r7djFtGk&callback=initMap">
+		
+	</script>
 </body>
-
-<!-- TODO
-Frontend validations should be included.
-Style the content with spacing and margins
-
- -->
+</html>

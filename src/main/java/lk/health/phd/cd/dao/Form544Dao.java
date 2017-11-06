@@ -198,4 +198,6 @@ public interface Form544Dao extends UniversalDao<Form544> {
 	 */
 	public Long getTotalReportedDiseaseCountByDistrictPeriodForMonth(final Long inDiseaseId, final Long inDistrictId,
 			final String inYear, final String inMonth);
+
+	public List<Form544> getDetailsForDiseaseWiseDistributionMap(final Form544FilterDto inForm544FilterDto);
 }

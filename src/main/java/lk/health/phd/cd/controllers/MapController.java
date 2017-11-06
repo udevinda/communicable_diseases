@@ -17,10 +17,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import lk.health.phd.cd.dao.DiseaseDao;
 import lk.health.phd.cd.dao.DistrictDao;
 import lk.health.phd.cd.dao.Form411Dao;
+import lk.health.phd.cd.dao.Form544Dao;
+import lk.health.phd.cd.dao.MohAreaDao;
 import lk.health.phd.cd.dao.WorkflowDao;
 import lk.health.phd.cd.dto.Form411FilterDto;
+import lk.health.phd.cd.dto.Form544FilterDto;
 import lk.health.phd.cd.models.Disease;
 import lk.health.phd.cd.models.Form411;
+import lk.health.phd.cd.models.Form544;
 import lk.health.phd.cd.models.Workflow;
 import lk.health.phd.util.Util;
 
@@ -39,12 +43,18 @@ public class MapController {
 
 	@Autowired
 	private DiseaseDao diseaseDao;
-	
+
 	@Autowired
 	private DistrictDao districtDao;
 
 	@Autowired
+	private MohAreaDao mohAreaDao;
+
+	@Autowired
 	private Form411Dao form411Dao;
+
+	@Autowired
+	private Form544Dao form544Dao;
 
 	/**
 	 * Controller to receive data for communicable disease detail map.
@@ -134,15 +144,43 @@ public class MapController {
 
 		return "map_filter";
 	}
-	
-	@RequestMapping(value="dis_wise_dist_map_filter", method = RequestMethod.GET)
-	public String viewDiseaseWiseMapFilter(Model model){
-		logger.info("Hit the /Maps/dis_wise_dist_map_filter");
+
+	@RequestMapping(value = "/diseaseWiseDistMap", method = RequestMethod.POST)
+	public String getDiseaseWiseDistributionMap(@RequestParam("disease") final Long inDiseaseId,
+			@RequestParam("mohArea") final Long inMohArea, @RequestParam("fromPeriod") String inFromDate,
+			@RequestParam("toPeriod") String inToDate, Model model) {
+
 		
+		System.out.println("########################### " + "Hit the point");
+		
+		
+		try {
+			Form544FilterDto form544FilterDto = new Form544FilterDto();
+			form544FilterDto.setDisease(getDisease(inDiseaseId));
+			form544FilterDto.setMohArea(mohAreaDao.findMohAreaById(inMohArea));
+			form544FilterDto.setFromDateOfNotifyToMoh(Util.parseDate(inFromDate, "yyyy-MM-dd"));
+			form544FilterDto.setToDateOfNotifyToMoh(Util.parseDate(inToDate, "yyyy-MM-dd"));
+
+			List<Form544> form544s = form544Dao.getDetailsForDiseaseWiseDistributionMap(form544FilterDto);
+
+			model.addAttribute("distMapDet", form544s);
+
+			return "disease_wise_distribution_map";
+		} catch (Exception ex) {
+			System.out.println("########################### " + ex.getMessage());
+			
+			return null;
+		}
+	}
+
+	@RequestMapping(value = "dis_wise_dist_map_filter", method = RequestMethod.GET)
+	public String viewDiseaseWiseMapFilter(Model model) {
+		logger.info("Hit the /Maps/dis_wise_dist_map_filter");
+
 		model.addAttribute("diseaseList", diseaseDao.getAllDiseases());
 		model.addAttribute("districtList", districtDao.getAllDistrict());
-		
-		return "disease_wise_distribution_map";
+
+		return "disease_wise_distribution_map_filter";
 	}
 
 	/**

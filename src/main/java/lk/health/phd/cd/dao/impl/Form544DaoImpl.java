@@ -413,4 +413,38 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 
 	}
 
+	public List<Form544> getDetailsForDiseaseWiseDistributionMap(Form544FilterDto inForm544FilterDto) {
+		Session session = getCurrentSession();
+
+		Criteria criteria = session.createCriteria(Form544.class, "form544");
+		
+		if (inForm544FilterDto.getDisease() != null) {
+			criteria.add(Restrictions.eq("disease", inForm544FilterDto.getDisease()));
+		}
+		if (inForm544FilterDto.getMohArea() != null) {
+			criteria.add(Restrictions.eq("mohArea", inForm544FilterDto.getMohArea()));
+		}
+		if (inForm544FilterDto.getFromDateOfNotifyToMoh() != null) {
+			criteria.add(Restrictions.ge("notificationToMohDate", inForm544FilterDto.getFromDateOfNotifyToMoh()));
+		}
+		if (inForm544FilterDto.getToDateOfNotifyToMoh() != null) {
+			criteria.add(Restrictions.le("notificationToMohDate", inForm544FilterDto.getToDateOfNotifyToMoh()));
+		}
+
+		criteria.createAlias("form544.disease", "disease");
+		
+		ProjectionList proList = Projections.projectionList();
+		proList.add(Projections.property("id"), "form544Id");
+		proList.add(Projections.property("longitude"), "lng");
+		proList.add(Projections.property("lattitude"), "lat");
+		proList.add(Projections.property("patientHomeAddress"), "patientAddress");
+		proList.add(Projections.property("disease.diseaseName"), "diseaseName");
+		proList.add(Projections.property("disease.shortCode"), "diseaseShortCode");
+		criteria.setProjection(proList);
+
+		criteria.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
+		
+		return criteria.list();
+	}
+
 }
