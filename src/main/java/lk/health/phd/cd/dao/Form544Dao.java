@@ -1,5 +1,6 @@
 package lk.health.phd.cd.dao;
 
+import java.text.Normalizer.Form;
 import java.util.List;
 
 import lk.health.phd.cd.dto.Form544FilterDto;
@@ -199,5 +200,13 @@ public interface Form544Dao extends UniversalDao<Form544> {
 	public Long getTotalReportedDiseaseCountByDistrictPeriodForMonth(final Long inDiseaseId, final Long inDistrictId,
 			final String inYear, final String inMonth);
 
+	/**
+	 * Get the list of {@link Form544} objects based on filtering fields for the
+	 * disease wise distribution map.
+	 * 
+	 * @param inForm544FilterDto
+	 *            {@link Form544FilterDto}
+	 * @return List of {@link Form544} objects
+	 */
 	public List<Form544> getDetailsForDiseaseWiseDistributionMap(final Form544FilterDto inForm544FilterDto);
 }

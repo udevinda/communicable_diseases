@@ -68,8 +68,6 @@ html, body {
 		// Creating the JSON data
 		
 		/*<![CDATA[*/
-		           
-		           console.log([[${distMapDet}]]);
 		var locations = processJsonArray([[${distMapDet}]]);
 		 /*]]>*/
 		 
@@ -84,10 +82,10 @@ html, body {
 				 if(obj.lat != null && obj.lng != null){
 					 processedJsonArray.push({
 						 "id":obj.diseaseShortCode,
-						 "title":obj.form411Id+"",
+						 "title":obj.form544Id+"",
 						 "lat":obj.lat,
 						 "lng":obj.lng,
-						 "description":"<strong>"+obj.patientAddress+"</strong><p><a href='\/communicable-disease/Form411/view?form411Id="+obj.form411Id+"' target='_blank'>Form411</a></p><p><a href='\/communicable-disease/Form544/view?form544Id="+obj.form544Id+"' target='_blank'>Form544</a></p>"
+						 "description":"<strong>"+obj.patientAddress+"</strong><p><a href='\/communicable-disease/Form544/view?form544Id="+obj.form544Id+"' target='_blank'>Form544</a></p>"
 						 
 					 });
 				 }

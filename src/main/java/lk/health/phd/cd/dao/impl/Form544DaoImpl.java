@@ -413,11 +413,14 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public List<Form544> getDetailsForDiseaseWiseDistributionMap(Form544FilterDto inForm544FilterDto) {
 		Session session = getCurrentSession();
 
 		Criteria criteria = session.createCriteria(Form544.class, "form544");
-		
+
 		if (inForm544FilterDto.getDisease() != null) {
 			criteria.add(Restrictions.eq("disease", inForm544FilterDto.getDisease()));
 		}
@@ -432,7 +435,7 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 		}
 
 		criteria.createAlias("form544.disease", "disease");
-		
+
 		ProjectionList proList = Projections.projectionList();
 		proList.add(Projections.property("id"), "form544Id");
 		proList.add(Projections.property("longitude"), "lng");
@@ -443,7 +446,7 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 		criteria.setProjection(proList);
 
 		criteria.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
-		
+
 		return criteria.list();
 	}
 

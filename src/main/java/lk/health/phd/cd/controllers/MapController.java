@@ -25,6 +25,7 @@ import lk.health.phd.cd.dto.Form544FilterDto;
 import lk.health.phd.cd.models.Disease;
 import lk.health.phd.cd.models.Form411;
 import lk.health.phd.cd.models.Form544;
+import lk.health.phd.cd.models.MohArea;
 import lk.health.phd.cd.models.Workflow;
 import lk.health.phd.util.Util;
 
@@ -57,7 +58,8 @@ public class MapController {
 	private Form544Dao form544Dao;
 
 	/**
-	 * Controller to receive data for communicable disease detail map.
+	 * Controller to receive data for communicable disease detail map based on
+	 * {@link Form411}.
 	 * 
 	 * @param inAgeFrom
 	 *            Patient Age (From parameter)
@@ -145,15 +147,27 @@ public class MapController {
 		return "map_filter";
 	}
 
+	/**
+	 * Controller to receive data for Disease Wise Distribution Map based on
+	 * {@link Form544}
+	 * 
+	 * @param inDiseaseId
+	 *            ID of the {@link Disease} to consider
+	 * @param inMohArea
+	 *            {@link MohArea} to consider
+	 * @param inFromDate
+	 *            From date period to consifder
+	 * @param inToDate
+	 *            To date period to consider
+	 * @param model
+	 * 
+	 * @return disease_wise_distribution_map.html
+	 */
 	@RequestMapping(value = "/diseaseWiseDistMap", method = RequestMethod.POST)
 	public String getDiseaseWiseDistributionMap(@RequestParam("disease") final Long inDiseaseId,
 			@RequestParam("mohArea") final Long inMohArea, @RequestParam("fromPeriod") String inFromDate,
 			@RequestParam("toPeriod") String inToDate, Model model) {
 
-		
-		System.out.println("########################### " + "Hit the point");
-		
-		
 		try {
 			Form544FilterDto form544FilterDto = new Form544FilterDto();
 			form544FilterDto.setDisease(getDisease(inDiseaseId));
@@ -167,8 +181,8 @@ public class MapController {
 
 			return "disease_wise_distribution_map";
 		} catch (Exception ex) {
-			System.out.println("########################### " + ex.getMessage());
-			
+			logger.error("Error occured ", ex);
+
 			return null;
 		}
 	}
