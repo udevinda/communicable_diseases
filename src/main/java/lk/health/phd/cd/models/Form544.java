@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -41,8 +43,9 @@ public class Form544 implements Serializable {
 	@Column(name = "serial_no", nullable = false)
 	private String serialNo;
 
-	@Column(name = "institute", nullable = false)
-	private String institute;
+	@ManyToOne
+	@JoinColumn(name = "institute_id")
+	private Institute institute;
 
 	@OneToOne
 	@JoinColumn(name = "disease_id")
@@ -150,21 +153,21 @@ public class Form544 implements Serializable {
 	}
 
 	/**
-	 * Getter for admitted institute.
+	 * Getter for admitted {@link Institute}.
 	 * 
-	 * @return institute
+	 * @return {@link Institute}
 	 */
-	public String getInstitute() {
+	public Institute getInstitute() {
 		return institute;
 	}
 
 	/**
-	 * Setter for admitted institute.
+	 * Setter for admitted {@link Institute}.
 	 * 
 	 * @param inInstitute
-	 *            Admitted institute
+	 *            Admitted {@link Institute}
 	 */
-	public void setInstitute(final String inInstitute) {
+	public void setInstitute(final Institute inInstitute) {
 		this.institute = inInstitute;
 	}
 

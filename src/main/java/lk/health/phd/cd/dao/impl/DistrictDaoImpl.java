@@ -25,6 +25,9 @@ public class DistrictDaoImpl extends UniversalDaoImpl<District> implements Distr
 				.addOrder(Order.asc("id")).list();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public District getDistrictById(Long inDistrictId) {
 		Session session = getCurrentSession();
 

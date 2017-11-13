@@ -19,6 +19,7 @@ import lk.health.phd.cd.dao.DiseaseConfirmationTestDao;
 import lk.health.phd.cd.dao.DiseaseDao;
 import lk.health.phd.cd.dao.DistrictDao;
 import lk.health.phd.cd.dao.Form544Dao;
+import lk.health.phd.cd.dao.InstituteDao;
 import lk.health.phd.cd.dao.MohAreaDao;
 import lk.health.phd.cd.dao.WorkflowDao;
 import lk.health.phd.cd.dto.Form544FilterDto;
@@ -55,6 +56,9 @@ public class Form544Controller {
 
 	@Autowired
 	private DistrictDao districtDao;
+	
+	@Autowired
+	private InstituteDao instituteDao;
 
 	@Autowired
 	private MohAreaDao mohAreaDao;
@@ -114,7 +118,7 @@ public class Form544Controller {
 	 */
 	@RequestMapping(value = "/submit", method = RequestMethod.POST)
 	public String saveForm544(@RequestParam("serialNo") final String inSerialNo,
-			@RequestParam("institute") final String inInstitute, @RequestParam("disease") final Long inDiseaseId,
+			@RequestParam("institute") final Long inIntituteId, @RequestParam("disease") final Long inDiseaseId,
 			@RequestParam("patientName") final String inPatientName,
 			@RequestParam("dateOfOnset") final String inDateOfOnset,
 			@RequestParam("peaditiricPatientsGurdianName") final String inPeaditiricPatientsGurdianName,
@@ -144,7 +148,7 @@ public class Form544Controller {
 			form544.setDateOfAdmission(Util.parseDate(inDateOfAdmission, "yyyy-MM-dd"));
 			form544.setDateOfOnset(Util.parseDate(inDateOfOnset, "yyyy-MM-dd"));
 			form544.setDisease(getDisease(inDiseaseId));
-			form544.setInstitute(inInstitute);
+			form544.setInstitute(instituteDao.getInstituteById(inIntituteId));
 			form544.setSerialNo(inSerialNo);
 			form544.setNotifierName(inNotifierName);
 			form544.setNotifierStatus(inNotifierStatus);
@@ -254,7 +258,7 @@ public class Form544Controller {
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public String updateForm544(@RequestParam("form544Id") final Long inForm544Id,
-			@RequestParam("serialNo") final String inSerialNo, @RequestParam("institute") final String inInstitute,
+			@RequestParam("serialNo") final String inSerialNo, @RequestParam("institute") final Long inIntituteId,
 			@RequestParam("disease") final Long inDiseaseId, @RequestParam("patientName") final String inPatientName,
 			@RequestParam("dateOfOnset") final String inDateOfOnset,
 			@RequestParam("peaditiricPatientsGurdianName") final String inPeaditiricPatientsGurdianName,
@@ -284,7 +288,7 @@ public class Form544Controller {
 			form544.setDateOfAdmission(Util.parseDate(inDateOfAdmission, "yyyy-MM-dd"));
 			form544.setDateOfOnset(Util.parseDate(inDateOfOnset, "yyyy-MM-dd"));
 			form544.setDisease(getDisease(inDiseaseId));
-			form544.setInstitute(inInstitute);
+			form544.setInstitute(instituteDao.getInstituteById(inIntituteId));
 			form544.setSerialNo(inSerialNo);
 			form544.setNotifierName(inNotifierName);
 			form544.setNotifierStatus(inNotifierStatus);
@@ -369,7 +373,7 @@ public class Form544Controller {
 	 */
 	@RequestMapping(value = "/filterBy", method = RequestMethod.POST)
 	public @ResponseBody JSONObject searchForm544ByCriteria(@RequestParam("serialNo") final String inSerialNo,
-			@RequestParam("institute") final String inInstitute, @RequestParam("disease") final Long inDiseaseId,
+			@RequestParam("institute") final Long inIntituteId, @RequestParam("disease") final Long inDiseaseId,
 			@RequestParam("patientName") final String inPatientName, @RequestParam("bhtNo") final Long inBhtNo,
 			@RequestParam("ward") final String inWard, @RequestParam("sex") final Form544.Sex inSex,
 			@RequestParam("notifierName") final String inNotifierName,
@@ -391,7 +395,7 @@ public class Form544Controller {
 			Form544FilterDto form544FilterDto = new Form544FilterDto();
 			form544FilterDto.setBhtNo(inBhtNo);
 			form544FilterDto.setDisease(getDisease(inDiseaseId));
-			form544FilterDto.setInstitute(inInstitute);
+			form544FilterDto.setInstitute(instituteDao.getInstituteById(inIntituteId));
 			form544FilterDto.setPatientName(inPatientName);
 			form544FilterDto.setSerialNo(inSerialNo);
 			form544FilterDto.setSex(inSex);

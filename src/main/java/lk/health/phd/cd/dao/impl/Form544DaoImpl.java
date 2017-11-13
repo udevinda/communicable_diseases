@@ -59,7 +59,7 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 		if (inForm544FilterDto.getBhtNo() != null) {
 			criteria.add(Restrictions.eq("bhtNo", inForm544FilterDto.getBhtNo()));
 		}
-		if (inForm544FilterDto.getInstitute() != null && !(inForm544FilterDto.getInstitute().isEmpty())) {
+		if (inForm544FilterDto.getInstitute() != null) {
 			criteria.add(Restrictions.eq("institute", inForm544FilterDto.getInstitute()));
 		}
 		if (inForm544FilterDto.getNotifierName() != null && !(inForm544FilterDto.getNotifierName().isEmpty())) {
@@ -131,7 +131,7 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 		if (inForm544FilterDto.getBhtNo() != null) {
 			criteria.add(Restrictions.eq("bhtNo", inForm544FilterDto.getBhtNo()));
 		}
-		if (inForm544FilterDto.getInstitute() != null && !(inForm544FilterDto.getInstitute().isEmpty())) {
+		if (inForm544FilterDto.getInstitute() != null) {
 			criteria.add(Restrictions.eq("institute", inForm544FilterDto.getInstitute()));
 		}
 		if (inForm544FilterDto.getNotifierName() != null && !(inForm544FilterDto.getNotifierName().isEmpty())) {

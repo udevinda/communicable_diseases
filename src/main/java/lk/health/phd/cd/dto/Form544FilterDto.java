@@ -4,6 +4,7 @@ import java.sql.Date;
 
 import lk.health.phd.cd.models.Disease;
 import lk.health.phd.cd.models.Form544.Sex;
+import lk.health.phd.cd.models.Institute;
 import lk.health.phd.cd.models.MohArea;
 import lk.health.phd.cd.models.Workflow.WorkflowStatus;
 
@@ -15,7 +16,7 @@ import lk.health.phd.cd.models.Workflow.WorkflowStatus;
  */
 public class Form544FilterDto {
 	private String serialNo;
-	private String institute;
+	private Institute institute;
 	private Disease disease;
 	private String patientName;
 	private Date dateOfOnsetFrom;
@@ -59,17 +60,17 @@ public class Form544FilterDto {
 	 * 
 	 * @return institute
 	 */
-	public String getInstitute() {
+	public Institute getInstitute() {
 		return institute;
 	}
 
 	/**
-	 * Setter for institute as a filtering field.
+	 * Setter for {@link Institute} as a filtering field.
 	 * 
 	 * @param institute
 	 *            Institute name
 	 */
-	public void setInstitute(final String inInstitute) {
+	public void setInstitute(final Institute inInstitute) {
 		this.institute = inInstitute;
 	}
 
