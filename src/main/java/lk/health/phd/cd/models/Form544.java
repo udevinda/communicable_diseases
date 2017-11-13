@@ -38,7 +38,7 @@ public class Form544 implements Serializable {
 	@Column(name = "id")
 	private Long id;
 
-	@Column(name = "serial_no", unique = true, nullable = false)
+	@Column(name = "serial_no", nullable = false)
 	private String serialNo;
 
 	@Column(name = "institute", nullable = false)
