@@ -1,5 +1,7 @@
 package lk.health.phd.cd.dao.impl;
 
+import java.util.List;
+
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -18,6 +20,16 @@ public class InstituteDaoImpl extends UniversalDaoImpl<Institute> implements Ins
 
 		return (Institute) session.createCriteria(Institute.class).add(Restrictions.eq("id", inIntituteId))
 				.uniqueResult();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public List<Institute> getInstitutesByDistrictId(Long inDistrictId) {
+		Session session = getCurrentSession();
+
+		return (List<Institute>) session.createCriteria(Institute.class)
+				.add(Restrictions.eq("district.id", inDistrictId)).list();
 	}
 
 }

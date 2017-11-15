@@ -27,7 +27,9 @@ import lk.health.phd.cd.dto.MohAreaVsDiseaseSummaryDto;
 import lk.health.phd.cd.dto.WardVsDiseaseSummaryDto;
 import lk.health.phd.cd.models.Disease;
 import lk.health.phd.cd.models.DiseaseConfirmationTest;
+import lk.health.phd.cd.models.District;
 import lk.health.phd.cd.models.Form544;
+import lk.health.phd.cd.models.Institute;
 import lk.health.phd.cd.models.MohArea;
 import lk.health.phd.cd.services.Form544Service;
 import lk.health.phd.cd.services.WorkflowService;
@@ -56,7 +58,7 @@ public class Form544Controller {
 
 	@Autowired
 	private DistrictDao districtDao;
-	
+
 	@Autowired
 	private InstituteDao instituteDao;
 
@@ -523,6 +525,20 @@ public class Form544Controller {
 	@ResponseBody
 	public List<MohArea> getMohAreaByDistrictId(@RequestParam("district_id") final Long districtId) {
 		return mohAreaDao.getMohAreaByDistrictId(districtId);
+	}
+
+	/**
+	 * Controller method to get list of available {@link Institute} by
+	 * {@link District}
+	 * 
+	 * @param inDistrictId
+	 *            ID of a {@link District}
+	 * @return List of {@link Institute}
+	 */
+	@RequestMapping(value = "institute", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Institute> getInstituteByDistrictId(@RequestParam("district_id") final Long inDistrictId) {
+		return instituteDao.getInstitutesByDistrictId(inDistrictId);
 	}
 
 	/**

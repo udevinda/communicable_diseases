@@ -156,7 +156,7 @@ function doSearch(pageGenerationOn) {
 												+ result.form544List[i].dateOfAdmission
 												+ '</td>'
 												+ '<td>'
-												+ result.form544List[i].institute
+												+ result.form544List[i].institute.name
 												+ '</td>'
 												+ '<td>'
 												+ '<a href="'
@@ -234,6 +234,22 @@ function getMohAreaByDistrictId(districtId) {
 				var option = "<option value = " + item.id + ">"
 						+ item.mohAreaName + "</option>";
 				$("#mohArea").append(option);
+			});
+		}
+	});
+}
+
+function getInstitutesByDistrictId(districtId) {
+	$.ajax({
+		url : "/communicable-disease/Form544/institute?district_id="
+				+ districtId,
+		method : "get",
+		success : function(result) {
+			$("#institute").empty();
+			result.forEach(function(item, i) {
+				var option = "<option value = " + item.id + ">"
+						+ item.name + "</option>";
+				$("#institute").append(option);
 			});
 		}
 	});
@@ -442,8 +458,13 @@ $(document).ready(function() {
 	// release setup.
 	$("#district").val("16");
 	getMohAreaByDistrictId($("#district").val());
+	getInstitutesByDistrictId($("#district").val());
 
 	$("#district").change(function() {
 		getMohAreaByDistrictId($("#district").val());
+	});
+	
+	$("#district").change(function() {
+		getInstitutesByDistrictId($("#district").val());
 	});
 });

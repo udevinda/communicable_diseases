@@ -44,7 +44,7 @@ public class Form544 implements Serializable {
 	private String serialNo;
 
 	@ManyToOne
-	@JoinColumn(name = "institute_id")
+	@JoinColumn(name = "institute_id", nullable = false)
 	private Institute institute;
 
 	@OneToOne
