@@ -293,11 +293,12 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 	/**
 	 * {@inheritDoc}
 	 */
-	public List getWardsForAInstitute(final String inInstitute) {
+	public List getWardsForAInstitute(final Long inInstituteId) {
 		Session session = getCurrentSession();
 
 		Criteria criteria = session.createCriteria(Form544.class, "form544");
-		criteria.add(Restrictions.eq("institute", inInstitute));
+		criteria.createAlias("form544.institute", "institute");
+		criteria.add(Restrictions.eq("institute.id", inInstituteId));
 
 		return criteria.setProjection(Projections.projectionList().add(Projections.groupProperty("ward"), "ward"))
 				.setResultTransformer(Transformers.TO_LIST).list();

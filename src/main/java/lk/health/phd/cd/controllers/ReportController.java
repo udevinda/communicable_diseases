@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import lk.health.phd.cd.dao.DiseaseDao;
 import lk.health.phd.cd.dao.DistrictDao;
 import lk.health.phd.cd.dao.Form544Dao;
+import lk.health.phd.cd.dao.InstituteDao;
 import lk.health.phd.cd.dto.DiseaseCountDto;
 import lk.health.phd.cd.dto.MohAreaVsDiseaseSummaryDto;
 import lk.health.phd.cd.dto.WardVsDiseaseSummaryDto;
@@ -48,6 +49,9 @@ public class ReportController {
 
 	@Autowired
 	private DiseaseDao diseaseDao;
+	
+	@Autowired
+	private InstituteDao instituteDao;
 
 	Logger logger = LoggerFactory.getLogger(ReportController.class);
 
@@ -106,7 +110,7 @@ public class ReportController {
 	 * Controller to process information for report based on count of reported
 	 * communicable disease cases and ward of the mentioned institute.
 	 * 
-	 * @param inInstitute
+	 * @param inInstituteId
 	 *            Name of the institute
 	 * @param inFromYear
 	 *            From year to generate the report
@@ -129,7 +133,7 @@ public class ReportController {
 	 * @return ward_vs_disease_count_report.html file
 	 */
 	@RequestMapping(value = "diseaseVsWard", method = RequestMethod.POST)
-	public String getDiseaseVsWardSummary(@RequestParam("institute") final String inInstitute,
+	public String getDiseaseVsWardSummary(@RequestParam("institute") final Long inInstituteId,
 			@RequestParam("from_year") final int inFromYear, @RequestParam("from_month") final int inFromMonth,
 			@RequestParam("to_year") final int inToYear, @RequestParam("to_month") final int inToMonth,
 			@RequestParam("my_ref") final String inMyRef, @RequestParam("your_ref") final String inYourRef,
@@ -137,7 +141,7 @@ public class ReportController {
 			Model model) {
 
 		List<WardVsDiseaseSummaryDto> wardVsDiseaseSummaryDtos = form544Service
-				.generateWardVsDiseaseSummary(inInstitute, inFromYear, inFromMonth, inToYear, inToMonth);
+				.generateWardVsDiseaseSummary(inInstituteId, inFromYear, inFromMonth, inToYear, inToMonth);
 
 		model.addAttribute("wardVsDiseaseList", wardVsDiseaseSummaryDtos);
 		model.addAttribute("from_year", inFromYear);
@@ -148,7 +152,7 @@ public class ReportController {
 		model.addAttribute("your_ref", inYourRef);
 		model.addAttribute("report_date", inReportDate);
 		model.addAttribute("res_addr", inResAddr);
-		model.addAttribute("institute", inInstitute);
+		model.addAttribute("institute", instituteDao.getInstituteById(inInstituteId));
 
 		return "ward_vs_disease_count_report";
 	}
@@ -176,6 +180,7 @@ public class ReportController {
 	@RequestMapping(value = "communicable-disease-ward", method = RequestMethod.GET)
 	public String getCommunicableDiseaseWardReportGenPage(Model model) {
 		model.addAttribute("instituteList", form544Dao.getDistinctInstituteList());
+		model.addAttribute("districtList", districtDao.getAllDistrict());
 
 		return "disease-ward";
 	}

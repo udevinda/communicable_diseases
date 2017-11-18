@@ -49,11 +49,15 @@
 					placeholder="Enter receiver's address" maxlength="150" required>
 			</div>
 			<div class="form-group">
-				<label for="institute">Institute:</label> <select
-					class="form-control" id="institute" name="institute">
-					<option th:each="institute:${instituteList}"
-						th:value="${institute[0]}" th:text="${institute[0]}"></option>
+				<label for="district">District:</label> <select
+					class="form-control" id="district" name="district">
+					<option th:each="district:${districtList}"
+						th:value="${district.id}" th:text="${district.districtName}"></option>
 				</select>
+			</div>
+			<div class="form-group">
+				<label for="institute">Institute:</label> <select
+					class="form-control" id="institute" name="institute"></select>
 			</div>
 			<div class="form-group">
 				<label for="district">Start from:</label>

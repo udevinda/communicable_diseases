@@ -161,3 +161,29 @@ function getMonthByIndex(monthIndex) {
 
 	return month;
 }
+
+function getInstitutesByDistrictId(districtId) {
+	$.ajax({
+		url : "/communicable-disease/Form544/institute?district_id="
+				+ districtId,
+		method : "get",
+		success : function(result) {
+			$("#institute").empty();
+			result.forEach(function(item, i) {
+				var option = "<option value = " + item.id + ">"
+						+ item.name + "</option>";
+				$("#institute").append(option);
+			});
+		}
+	});
+}
+
+$(document).ready(function(){
+	$("#district").val("16");
+	
+	getInstitutesByDistrictId($("#district").val());
+	
+	$("#district").change(function() {
+		getInstitutesByDistrictId($("#district").val());
+	});
+});

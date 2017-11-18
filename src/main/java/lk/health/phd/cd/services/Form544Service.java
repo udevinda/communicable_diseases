@@ -74,7 +74,7 @@ public interface Form544Service {
 	 * Generate the summary of total number of reported cases according to each
 	 * ward of a institute under specified disease
 	 * 
-	 * @param inInstitute
+	 * @param inInstituteId
 	 *            Name of the institute
 	 * @param inLowerDateYear
 	 *            Lower date year to consider in report generation
@@ -86,7 +86,7 @@ public interface Form544Service {
 	 *            Upper date month to consider in report generation
 	 * @return List of {@link WardVsDiseaseSummaryDto}
 	 */
-	public List<WardVsDiseaseSummaryDto> generateWardVsDiseaseSummary(final String inInstitute,
+	public List<WardVsDiseaseSummaryDto> generateWardVsDiseaseSummary(final Long inInstituteId,
 			final int inLowerDateYear, final int inLowerDateMonth, final int inUpperDateYear,
 			final int inUpperDateMonth);
 

@@ -180,12 +180,12 @@ public class Form544ServiceImpl implements Form544Service {
 		return mohAreaVsDiseaseSummaryDtos;
 	}
 
-	public List<WardVsDiseaseSummaryDto> generateWardVsDiseaseSummary(String inInstitute, int inLowerDateYear,
-			int inLowerDateMonth, int inUpperDateYear, int inUpperDateMonth) {
+	public List<WardVsDiseaseSummaryDto> generateWardVsDiseaseSummary(final Long inInstituteId, final int inLowerDateYear,
+			final int inLowerDateMonth, final int inUpperDateYear, final int inUpperDateMonth) {
 
 		String lowerDateLimit = inLowerDateYear + "-" + inLowerDateMonth + "-" + 1;
 		String upperDateLimit = inUpperDateYear + "-" + inUpperDateMonth + "-" + 31;
-		List wardList = form544Dao.getWardsForAInstitute(inInstitute);
+		List wardList = form544Dao.getWardsForAInstitute(inInstituteId);
 
 		List<WardVsDiseaseSummaryDto> wardVsDiseaseSummaryDtos = new ArrayList<WardVsDiseaseSummaryDto>();
 		for (int i = 0; i < wardList.size(); i++) {

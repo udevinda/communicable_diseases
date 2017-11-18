@@ -100,11 +100,11 @@ public interface Form544Dao extends UniversalDao<Form544> {
 	/**
 	 * Get ward list for a given institute
 	 * 
-	 * @param inInstitute
-	 *            Name of the institute
+	 * @param inInstituteId
+	 *            ID of the institute
 	 * @return List of the wards owned by the given institute
 	 */
-	public List getWardsForAInstitute(final String inInstitute);
+	public List getWardsForAInstitute(final Long inInstituteId);
 
 	/**
 	 * Get distinct list of available institutes
