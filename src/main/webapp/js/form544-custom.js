@@ -247,9 +247,26 @@ function getInstitutesByDistrictId(districtId) {
 		success : function(result) {
 			$("#institute").empty();
 			result.forEach(function(item, i) {
-				var option = "<option value = " + item.id + ">"
-						+ item.name + "</option>";
+				var option = "<option value = " + item.id + ">" + item.name
+						+ "</option>";
 				$("#institute").append(option);
+			});
+			
+			getWardByInstituteId($("#institute").val());
+		}
+	});
+}
+
+function getWardByInstituteId(instituteId) {
+	$.ajax({
+		url : "/communicable-disease/Form544/ward?institute_id=" + instituteId,
+		method : "get",
+		success : function(result) {
+			$("#ward").empty();
+			result.forEach(function(item, i) {
+				var option = "<option value = " + item.id + ">" + item.name
+						+ "</option>";
+				$("#ward").append(option);
 			});
 		}
 	});
@@ -463,8 +480,9 @@ $(document).ready(function() {
 	$("#district").change(function() {
 		getMohAreaByDistrictId($("#district").val());
 	});
-	
+
 	$("#district").change(function() {
 		getInstitutesByDistrictId($("#district").val());
 	});
+
 });

@@ -66,8 +66,9 @@ public class Form544 implements Serializable {
 	@Column(name = "bht_no", nullable = false)
 	private Long bhtNo;
 
-	@Column(name = "ward", nullable = false)
-	private String ward;
+	@ManyToOne
+	@JoinColumn(name = "ward_id", nullable = false)
+	private Ward ward;
 
 	@Column(name = "age", nullable = false)
 	private Integer age;
@@ -286,21 +287,21 @@ public class Form544 implements Serializable {
 	}
 
 	/**
-	 * Getter for admitted ward.
+	 * Getter for admitted {@link Ward}.
 	 * 
-	 * @return ward
+	 * @return {@link Ward}
 	 */
-	public String getWard() {
+	public Ward getWard() {
 		return ward;
 	}
 
 	/**
-	 * Setter for admitted ward.
+	 * Setter for admitted {@link Ward}.
 	 * 
 	 * @param inWard
-	 *            ward
+	 *            {@link Ward}
 	 */
-	public void setWard(final String inWard) {
+	public void setWard(final Ward inWard) {
 		this.ward = inWard;
 	}
 

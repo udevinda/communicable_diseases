@@ -21,6 +21,7 @@ import lk.health.phd.cd.dao.DistrictDao;
 import lk.health.phd.cd.dao.Form544Dao;
 import lk.health.phd.cd.dao.InstituteDao;
 import lk.health.phd.cd.dao.MohAreaDao;
+import lk.health.phd.cd.dao.WardDao;
 import lk.health.phd.cd.dao.WorkflowDao;
 import lk.health.phd.cd.dto.Form544FilterDto;
 import lk.health.phd.cd.dto.MohAreaVsDiseaseSummaryDto;
@@ -31,6 +32,7 @@ import lk.health.phd.cd.models.District;
 import lk.health.phd.cd.models.Form544;
 import lk.health.phd.cd.models.Institute;
 import lk.health.phd.cd.models.MohArea;
+import lk.health.phd.cd.models.Ward;
 import lk.health.phd.cd.services.Form544Service;
 import lk.health.phd.cd.services.WorkflowService;
 import lk.health.phd.util.Util;
@@ -63,6 +65,9 @@ public class Form544Controller {
 	private InstituteDao instituteDao;
 
 	@Autowired
+	private WardDao wardDao;
+
+	@Autowired
 	private MohAreaDao mohAreaDao;
 
 	@Autowired
@@ -76,7 +81,7 @@ public class Form544Controller {
 	 * 
 	 * @param inSerialNo
 	 *            Serial number for the entry
-	 * @param inInstitute
+	 * @param inInstituteId
 	 *            where patient is admitted
 	 * @param inDiseaseId
 	 *            ID value of the specific disease
@@ -90,8 +95,8 @@ public class Form544Controller {
 	 *            date of admission
 	 * @param inBhtNo
 	 *            Bead head ticket number
-	 * @param inWard
-	 *            Ward number
+	 * @param inWardId
+	 *            Ward ID
 	 * @param inAge
 	 *            Age of patient
 	 * @param inSex
@@ -125,7 +130,7 @@ public class Form544Controller {
 			@RequestParam("dateOfOnset") final String inDateOfOnset,
 			@RequestParam("peaditiricPatientsGurdianName") final String inPeaditiricPatientsGurdianName,
 			@RequestParam("dateOfAdmission") final String inDateOfAdmission, @RequestParam("bhtNo") final Long inBhtNo,
-			@RequestParam("ward") final String inWard, @RequestParam("age") final Integer inAge,
+			@RequestParam("ward") final Long inWardId, @RequestParam("age") final Integer inAge,
 			@RequestParam("sex") final Form544.Sex inSex,
 			@RequestParam("patientHomeAddress") final String inPatientHomeAddress,
 			@RequestParam("patientsHomePhoneNo") final String inPatientsHomePhoneNo,
@@ -160,7 +165,7 @@ public class Form544Controller {
 			form544.setPeaditiricPatientsGurdianName(inPeaditiricPatientsGurdianName);
 			form544.setSex(inSex);
 			form544.setSystemNotifiedDate(Util.parseDate(inNotifyToMohDate, "yyyy-MM-dd"));
-			form544.setWard(inWard);
+			form544.setWard(wardDao.getWardById(inWardId));
 			form544.setMohArea(getMohArea(inMohArea));
 			form544.setNotificationByUnitDate(Util.parseDate(inNotifyByUnitDate, "yyyy-MM-dd"));
 			form544.setNotificationToMohDate(Util.parseDate(inNotifyToMohDate, "yyyy-MM-dd"));
@@ -222,8 +227,8 @@ public class Form544Controller {
 	 *            Existing form 544 ID
 	 * @param inSerialNo
 	 *            Serial number for the entry.
-	 * @param inInstitute
-	 *            Institute where patient is admitted.
+	 * @param inInstituteId
+	 *            Institute Id where patient is admitted.
 	 * @param inDiseaseId
 	 *            {@link Disease} ID related to the particular patient.
 	 * @param inPatientName
@@ -236,8 +241,8 @@ public class Form544Controller {
 	 *            Date of admission
 	 * @param inBhtNo
 	 *            Bead head ticket number
-	 * @param inWard
-	 *            Ward number where patient is admitted.
+	 * @param inWardId
+	 *            Ward ID where patient is admitted.
 	 * @param inAge
 	 *            Age of the patient
 	 * @param inSex
@@ -265,7 +270,7 @@ public class Form544Controller {
 			@RequestParam("dateOfOnset") final String inDateOfOnset,
 			@RequestParam("peaditiricPatientsGurdianName") final String inPeaditiricPatientsGurdianName,
 			@RequestParam("dateOfAdmission") final String inDateOfAdmission, @RequestParam("bhtNo") final Long inBhtNo,
-			@RequestParam("ward") final String inWard, @RequestParam("age") final Integer inAge,
+			@RequestParam("ward") final Long inWardId, @RequestParam("age") final Integer inAge,
 			@RequestParam("sex") final Form544.Sex inSex,
 			@RequestParam("patientHomeAddress") final String inPatientHomeAddress,
 			@RequestParam("patientsHomePhoneNo") final String inPatientsHomePhoneNo,
@@ -300,7 +305,7 @@ public class Form544Controller {
 			form544.setPeaditiricPatientsGurdianName(inPeaditiricPatientsGurdianName);
 			form544.setSex(inSex);
 			form544.setSystemNotifiedDate(Util.parseDate(inNotifyToMohDate, "yyyy-MM-dd"));
-			form544.setWard(inWard);
+			form544.setWard(wardDao.getWardById(inWardId));
 			form544.setMohArea(getMohArea(inMohArea));
 			form544.setNotificationByUnitDate(Util.parseDate(inNotifyByUnitDate, "yyyy-MM-dd"));
 			form544.setNotificationToMohDate(Util.parseDate(inNotifyToMohDate, "yyyy-MM-dd"));
@@ -339,8 +344,8 @@ public class Form544Controller {
 	 * 
 	 * @param inPatientNic
 	 *            National ID of the patients.
-	 * @param inInstitute
-	 *            Institute where the patient admitted.
+	 * @param inInstituteId
+	 *            Institute ID where the patient admitted.
 	 * @param inDiseaseId
 	 *            Disease of the patient.
 	 * @param inPatientName
@@ -539,6 +544,20 @@ public class Form544Controller {
 	@ResponseBody
 	public List<Institute> getInstituteByDistrictId(@RequestParam("district_id") final Long inDistrictId) {
 		return instituteDao.getInstitutesByDistrictId(inDistrictId);
+	}
+
+	/**
+	 * Controller method to get list of available {@link Ward} by
+	 * {@link Institute}
+	 * 
+	 * @param inInstituteId
+	 *            ID of a {@link Institute}
+	 * @return List of {@link Ward}
+	 */
+	@RequestMapping(value = "ward", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Ward> getWardByInstituteId(@RequestParam("institute_id") final Long inInstituteId) {
+		return wardDao.getWardsByInstituteId(inInstituteId);
 	}
 
 	/**
