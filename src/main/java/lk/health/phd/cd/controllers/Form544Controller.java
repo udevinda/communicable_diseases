@@ -352,8 +352,8 @@ public class Form544Controller {
 	 *            Patient's name.
 	 * @param inBhtNo
 	 *            Patient's bead head ticket number.
-	 * @param inWard
-	 *            Ward number where patient admitted.
+	 * @param inWardId
+	 *            Ward ID where patient admitted.
 	 * @param inSex
 	 *            Sex of the patient.
 	 * @param inNotifierName
@@ -382,7 +382,7 @@ public class Form544Controller {
 	public @ResponseBody JSONObject searchForm544ByCriteria(@RequestParam("serialNo") final String inSerialNo,
 			@RequestParam("institute") final Long inIntituteId, @RequestParam("disease") final Long inDiseaseId,
 			@RequestParam("patientName") final String inPatientName, @RequestParam("bhtNo") final Long inBhtNo,
-			@RequestParam("ward") final String inWard, @RequestParam("sex") final Form544.Sex inSex,
+			@RequestParam("ward") final Long inWardId, @RequestParam("sex") final Form544.Sex inSex,
 			@RequestParam("notifierName") final String inNotifierName,
 			@RequestParam("dateOfOnsetFrom") final String inDateOfOnsetFrom,
 			@RequestParam("dateOfOnsetTo") final String inDateOfOnsetTo,
@@ -406,7 +406,7 @@ public class Form544Controller {
 			form544FilterDto.setPatientName(inPatientName);
 			form544FilterDto.setSerialNo(inSerialNo);
 			form544FilterDto.setSex(inSex);
-			form544FilterDto.setWard(inWard);
+			form544FilterDto.setWard(wardDao.getWardById(inWardId));
 			form544FilterDto.setNotifierName(inNotifierName);
 			form544FilterDto.setAgeFrom(inAgeFrom);
 			form544FilterDto.setAgeTo(inAgeTo);

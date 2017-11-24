@@ -147,7 +147,7 @@ function doSearch(pageGenerationOn) {
 												+ result.form544List[i].bhtNo
 												+ '</td>'
 												+ '<td>'
-												+ result.form544List[i].ward
+												+ result.form544List[i].ward.name
 												+ '</td>'
 												+ '<td>'
 												+ result.form544List[i].disease.diseaseName

@@ -74,7 +74,7 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 		if (inForm544FilterDto.getSex() != null) {
 			criteria.add(Restrictions.eq("sex", inForm544FilterDto.getSex()));
 		}
-		if (inForm544FilterDto.getWard() != null && !(inForm544FilterDto.getWard().isEmpty())) {
+		if (inForm544FilterDto.getWard() != null) {
 			criteria.add(Restrictions.eq("ward", inForm544FilterDto.getWard()));
 		}
 		if (inForm544FilterDto.getDisease() != null) {
@@ -146,7 +146,7 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 		if (inForm544FilterDto.getSex() != null) {
 			criteria.add(Restrictions.eq("sex", inForm544FilterDto.getSex()));
 		}
-		if (inForm544FilterDto.getWard() != null && !(inForm544FilterDto.getWard().isEmpty())) {
+		if (inForm544FilterDto.getWard() != null) {
 			criteria.add(Restrictions.eq("ward", inForm544FilterDto.getWard()));
 		}
 		if (inForm544FilterDto.getDisease() != null) {

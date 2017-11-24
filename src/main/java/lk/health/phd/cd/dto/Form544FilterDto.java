@@ -6,6 +6,7 @@ import lk.health.phd.cd.models.Disease;
 import lk.health.phd.cd.models.Form544.Sex;
 import lk.health.phd.cd.models.Institute;
 import lk.health.phd.cd.models.MohArea;
+import lk.health.phd.cd.models.Ward;
 import lk.health.phd.cd.models.Workflow.WorkflowStatus;
 
 /**
@@ -28,7 +29,7 @@ public class Form544FilterDto {
 	private Date fromDateOfNotifyToMoh;
 	private Date toDateOfNotifyToMoh;
 	private Long bhtNo;
-	private String ward;
+	private Ward ward;
 	private Integer ageFrom;
 	private Integer ageTo;
 	private Sex sex;
@@ -208,21 +209,21 @@ public class Form544FilterDto {
 	}
 
 	/**
-	 * Getter for ward as a filtering field.
+	 * Getter for {@link Ward} as a filtering field.
 	 * 
-	 * @return ward
+	 * @return {@link Ward}
 	 */
-	public String getWard() {
+	public Ward getWard() {
 		return ward;
 	}
 
 	/**
-	 * Setter for ward as a filtering field.
+	 * Setter for {@link Ward} as a filtering field.
 	 * 
 	 * @param ward
-	 *            ward
+	 *            {@link Ward}
 	 */
-	public void setWard(final String inWard) {
+	public void setWard(final Ward inWard) {
 		this.ward = inWard;
 	}
 
