@@ -34,7 +34,7 @@
 			<div class="form-group">
 				<label for="disease">Disease:</label> <select class="form-control"
 					id="disease" name="disease">
-					<option value="">Select Disease</option>
+					<option value="">All</option>
 					<option th:each="disease:${diseaseList}" th:value="${disease.id}"
 						th:text="${disease.diseaseName}"></option>
 				</select>
@@ -42,7 +42,7 @@
 			<div class="form-group">
 				<label for="district">District:</label> <select class="form-control"
 					id="district" name="district">
-					<option value="" selected>Select District</option>
+					<option value="" selected>All</option>
 					<option th:each="district:${districtList}"
 						th:value="${district.id}" th:text="${district.districtName}"></option>
 				</select>

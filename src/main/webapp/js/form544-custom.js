@@ -230,6 +230,8 @@ function getMohAreaByDistrictId(districtId) {
 		method : "get",
 		success : function(result) {
 			$("#mohArea").empty();
+			var defaultOption = "<option value=''>All</option>";
+			$("#mohArea").append(defaultOption);
 			result.forEach(function(item, i) {
 				var option = "<option value = " + item.id + ">"
 						+ item.mohAreaName + "</option>";
@@ -246,6 +248,8 @@ function getInstitutesByDistrictId(districtId) {
 		method : "get",
 		success : function(result) {
 			$("#institute").empty();
+			var defaultOption = "<option value=''>All</option>";
+			$("#institute").append(defaultOption);
 			result.forEach(function(item, i) {
 				var option = "<option value = " + item.id + ">" + item.name
 						+ "</option>";
@@ -263,6 +267,8 @@ function getWardByInstituteId(instituteId) {
 		method : "get",
 		success : function(result) {
 			$("#ward").empty();
+			var defaultOption = "<option value=''>All</option>";
+			$("#ward").append(defaultOption);
 			result.forEach(function(item, i) {
 				var option = "<option value = " + item.id + ">" + item.name
 						+ "</option>";
@@ -483,6 +489,10 @@ $(document).ready(function() {
 
 	$("#district").change(function() {
 		getInstitutesByDistrictId($("#district").val());
+	});
+	
+	$("#institute").change(function() {
+		getWardByInstituteId($("#institute").val());
 	});
 
 });
