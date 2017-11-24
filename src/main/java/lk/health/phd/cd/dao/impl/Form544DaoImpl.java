@@ -26,6 +26,7 @@ import lk.health.phd.cd.dto.MonthVsPatientSummaryDto;
 import lk.health.phd.cd.models.Disease;
 import lk.health.phd.cd.models.Form544;
 import lk.health.phd.cd.models.MohArea;
+import lk.health.phd.cd.models.Ward;
 import lk.health.phd.util.Util;
 
 /**
@@ -267,7 +268,7 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 	/**
 	 * {@inheritDoc}
 	 */
-	public List<DiseaseVsPatientSummaryDto> getEachDiseaseCountForGivenWard(final String inWard,
+	public List<DiseaseVsPatientSummaryDto> getEachDiseaseCountForGivenWard(final Ward inWard,
 			final String inLowerDateLimit, final String inUpperDateLimit) {
 		Session session = getCurrentSession();
 

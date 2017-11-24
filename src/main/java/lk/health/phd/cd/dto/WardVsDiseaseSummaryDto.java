@@ -2,27 +2,29 @@ package lk.health.phd.cd.dto;
 
 import java.util.List;
 
+import lk.health.phd.cd.models.Ward;
+
 public class WardVsDiseaseSummaryDto {
 
-	private String ward;
+	private Ward ward;
 	private List<DiseaseVsPatientSummaryDto> diseaseVsPatientSummaryDtos;
 
 	/**
-	 * Getter for ward
+	 * Getter for {@link Ward}
 	 * 
-	 * @return ward name
+	 * @return {@link Ward.name}
 	 */
-	public String getWard() {
+	public Ward getWard() {
 		return ward;
 	}
 
 	/**
-	 * Setter for ward
+	 * Setter for {@link Ward}
 	 * 
 	 * @param inWard
-	 *            Ward
+	 *            {@link Ward}
 	 */
-	public void setWard(final String inWard) {
+	public void setWard(final Ward inWard) {
 		this.ward = inWard;
 	}
 

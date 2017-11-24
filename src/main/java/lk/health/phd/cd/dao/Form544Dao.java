@@ -9,6 +9,7 @@ import lk.health.phd.cd.models.Disease;
 import lk.health.phd.cd.models.District;
 import lk.health.phd.cd.models.Form544;
 import lk.health.phd.cd.models.MohArea;
+import lk.health.phd.cd.models.Ward;
 
 /**
  * DAO class for Form544 entity.
@@ -84,17 +85,17 @@ public interface Form544Dao extends UniversalDao<Form544> {
 			final String inUpperDateLimit);
 
 	/**
-	 * Get each disease count for the given ward
+	 * Get each disease count for the given {@link Ward}
 	 * 
 	 * @param inWard
-	 *            ward name
+	 *            {@link Ward}
 	 * @param inLowerDateLimit
 	 *            Lower date range to consider
 	 * @param inUpperDateLimit
 	 *            Upper date range to consider
 	 * @return List of Disease and its count pairs
 	 */
-	public List getEachDiseaseCountForGivenWard(final String inWard, final String inLowerDateLimit,
+	public List getEachDiseaseCountForGivenWard(final Ward inWard, final String inLowerDateLimit,
 			final String inUpperDateLimit);
 
 	/**

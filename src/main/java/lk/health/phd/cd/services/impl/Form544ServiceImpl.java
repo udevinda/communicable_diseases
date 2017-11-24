@@ -24,6 +24,7 @@ import lk.health.phd.cd.dao.DiseaseConfirmationTestDao;
 import lk.health.phd.cd.dao.DiseaseDao;
 import lk.health.phd.cd.dao.Form544Dao;
 import lk.health.phd.cd.dao.MohAreaDao;
+import lk.health.phd.cd.dao.WardDao;
 import lk.health.phd.cd.dao.WorkflowDao;
 import lk.health.phd.cd.dto.DiseaseCountDto;
 import lk.health.phd.cd.dto.DiseaseVsPatientSummaryDto;
@@ -35,6 +36,7 @@ import lk.health.phd.cd.models.DiseaseConfirmationTest;
 import lk.health.phd.cd.models.District;
 import lk.health.phd.cd.models.Form544;
 import lk.health.phd.cd.models.MohArea;
+import lk.health.phd.cd.models.Ward;
 import lk.health.phd.cd.services.Form544Service;
 import lk.health.phd.cd.services.WorkflowService;
 import lk.health.phd.util.Util;
@@ -67,6 +69,9 @@ public class Form544ServiceImpl implements Form544Service {
 
 	@Autowired
 	private MohAreaDao mohAreaDao;
+
+	@Autowired
+	private WardDao wardDao;
 
 	@Autowired
 	private DiseaseDao diseaseDao;
@@ -180,17 +185,21 @@ public class Form544ServiceImpl implements Form544Service {
 		return mohAreaVsDiseaseSummaryDtos;
 	}
 
-	public List<WardVsDiseaseSummaryDto> generateWardVsDiseaseSummary(final Long inInstituteId, final int inLowerDateYear,
-			final int inLowerDateMonth, final int inUpperDateYear, final int inUpperDateMonth) {
+	/**
+	 * {@inheritDoc}
+	 */
+	public List<WardVsDiseaseSummaryDto> generateWardVsDiseaseSummary(final Long inInstituteId,
+			final int inLowerDateYear, final int inLowerDateMonth, final int inUpperDateYear,
+			final int inUpperDateMonth) {
 
 		String lowerDateLimit = inLowerDateYear + "-" + inLowerDateMonth + "-" + 1;
 		String upperDateLimit = inUpperDateYear + "-" + inUpperDateMonth + "-" + 31;
-		List wardList = form544Dao.getWardsForAInstitute(inInstituteId);
+		List<Ward> wardList = wardDao.getWardsByInstituteId(inInstituteId);
 
 		List<WardVsDiseaseSummaryDto> wardVsDiseaseSummaryDtos = new ArrayList<WardVsDiseaseSummaryDto>();
 		for (int i = 0; i < wardList.size(); i++) {
 
-			String ward = ((List) wardList.get(i)).get(0) + "";
+			Ward ward = wardList.get(i);
 			List<DiseaseVsPatientSummaryDto> diseaseVsPatientSummaryDtos = form544Dao
 					.getEachDiseaseCountForGivenWard(ward, lowerDateLimit, upperDateLimit);
 
@@ -250,8 +259,8 @@ public class Form544ServiceImpl implements Form544Service {
 			String inUpperDate) {
 
 		ArrayList form544DetailList = new ArrayList();
-		form544DetailList = (ArrayList) form544Dao.getForm544DetailsForGivenPeriodByDisease(inDiseaseId, inDistrictId, inLowerDate,
-				inUpperDate);
+		form544DetailList = (ArrayList) form544Dao.getForm544DetailsForGivenPeriodByDisease(inDiseaseId, inDistrictId,
+				inLowerDate, inUpperDate);
 
 		return form544DetailList;
 	}

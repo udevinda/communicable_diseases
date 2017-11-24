@@ -161,7 +161,7 @@
 			 
 			 //We are looping wardVsDiseaseSummaryList
 			 for(var counter2=0; counter2 < wardVsDiseaseSummaryList.length; counter2++){
-				 var wardForRow = wardVsDiseaseSummaryList[counter2].ward;
+				 var wardForRow = wardVsDiseaseSummaryList[counter2].ward.name;
 				 var diseaseVsPatientSummaryDtos = wardVsDiseaseSummaryList[counter2].diseaseVsPatientSummaryDtos;
 				 //To include the count we find the table column as value's index+1 in the wardForRow
 				 var arrayIndexForWardCount = (wardArr.indexOf(wardForRow)) + 1;
@@ -202,7 +202,7 @@
 				 var diseaseVsPatientSummaryDtos = wardVsDiseaseSummaryList[i].diseaseVsPatientSummaryDtos;
 				 
 				 for(var y = 0; y < diseaseVsPatientSummaryDtos.length; y++){
-					 var ward = wardVsDiseaseSummaryList[i].ward;
+					 var ward = wardVsDiseaseSummaryList[i].ward.name;
 					 
 					 if(wardArr[x] == ward){
 						 totalForWard = totalForWard + diseaseVsPatientSummaryDtos[y].count;
@@ -231,7 +231,7 @@
 		 var wardArr = [];
 		 
 		 for(var i = 0; i < wardVsDiseaseSummaryList.length; i++){
-			 wardArr.push(wardVsDiseaseSummaryList[i].ward);
+			 wardArr.push(wardVsDiseaseSummaryList[i].ward.name);
 		}
 		
 		 return wardArr;
