@@ -52,6 +52,8 @@ function getMohAreaByDistrictId(districtId) {
 		method : "get",
 		success : function(result) {
 			$("#mohArea").empty();
+			var defaultOption = "<option value=''>All</option>";
+			$("#mohArea").append(defaultOption);
 			result.forEach(function(item, i) {
 				var option = "<option value = " + item.id + ">"
 						+ item.mohAreaName + "</option>";
