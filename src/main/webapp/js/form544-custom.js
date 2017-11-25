@@ -237,6 +237,10 @@ function getMohAreaByDistrictId(districtId) {
 						+ item.mohAreaName + "</option>";
 				$("#mohArea").append(option);
 			});
+			
+			if(typeof form544Obj !== 'undefined'){
+				setMohAreaIfAlreadtSet(form544Obj);
+			}
 		}
 	});
 }
@@ -255,6 +259,10 @@ function getInstitutesByDistrictId(districtId) {
 						+ "</option>";
 				$("#institute").append(option);
 			});
+
+			if(typeof form544Obj !== 'undefined'){
+				setInstituteIfAlreadtSet(form544Obj);
+			}
 			
 			getWardByInstituteId($("#institute").val());
 		}
@@ -274,6 +282,10 @@ function getWardByInstituteId(instituteId) {
 						+ "</option>";
 				$("#ward").append(option);
 			});
+			
+			if(typeof form544Obj !== 'undefined'){
+				setWardIfAlreadtSet(form544Obj);
+			}
 		}
 	});
 }
@@ -475,6 +487,21 @@ function setMapCoordinatesInMapModel(defaultLat, defaultLng) {
 	document.getElementById('longitude').innerHTML = defaultLng;
 }
 
+function setMohAreaIfAlreadtSet(form544Obj) {
+	var selectedVal = form544Obj.mohArea.id;
+	$("#mohArea").val(selectedVal);
+}
+
+function setInstituteIfAlreadtSet(form544Obj) {
+	var selectedVal = form544Obj.institute.id;
+	$("#institute").val(selectedVal);
+}
+
+function setWardIfAlreadtSet(form544Obj) {
+	var selectedVal = form544Obj.ward.id;
+	$("#ward").val(selectedVal);
+}
+
 $(document).ready(function() {
 
 	// Following default set should be removed or changed according to target
@@ -482,15 +509,12 @@ $(document).ready(function() {
 	$("#district").val("16");
 	getMohAreaByDistrictId($("#district").val());
 	getInstitutesByDistrictId($("#district").val());
-
+	
 	$("#district").change(function() {
 		getMohAreaByDistrictId($("#district").val());
-	});
-
-	$("#district").change(function() {
 		getInstitutesByDistrictId($("#district").val());
 	});
-	
+
 	$("#institute").change(function() {
 		getWardByInstituteId($("#institute").val());
 	});

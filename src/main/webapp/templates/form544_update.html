@@ -151,8 +151,8 @@
 						th:value="${form544Object.bhtNo}">
 				</div>
 				<div class="form-group">
-					<label for="ward">Ward:</label> <select
-						class="form-control" id="ward" name="ward"></select>
+					<label for="ward">Ward:</label> <select class="form-control"
+						id="ward" name="ward"></select>
 				</div>
 				<div class="form-group">
 					<label for="date_of_onset">Date of Onset:</label> <input
@@ -305,3 +305,9 @@ Try to ake common the imports.
 Clear btn doesn't function
 
  -->
+
+<script th:inline="javascript">
+ /*<![CDATA[*/
+	var form544Obj = ([[${form544Object}]]);
+	/*]]>*/
+ </script>
