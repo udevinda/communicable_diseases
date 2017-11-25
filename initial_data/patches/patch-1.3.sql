@@ -16,7 +16,8 @@ update form_544 set disease_id=25 where disease_id=27;
 delete from disease where id=27 and disease_name='Influenza H1N1';
 
 insert into disease(disease_name, shortcode) values('Blood and Mucosa Diarrhoea', 'BMD');
-insert into disease(disease_name, shortcode) values('Leishmenaisis and Leprosy', 'LL');
+insert into disease(disease_name, shortcode) values('Leishmenaisis', 'LM');
+insert into disease(disease_name, shortcode) values('Leprosy', 'LP');
 
 insert into ward(name, institute_id) values("03", 1);
 insert into ward(name, institute_id) values("04", 1);
