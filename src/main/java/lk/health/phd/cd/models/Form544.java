@@ -118,7 +118,7 @@ public class Form544 implements Serializable {
 	@Column(name = "longitude")
 	private Double longitude;
 
-	@Column(name = "status", nullable = false, columnDefinition = "char(15) default 'ACTIVE'")
+	@Column(name = "status", nullable = false, columnDefinition = "int(2) default '0'")
 	private Status status;
 
 	/**

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import lk.health.phd.cd.dao.DiseaseConfirmationTestDao;
 import lk.health.phd.cd.dao.DiseaseDao;
@@ -517,6 +518,25 @@ public class Form544Controller {
 		model.addAttribute("diseaseConfirmationTestObj", updatedDiseaseConfirmationTest);
 
 		return "form544_update";
+	}
+
+	/**
+	 * Controller to set {@link Form544.status} as
+	 * {@link Form544.Status.DELETED}
+	 * 
+	 * @param inForm544Id
+	 *            ID of the {@link Form544}
+	 * @return Redirect to the Form544 filter_view
+	 */
+	@RequestMapping(value = "delete", method = RequestMethod.GET)
+	public ModelAndView deleteForm544(@RequestParam("id") final Long inForm544Id) {
+
+		logger.info("Hit the /Form544/delete ");
+		logger.info("Change Status Deleted of Form 544 ID : " + inForm544Id);
+
+		form544Service.setStatusAsDeleted(inForm544Id);
+
+		return new ModelAndView("redirect: filter_view");
 	}
 
 	/**

@@ -293,4 +293,16 @@ public class Form544ServiceImpl implements Form544Service {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	public Form544 setStatusAsDeleted(final Long inForm544Id) {
+		Form544 form544 = form544Dao.findForm544ById(inForm544Id);
+		form544.setStatus(Form544.Status.DELETED);
+
+		form544Dao.merge(form544);
+
+		return form544;
+	}
+
 }

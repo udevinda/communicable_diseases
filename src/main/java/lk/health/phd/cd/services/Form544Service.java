@@ -162,4 +162,13 @@ public interface Form544Service {
 	 */
 	public DiseaseCountDto getTotalForm544CountByDiseaseDistrictAndYearMonth(final Long inDistrictId,
 			final Long inDiseaseId, final String inLowerDate);
+
+	/**
+	 * Update the {@link Form544.status} as {@link Form544.Status.DELETED}
+	 * 
+	 * @param inForm544Id
+	 *            ID of the {@link Form544}
+	 * @return Status updated {@link Form544}
+	 */
+	public Form544 setStatusAsDeleted(final Long inForm544Id);
 }
