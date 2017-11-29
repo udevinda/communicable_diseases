@@ -35,6 +35,10 @@ public class Form544 implements Serializable {
 		MALE, FEMALE, OTHER;
 	}
 
+	public enum Status {
+		ACTIVE, DELETED;
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
@@ -113,6 +117,9 @@ public class Form544 implements Serializable {
 
 	@Column(name = "longitude")
 	private Double longitude;
+
+	@Column(name = "status", nullable = false, columnDefinition = "char(15) default 'ACTIVE'")
+	private Status status;
 
 	/**
 	 * Getter for Id.
@@ -569,6 +576,25 @@ public class Form544 implements Serializable {
 	 */
 	public void setLongitude(final Double inLongitude) {
 		this.longitude = inLongitude;
+	}
+
+	/**
+	 * Getter to get the status of the {@link Form544}
+	 * 
+	 * @return status of the {@link Form544}
+	 */
+	public Status getStatus() {
+		return status;
+	}
+
+	/**
+	 * Setter to set the status of the {@link Form544}
+	 * 
+	 * @param inStatus
+	 *            status of the {@link Form544}
+	 */
+	public void setStatus(final Status inStatus) {
+		this.status = inStatus;
 	}
 
 }
