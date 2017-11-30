@@ -171,6 +171,7 @@ public class Form544Controller {
 			form544.setNotificationByUnitDate(Util.parseDate(inNotifyByUnitDate, "yyyy-MM-dd"));
 			form544.setNotificationToMohDate(Util.parseDate(inNotifyToMohDate, "yyyy-MM-dd"));
 			form544.setRemarks(inRemarks);
+			form544.setStatus(Form544.Status.ACTIVE);
 			if (isMapLocationAvailable(inLattitude, inLongitude)) {
 				form544.setLattitude(Double.parseDouble(inLattitude));
 				form544.setLongitude(Double.parseDouble(inLongitude));

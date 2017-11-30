@@ -115,6 +115,7 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 			criteria.add(Restrictions.le("notificationToMohDate", inForm544FilterDto.getToDateOfNotifyToMoh()));
 		}
 
+		criteria.add(Restrictions.eq("status", Form544.Status.ACTIVE));
 		criteria.setMaxResults(inLimit);
 		criteria.setFirstResult(inOffset);
 
@@ -187,6 +188,8 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 			criteria.add(Restrictions.le("notificationToMohDate", inForm544FilterDto.getToDateOfNotifyToMoh()));
 		}
 
+		criteria.add(Restrictions.eq("status", Form544.Status.ACTIVE));
+
 		return (Long) criteria.setProjection(Projections.rowCount()).uniqueResult();
 	}
 
@@ -208,6 +211,7 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 		try {
 			criteria.add(Restrictions.ge("systemNotifiedDate", Util.parseDate(lowerDateLimit, "yyyy-MM-dd")));
 			criteria.add(Restrictions.le("systemNotifiedDate", Util.parseDate(upperDateLimit, "yyyy-MM-dd")));
+			criteria.add(Restrictions.eq("status", Form544.Status.ACTIVE));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -232,6 +236,7 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 		try {
 			criteria.add(Restrictions.ge("systemNotifiedDate", Util.parseDate(lowerDateLimit, "yyyy-MM-dd")));
 			criteria.add(Restrictions.le("systemNotifiedDate", Util.parseDate(upperDateLimit, "yyyy-MM-dd")));
+			criteria.add(Restrictions.eq("status", Form544.Status.ACTIVE));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -252,6 +257,7 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 			criteria.add(Restrictions.eq("mohArea", inMohArea));
 			criteria.add(Restrictions.ge("notificationToMohDate", Util.parseDate(inLowerDateLimit, "yyyy-MM-dd")));
 			criteria.add(Restrictions.le("notificationToMohDate", Util.parseDate(inUpperDateLimit, "yyyy-MM-dd")));
+			criteria.add(Restrictions.eq("status", Form544.Status.ACTIVE));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -278,6 +284,7 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 			criteria.add(Restrictions.eq("ward", inWard));
 			criteria.add(Restrictions.ge("notificationToMohDate", Util.parseDate(inLowerDateLimit, "yyyy-MM-dd")));
 			criteria.add(Restrictions.le("notificationToMohDate", Util.parseDate(inUpperDateLimit, "yyyy-MM-dd")));
+			criteria.add(Restrictions.eq("status", Form544.Status.ACTIVE));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -329,6 +336,7 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 		criteria.add(Restrictions.eq("mohArea", inMohArea));
 		criteria.add(Restrictions.eq("disease", inDisease));
 		criteria.add(Restrictions.sqlRestriction("year({alias}.noti_to_moh_date)=?", inYear, StringType.INSTANCE));
+		criteria.add(Restrictions.eq("status", Form544.Status.ACTIVE));
 
 		return criteria
 				.setProjection(Projections.projectionList()
@@ -351,6 +359,7 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 		criteria.add(Restrictions.eq("disease", inDisease));
 		criteria.add(Restrictions.sqlRestriction("year({alias}.noti_to_moh_date)=?", inYear, StringType.INSTANCE));
 		criteria.add(Restrictions.sqlRestriction("month({alias}.noti_to_moh_date)=?", inMonth, StringType.INSTANCE));
+		criteria.add(Restrictions.eq("status", Form544.Status.ACTIVE));
 
 		ProjectionList proList = Projections.projectionList();
 		proList.add(Projections.property("age"));
@@ -369,9 +378,10 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 		Session session = getCurrentSession();
 
 		Query query = session.createQuery(
-				"select a.notificationToMohDate, a.patientName, a.age, a.sex, b.mohAreaName, a.patientsHomePhoneNo, a.patientHomeAddress, a.remarks from Form544 a, MohArea b, District c where a.mohArea.id=b.id and b.district.id=c.id and c.id=:districtId and a.disease.id=:diseaseId and a.notificationToMohDate between :fromDate and :toDate");
+				"select a.notificationToMohDate, a.patientName, a.age, a.sex, b.mohAreaName, a.patientsHomePhoneNo, a.patientHomeAddress, a.remarks from Form544 a, MohArea b, District c where a.status=:recordStatus and a.mohArea.id=b.id and b.district.id=c.id and c.id=:districtId and a.disease.id=:diseaseId and a.notificationToMohDate between :fromDate and :toDate");
 		query.setLong("districtId", inDistrictId);
 		query.setLong("diseaseId", inDiseaseId);
+		query.setParameter("recordStatus", Form544.Status.ACTIVE);
 		query.setString("fromDate", fromDate);
 		query.setString("toDate", toDate);
 
@@ -388,9 +398,10 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 		Session session = getCurrentSession();
 
 		Query query = session.createQuery(
-				"select count(a.id) from Form544 a, MohArea b, District c where a.mohArea.id=b.id and b.district.id=c.id and c.id=:districtId and a.disease.id=:diseaseId and year(a.notificationToMohDate)=:year");
+				"select count(a.id) from Form544 a, MohArea b, District c where a.status=:recordStatus and a.mohArea.id=b.id and b.district.id=c.id and c.id=:districtId and a.disease.id=:diseaseId and year(a.notificationToMohDate)=:year");
 		query.setLong("districtId", inDistrictId);
 		query.setLong("diseaseId", inDiseaseId);
+		query.setParameter("recordStatus", Form544.Status.ACTIVE);
 		query.setString("year", inYear);
 
 		return (Long) query.uniqueResult();
@@ -405,9 +416,10 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 		Session session = getCurrentSession();
 
 		Query query = session.createQuery(
-				"select count(a.id) from Form544 a, MohArea b, District c where a.mohArea.id=b.id and b.district.id=c.id and c.id=:districtId and a.disease.id=:diseaseId and year(a.notificationToMohDate)=:year and month(a.notificationToMohDate)=:month");
+				"select count(a.id) from Form544 a, MohArea b, District c where a.status=:recordStatus and a.mohArea.id=b.id and b.district.id=c.id and c.id=:districtId and a.disease.id=:diseaseId and year(a.notificationToMohDate)=:year and month(a.notificationToMohDate)=:month");
 		query.setLong("districtId", inDistrictId);
 		query.setLong("diseaseId", inDiseaseId);
+		query.setParameter("recordStatus", Form544.Status.ACTIVE);
 		query.setString("year", inYear);
 		query.setString("month", inMonth);
 
@@ -435,6 +447,7 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 		if (inForm544FilterDto.getToDateOfNotifyToMoh() != null) {
 			criteria.add(Restrictions.le("notificationToMohDate", inForm544FilterDto.getToDateOfNotifyToMoh()));
 		}
+		criteria.add(Restrictions.eq("status", Form544.Status.ACTIVE));
 
 		criteria.createAlias("form544.disease", "disease");
 
