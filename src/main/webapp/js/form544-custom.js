@@ -236,15 +236,19 @@ function getMohAreaByDistrictId(districtId) {
 		method : "get",
 		success : function(result) {
 			$("#mohArea").empty();
-			var defaultOption = "<option value=''>All</option>";
-			$("#mohArea").append(defaultOption);
+			if (typeof pge !== 'undefined') {
+				if (pge == "form544Search") {
+					var defaultOption = "<option value=''>All</option>";
+					$("#mohArea").append(defaultOption);
+				}
+			}
 			result.forEach(function(item, i) {
 				var option = "<option value = " + item.id + ">"
 						+ item.mohAreaName + "</option>";
 				$("#mohArea").append(option);
 			});
-			
-			if(typeof form544Obj !== 'undefined'){
+
+			if (typeof form544Obj !== 'undefined') {
 				setMohAreaIfAlreadtSet(form544Obj);
 			}
 		}
@@ -258,18 +262,22 @@ function getInstitutesByDistrictId(districtId) {
 		method : "get",
 		success : function(result) {
 			$("#institute").empty();
-			var defaultOption = "<option value=''>All</option>";
-			$("#institute").append(defaultOption);
+			if (typeof pge !== 'undefined') {
+				if (pge == "form544Search") {
+					var defaultOption = "<option value=''>All</option>";
+					$("#institute").append(defaultOption);
+				}
+			}
 			result.forEach(function(item, i) {
 				var option = "<option value = " + item.id + ">" + item.name
 						+ "</option>";
 				$("#institute").append(option);
 			});
 
-			if(typeof form544Obj !== 'undefined'){
+			if (typeof form544Obj !== 'undefined') {
 				setInstituteIfAlreadtSet(form544Obj);
 			}
-			
+
 			getWardByInstituteId($("#institute").val());
 		}
 	});
@@ -281,15 +289,19 @@ function getWardByInstituteId(instituteId) {
 		method : "get",
 		success : function(result) {
 			$("#ward").empty();
-			var defaultOption = "<option value=''>All</option>";
-			$("#ward").append(defaultOption);
+			if (typeof pge !== 'undefined') {
+				if (pge == "form544Search") {
+					var defaultOption = "<option value=''>All</option>";
+					$("#ward").append(defaultOption);
+				}
+			}
 			result.forEach(function(item, i) {
 				var option = "<option value = " + item.id + ">" + item.name
 						+ "</option>";
 				$("#ward").append(option);
 			});
-			
-			if(typeof form544Obj !== 'undefined'){
+
+			if (typeof form544Obj !== 'undefined') {
 				setWardIfAlreadtSet(form544Obj);
 			}
 		}
@@ -515,7 +527,7 @@ $(document).ready(function() {
 	$("#district").val("16");
 	getMohAreaByDistrictId($("#district").val());
 	getInstitutesByDistrictId($("#district").val());
-	
+
 	$("#district").change(function() {
 		getMohAreaByDistrictId($("#district").val());
 		getInstitutesByDistrictId($("#district").val());
