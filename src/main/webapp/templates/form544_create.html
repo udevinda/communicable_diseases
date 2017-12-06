@@ -58,14 +58,14 @@
 							<div>
 								<input type="number" class="form-control" id="ageDay"
 									placeholder="Days" max="29" min="0" style="width: 100px"
-									onchange="composeAge()">
+									onchange="composeAge()" required>
 							</div>
 						</div>
 						<div class="col-lg-2">
 							<div>
 								<input type="number" class="form-control readonly" id="age"
 									name="age" placeholder="Patient's Age in days"
-									style="width: 200px; display: none" required data-readonly>
+									style="width: 200px; display: none" data-readonly>
 							</div>
 						</div>
 					</div>
@@ -212,7 +212,7 @@
 				<div>
 					<input type="submit" style="display: none" />
 					<button type="button" class="btn btn-success pull-right"
-						onclick="viewConfirmationDialog('Form 544 Submit', 'Are you sure you need to submitForm 544 ?','submitForm544()')">Submit</button>
+						onclick="viewConfirmationDialog('Form 544 Submit', 'Are you sure you need to submit Form 544 ?','submitForm544()')">Submit</button>
 					<button type="submit" class="btn btn-default pull-right"
 						style="margin-right: 5px; width: 70px">Clear</button>
 				</div>

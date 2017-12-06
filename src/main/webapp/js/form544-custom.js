@@ -522,43 +522,41 @@ function setWardIfAlreadtSet(form544Obj) {
 
 function viewConfirmationDialog(title, message, func) {
 
-	$("#confirmDialog")
-			.append(
-					"<div class='modal fade' tabindex='-1' role='dialog' aria-labelledby='mySmallModalLabel' aria-hidden='true' id='mi-modal'>"
-							+ "<div class='modal-dialog modal-md'>"
-							+ "<div class='modal-content'>"
-							+ "<div class='modal-header'>"
-							+ "<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"
-							+ "<h4 class='modal-title' id='myModalLabel'>"
-							+ title
-							+ "</h4>"
-							+ "</div>"
-							+ "<div class='modal-body'>"
-							+ message
-							+ "</div>"
-							+ "<div class='modal-footer'>"
-							+ "<button type='button' class='btn btn-default' id='modal-btn-ok' onclick="
-							+ func
-							+ ">OK</button>"
-							+ "<button type='button' class='btn btn-primary' id='modal-btn-cancel'>Cancel</button>"
-							+ "</div>" + "</div>" + "</div>" + "</div>");
-
-	$("#mi-modal").modal('show');
-
-	$("#modal-btn-cancel").on("click", function() {
-		$("#mi-modal").modal('hide');
-	});
-}
-
-function submitForm544() {
-	// $("#submitFrm").submit();
-
 	if ($("#submitFrm")[0].checkValidity()) {
-		$("#submitFrm")[0].submit();
+
+		$("#confirmDialog")
+				.append(
+						"<div class='modal fade' tabindex='-1' role='dialog' aria-labelledby='mySmallModalLabel' aria-hidden='true' id='mi-modal'>"
+								+ "<div class='modal-dialog modal-md'>"
+								+ "<div class='modal-content'>"
+								+ "<div class='modal-header'>"
+								+ "<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"
+								+ "<h4 class='modal-title' id='myModalLabel'>"
+								+ title
+								+ "</h4>"
+								+ "</div>"
+								+ "<div class='modal-body'>"
+								+ message
+								+ "</div>"
+								+ "<div class='modal-footer'>"
+								+ "<button type='button' class='btn btn-default' id='modal-btn-ok' onclick="
+								+ func
+								+ ">OK</button>"
+								+ "<button type='button' class='btn btn-primary' id='modal-btn-cancel'>Cancel</button>"
+								+ "</div>" + "</div>" + "</div>" + "</div>");
+
+		$("#mi-modal").modal('show');
+
+		$("#modal-btn-cancel").on("click", function() {
+			$("#mi-modal").modal('hide');
+		});
 	} else {
 		$("#submitFrm")[0].querySelector('input[type="submit"]').click();
 	}
+}
 
+function submitForm544() {
+	$("#submitFrm")[0].submit();
 }
 
 $(document).ready(function() {
