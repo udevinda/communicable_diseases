@@ -163,7 +163,7 @@ function doSearch(pageGenerationOn) {
 												+ generateView544Url(result.form544List[i].id)
 												+ '">View</a> | <a href="'
 												+ generateUpdate544Url(result.form544List[i].id)
-												+ '">Update</a> | <a href="'
+												+ '">Update</a> | <a onclick="'
 												+ generateDelete544Url(result.form544List[i].id)
 												+ '">Delete</a> | '
 												+ generateForm411Link(result.form544List[i])
@@ -214,7 +214,7 @@ function generateUpdate544Url(form544Id) {
 }
 
 function generateDelete544Url(form544Id) {
-	return "/communicable-disease/Form544/delete?id=" + form544Id;
+	return "viewConfirmationDialog('Delete Form 544', 'Are you sure you need to delete Form 544 ID " +form544Id+ " ?', null, 'deleteForm544("+form544Id+")')";
 }
 
 function generateForm411Link(form544) {
@@ -522,7 +522,13 @@ function setWardIfAlreadtSet(form544Obj) {
 
 function viewConfirmationDialog(title, message, frmId, func) {
 
-	if ($("#"+frmId)[0].checkValidity()) {
+	var isForm = true;
+
+	if (frmId == null || frmId == undefined) {
+		isForm = false;
+	}
+
+	if (!isForm || $("#" + frmId)[0].checkValidity()) {
 
 		$("#confirmDialog")
 				.append(
@@ -539,11 +545,13 @@ function viewConfirmationDialog(title, message, frmId, func) {
 								+ message
 								+ "</div>"
 								+ "<div class='modal-footer'>"
-								+ "<button type='button' class='btn btn-default' id='modal-btn-ok' onclick="
+								+ "<button type='button' class='btn btn-default' id='modal-btn-cancel'>Cancel</button>"
+								+ "<button type='button' class='btn btn-primary' id='modal-btn-ok' onclick="
 								+ func
 								+ ">OK</button>"
-								+ "<button type='button' class='btn btn-primary' id='modal-btn-cancel'>Cancel</button>"
-								+ "</div>" + "</div>" + "</div>" + "</div>");
+								+ "</div>"
+								+ "</div>"
+								+ "</div>" + "</div>");
 
 		$("#mi-modal").modal('show');
 
@@ -551,12 +559,16 @@ function viewConfirmationDialog(title, message, frmId, func) {
 			$("#mi-modal").modal('hide');
 		});
 	} else {
-		$("#"+frmId)[0].querySelector('input[type="submit"]').click();
+		$("#" + frmId)[0].querySelector('input[type="submit"]').click();
 	}
 }
 
 function submitForm544(frmId) {
-	$("#"+frmId)[0].submit();
+	$("#" + frmId)[0].submit();
+}
+
+function deleteForm544(form544Id) {
+	window.location = "/communicable-disease/Form544/delete?id=" + form544Id;
 }
 
 $(document).ready(function() {
