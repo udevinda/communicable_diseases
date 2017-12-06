@@ -520,9 +520,9 @@ function setWardIfAlreadtSet(form544Obj) {
 	$("#ward").val(selectedVal);
 }
 
-function viewConfirmationDialog(title, message, func) {
+function viewConfirmationDialog(title, message, frmId, func) {
 
-	if ($("#submitFrm")[0].checkValidity()) {
+	if ($("#"+frmId)[0].checkValidity()) {
 
 		$("#confirmDialog")
 				.append(
@@ -551,12 +551,12 @@ function viewConfirmationDialog(title, message, func) {
 			$("#mi-modal").modal('hide');
 		});
 	} else {
-		$("#submitFrm")[0].querySelector('input[type="submit"]').click();
+		$("#"+frmId)[0].querySelector('input[type="submit"]').click();
 	}
 }
 
-function submitForm544() {
-	$("#submitFrm")[0].submit();
+function submitForm544(frmId) {
+	$("#"+frmId)[0].submit();
 }
 
 $(document).ready(function() {
