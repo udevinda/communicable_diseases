@@ -214,7 +214,8 @@ function generateUpdate544Url(form544Id) {
 }
 
 function generateDelete544Url(form544Id) {
-	return "viewConfirmationDialog('Delete Form 544', 'Are you sure you need to delete Form 544 ID " +form544Id+ " ?', null, 'deleteForm544("+form544Id+")')";
+	return "viewConfirmationDialog('Delete Form 544', 'Are you sure you need to delete Form 544 ID "
+			+ form544Id + " ?', null, 'deleteForm544(" + form544Id + ")')";
 }
 
 function generateForm411Link(form544) {
@@ -563,6 +564,25 @@ function viewConfirmationDialog(title, message, frmId, func) {
 	}
 }
 
+function generateAlert(type, message) {
+	var alertType = "alert-success";
+	var msgHeading = "Success! ";
+
+	if (type = "fail") {
+		alertType = "alert-danger";
+		msgHeading = "Failed! ";
+	}
+
+	$("#alert")
+			.append(
+					"<div class='alert "
+							+ alertType
+							+ " alert-dismissable'>"
+							+ "<a href='#' class='close' data-dismiss='alert' aria-label='close'>x</a>"
+							+ "<strong>" + msgHeading + "</strong> " + message
+							+ "</div>");
+}
+
 function submitForm544(frmId) {
 	$("#" + frmId)[0].submit();
 }
@@ -588,5 +608,7 @@ $(document).ready(function() {
 	$("#institute").change(function() {
 		getWardByInstituteId($("#institute").val());
 	});
+
+	generateAlert("fail", "Form 544 created Successfully");
 
 });
