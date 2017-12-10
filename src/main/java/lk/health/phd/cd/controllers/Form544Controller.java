@@ -149,6 +149,8 @@ public class Form544Controller {
 		logger.info("Hit the /Form544/submit ");
 		logger.info("Submitted user with NIC " + inSerialNo);
 
+		JSONObject alertObj = new JSONObject();
+
 		try {
 			Form544 form544 = new Form544();
 			form544.setAge(inAge);
@@ -191,9 +193,17 @@ public class Form544Controller {
 			model.addAttribute("form544Object", submittedForm544);
 			model.addAttribute("diseaseConfirmationTestObject", submittedDiseaseConfirmationTest);
 
+			alertObj.put("type", "success");
+			alertObj.put("msg", "Successfully created Form 544 with Serial Number " + submittedForm544.getSerialNo());
+
 		} catch (Exception e) {
 			logger.error("Error occured " + e);
+
+			alertObj.put("type", "fail");
+			alertObj.put("msg", "Form 544 generation failed. Due to " + e.getMessage());
 		}
+
+		model.addAttribute("alert", alertObj);
 
 		return "form544_view";
 	}

@@ -568,7 +568,7 @@ function generateAlert(type, message) {
 	var alertType = "alert-success";
 	var msgHeading = "Success! ";
 
-	if (type = "fail") {
+	if (type == "fail") {
 		alertType = "alert-danger";
 		msgHeading = "Failed! ";
 	}
@@ -591,6 +591,12 @@ function deleteForm544(form544Id) {
 	window.location = "/communicable-disease/Form544/delete?id=" + form544Id;
 }
 
+function viewAlert() {
+	if (typeof alert !== 'undefined') {
+		generateAlert(alert.type, alert.msg);
+	}
+}
+
 $(document).ready(function() {
 
 	// Following default set should be removed or changed according to
@@ -609,6 +615,6 @@ $(document).ready(function() {
 		getWardByInstituteId($("#institute").val());
 	});
 
-	generateAlert("fail", "Form 544 created Successfully");
+	viewAlert();
 
 });
