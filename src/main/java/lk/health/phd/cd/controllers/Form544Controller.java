@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import lk.health.phd.cd.dao.DiseaseConfirmationTestDao;
 import lk.health.phd.cd.dao.DiseaseDao;
@@ -540,14 +542,33 @@ public class Form544Controller {
 	 * @return Redirect to the Form544 filter_view
 	 */
 	@RequestMapping(value = "delete", method = RequestMethod.GET)
-	public ModelAndView deleteForm544(@RequestParam("id") final Long inForm544Id) {
+	public RedirectView deleteForm544(@RequestParam("id") final Long inForm544Id,
+			RedirectAttributes redirectAttributes) {
 
 		logger.info("Hit the /Form544/delete ");
 		logger.info("Change Status Deleted of Form 544 ID : " + inForm544Id);
 
-		form544Service.setStatusAsDeleted(inForm544Id);
+		JSONObject alertObj = new JSONObject();
 
-		return new ModelAndView("redirect: filter_view");
+		try {
+			form544Service.setStatusAsDeleted(inForm544Id);
+
+			alertObj.put("type", "success");
+			alertObj.put("msg", "Successfully deleted Form 544 with ID Number " + inForm544Id);
+
+		} catch (Exception e) {
+			logger.error("Error occured " + e);
+
+			alertObj.put("type", "fail");
+			alertObj.put("msg", "Form 544 deletion failed. Due to " + e.getMessage());
+		}
+
+		RedirectView redirectView = new RedirectView();
+		redirectView.setContextRelative(true);
+		redirectView.setUrl("filter_view");
+		redirectAttributes.addFlashAttribute("alert", alertObj);
+
+		return redirectView;
 	}
 
 	/**

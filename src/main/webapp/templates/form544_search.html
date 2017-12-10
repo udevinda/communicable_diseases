@@ -25,6 +25,7 @@
 		<div class="page-header page-title-header">
 			<h2>Search Form 544</h2>
 		</div>
+		<div id="alert"></div>
 		<form id="form544FilterTbl">
 			<div class="form-group">
 				<label for="serialNo">Serial Number:</label> <input type="text"
@@ -207,6 +208,10 @@ Style the content with spacing and margins
 
  -->
 
-<script>
+<script th:inline="javascript">
 	var pge = "form544Search";
+	
+	 /*<![CDATA[*/
+	var alertObj = ([[${alert}]]);
+	/*]]>*/
 </script>

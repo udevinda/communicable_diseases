@@ -592,8 +592,8 @@ function deleteForm544(form544Id) {
 }
 
 function viewAlert() {
-	if (typeof alert !== 'undefined') {
-		generateAlert(alert.type, alert.msg);
+	if (typeof alertObj !== 'undefined' && alertObj !== null) {
+		generateAlert(alertObj.type, alertObj.msg);
 	}
 }
 
