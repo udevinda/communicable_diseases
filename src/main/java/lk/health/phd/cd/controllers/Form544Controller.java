@@ -295,12 +295,13 @@ public class Form544Controller {
 			@RequestParam("remarks") final String inRemarks, @RequestParam("testName") final String inTestName,
 			@RequestParam("smpleCollectionDate") final String inSampleCollectiondate,
 			@RequestParam("labName") final String inLabName, @RequestParam("testResult") final String inTestResult,
-			@RequestParam("lattitude") final String inLattitude, @RequestParam("longitude") final String inLongitude) {
+			@RequestParam("lattitude") final String inLattitude, @RequestParam("longitude") final String inLongitude,
+			Model model) {
 
 		logger.info("Hit the /Form544/update ");
 		logger.info("Request update for Form544 ID " + inForm544Id);
 
-		ModelMap modelMap = new ModelMap();
+		JSONObject alertObj = new JSONObject();
 
 		try {
 			Form544 form544 = new Form544();
@@ -339,17 +340,25 @@ public class Form544Controller {
 			DiseaseConfirmationTest updatedDiseaseConfirmationTest = diseaseConfirmationTestDao
 					.getDiseaseConfirmationTestByForm544Id(updatedForm544.getId());
 
-			modelMap.put("form544Id", updatedForm544.getId());
-			modelMap.put("diseaseConfirmationTestObj", updatedDiseaseConfirmationTest);
+			model.addAttribute("form544Object", updatedForm544);
+			model.addAttribute("diseaseConfirmationTestObj", updatedDiseaseConfirmationTest);
+
+			alertObj.put("type", "success");
+			alertObj.put("msg", "Successfully updated Form 544 with Serial Number " + updatedForm544.getSerialNo());
 
 			logger.info("Form544 updated system time " + updatedForm544.getSystemNotifiedDate());
 		} catch (Exception e) {
+
+			alertObj.put("type", "fail");
+			alertObj.put("msg", "Form 544 generation failed. Due to " + e.getMessage());
+
 			logger.info("An error occured when updating Form544");
 			logger.error("Error occured ", e);
 		}
 
-		// TODO Consider for a suitable redirect
-		return "form544_create";
+		model.addAttribute("alert", alertObj);
+
+		return "form544_view";
 	}
 
 	/**
