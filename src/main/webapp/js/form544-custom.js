@@ -163,7 +163,7 @@ function doSearch(pageGenerationOn) {
 												+ generateView544Url(result.form544List[i].id)
 												+ '">View</a> | <a href="'
 												+ generateUpdate544Url(result.form544List[i].id)
-												+ '">Update</a> | <a onclick="'
+												+ '">Update</a> | <a style="cursor:pointer" onclick="'
 												+ generateDelete544Url(result.form544List[i].id)
 												+ '">Delete</a> | '
 												+ generateForm411Link(result.form544List[i])
