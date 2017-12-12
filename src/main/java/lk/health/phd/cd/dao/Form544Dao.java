@@ -210,4 +210,6 @@ public interface Form544Dao extends UniversalDao<Form544> {
 	 * @return List of {@link Form544} objects
 	 */
 	public List<Form544> getDetailsForDiseaseWiseDistributionMap(final Form544FilterDto inForm544FilterDto);
+
+	public List getDiseaseCountsForCurrentYear();
 }

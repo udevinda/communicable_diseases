@@ -465,4 +465,29 @@ public class Form544DaoImpl extends UniversalDaoImpl<Form544> implements Form544
 		return criteria.list();
 	}
 
+	public List getDiseaseCountsForCurrentYear() {
+		try {
+			Session session = getCurrentSession();
+
+			Query query = session.createQuery(
+					"select a.disease.diseaseName, count(*) from Form544 a where a.notificationToMohDate between :fromDate and :toDate group by a.disease");
+
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(Util.getSystemTime());
+			String fromDate = cal.get(Calendar.YEAR) + "-" + 1 + "-" + 1;
+			String toDate = cal.get(Calendar.YEAR) + "-" + 12 + "-" + 31;
+
+			query.setParameter("fromDate", Util.parseDate(fromDate, "yyyy-MM-dd"));
+			query.setParameter("toDate", Util.parseDate(toDate, "yyyy-MM-dd"));
+
+			List list = query.list();
+
+			return list;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+
+			return null;
+		}
+	}
+
 }
