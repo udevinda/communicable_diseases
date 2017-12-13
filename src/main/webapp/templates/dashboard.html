@@ -12,6 +12,7 @@
 <script src="/communicable-disease/js/jquery-ui.js"></script>
 <script src="/communicable-disease/js/bootstrap.min.js"></script>
 <script src="/communicable-disease/js/form544-custom.js"></script>
+<script src="/communicable-disease/js/Chart.min.js"></script>
 
 </head>
 
@@ -21,7 +22,7 @@
 	<div id="navigation"></div>
 
 	<div class="container">
-		<h3>You are in dashboard</h3>
+		<canvas id="diseaseVsCount"></canvas>
 	</div>
 
 	<div id="footer"></div>
@@ -37,3 +38,62 @@ Try to make common the imports.
 Style the content with spacing and margins
 
  -->
+
+<script th:inline="javascript">
+	/*<![CDATA[*/
+    var diseaseCounts = [[${diseaseCounts}]]; 
+	 /*]]>*/
+	 
+	 var diseaseCountChartData = {
+			labels: composeLblArray(diseaseCounts),
+	 		datasets: [
+	 		           		{
+								data: composeDiseaseCounts(diseaseCounts),
+								label: "Communicable Diseases",
+								backgroundColor: "rgba(75,192,192,0.4)"
+	 		           		}
+	 		           ]
+	 };
+	 
+	 function composeLblArray(diseaseCountsArr){
+		 var diseaseLblArr = new Array();
+		 
+		 for(var count =0; count<diseaseCountsArr.length; count++){
+			 diseaseLblArr[count] = diseaseCountsArr[count][0];
+		 }
+		 
+		 return diseaseLblArr;
+	 }
+	 
+	 function composeDiseaseCounts(diseaseCountsArr){
+		 var counts = new Array();
+		 
+		 for(var count =0; count<diseaseCountsArr.length; count++){
+			 counts[count] = diseaseCountsArr[count][1];
+		 }
+		 
+		 return counts;
+	 }
+	 
+     window.onload = function() {
+    	 var currentDate = new Date();
+    	 
+         var ctx = document.getElementById("diseaseVsCount").getContext("2d");
+         window.myBar = new Chart(ctx, {
+             type: 'bar',
+             data: diseaseCountChartData,
+             options: {
+                 responsive: true,
+                 legend: {
+                     position: 'top',
+                 },
+                 title: {
+                     display: true,
+                     text: currentDate.getFullYear() + ' Communicable Disease Trend'
+                 }
+             }
+         });
+
+     };
+	 
+ </script>

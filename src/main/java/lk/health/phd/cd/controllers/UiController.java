@@ -8,11 +8,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class UiController {
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String getIndexPage(Model model) {
-		return "dashboard";
-	}
-
 	@RequestMapping(value = "/page/footer", method = RequestMethod.GET)
 	public String getFooter() {
 		return "/common/footer";
