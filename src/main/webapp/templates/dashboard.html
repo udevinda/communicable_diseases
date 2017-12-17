@@ -22,7 +22,17 @@
 	<div id="navigation"></div>
 
 	<div class="container">
-		<canvas id="diseaseVsCount"></canvas>
+		<div class="row">
+			<div class="col-md-9">
+				<canvas id="diseaseVsCount"></canvas>
+			</div>
+
+		</div>
+		<div class="row">
+			<div class="col-md-9">
+				<canvas id="mohVsDiseaseCount"></canvas>
+			</div>
+		</div>
 	</div>
 
 	<div id="footer"></div>
@@ -42,10 +52,15 @@ Style the content with spacing and margins
 <script th:inline="javascript">
 	/*<![CDATA[*/
     var diseaseCounts = [[${diseaseCounts}]]; 
+	var diseaseVsMohCounts = [[${mohAreaVsDiseaseSummaryList}]];
+	
+	data = composeDiseaseVsMohAreaData(diseaseVsMohCounts);
+	
 	 /*]]>*/
-	 
+	 	
+	 /* Disease Vs Count Chart Start */
 	 var diseaseCountChartData = {
-			labels: composeLblArray(diseaseCounts),
+			labels: composeDiseaseNameLblArray(diseaseCounts),
 	 		datasets: [
 	 		           		{
 								data: composeDiseaseCounts(diseaseCounts),
@@ -55,7 +70,7 @@ Style the content with spacing and margins
 	 		           ]
 	 };
 	 
-	 function composeLblArray(diseaseCountsArr){
+	 function composeDiseaseNameLblArray(diseaseCountsArr){
 		 var diseaseLblArr = new Array();
 		 
 		 for(var count =0; count<diseaseCountsArr.length; count++){
@@ -74,8 +89,88 @@ Style the content with spacing and margins
 		 
 		 return counts;
 	 }
+     
+	 /* Disease Vs Count Chart End */    
+     
+     /* MOH Vs Disease Counts Chart Start */
 	 
-     window.onload = function() {
+	 var mohVsDiseaseCountChartData = {
+				labels: composeMohNameLblArray(diseaseVsMohCounts),
+		 		datasets: composeDiseaseVsMohAreaData(diseaseVsMohCounts)
+		 };
+	 
+	 function composeMohNameLblArray(diseaseVsMohCounts){
+		var mohAreaLbls = new Array();
+		 
+		 for(var count =0; count<diseaseVsMohCounts.length; count++){
+			 mohAreaLbls[count] = diseaseVsMohCounts[count].mohArea;
+		 }
+		 
+		 return mohAreaLbls;
+	 }
+	 
+	 function defineMohDiseaseCountDataSets(diseaseLbls){
+		 var colorArr = ['#C0C0C0', '#000000', 
+		                 '#FF0000', '#800000', 
+		                 '#FFFF00', '#808000', 
+		                 '#00FF00', '#008000', 
+		                 '#00FFFF', '#008080', 
+		                 '#0000FF', '#000080', 
+		                 '#FF00FF', '#800080', 
+		                 '#715147', '#462c24', 
+		                 '#520340', '#1d138c',
+		                 '#5d1c07', '#ff1b1b',
+		                 '#3d4479', '#a562a4',
+		                 '#093518', '#4dc729',
+		                 '#355252', '#715920',
+		                 '#ad0808', '#9c6e98',
+		                 '#13634a', '#94cab9'];
+		 
+		 var dataSets = new Array();
+		 for(counter=0; counter<diseaseLbls.length;counter++){
+			 var dataSet = {
+				label: diseaseLbls[counter],
+			 	backgroundColor: colorArr[counter],
+			 	data: []
+			 };
+			 
+			 dataSets[counter] = dataSet;
+		 }
+		 
+		 return dataSets;
+	 }
+	 
+	 function composeDiseaseVsMohAreaData(diseaseVsMohCounts){
+		 var definedDataSets = defineMohDiseaseCountDataSets(composeDiseaseNameLblArray(diseaseCounts));
+		 
+		 for(var counter=0; counter<diseaseVsMohCounts.length;counter++){
+			 var diseaseVsPatientCountSummeries = diseaseVsMohCounts[counter].diseaseVsPatientSummaryDtos;
+			 
+			 for(var counter2=0; counter2<diseaseVsPatientCountSummeries.length; counter2++){
+				 
+				 var targetDataSet = definedDataSets.filter(function( obj ) {
+					  return obj.label == diseaseVsPatientCountSummeries[counter2].diseaseName;
+				});
+				 
+				 targetDataSet[0].data[counter] = diseaseVsPatientCountSummeries[counter2].count;
+			 }
+		 }
+		 
+		 for(var counter3=0; counter3<definedDataSets.length; counter3++){
+			 
+			 for(var counter4=0; counter4<14; counter4++){
+				 if(definedDataSets[counter3].data[counter4] == undefined){
+					 definedDataSets[counter3].data[counter4] = 0;
+				 }
+			 }
+		 }
+		 
+		 return definedDataSets;
+	 }
+	 
+	 /* MOH Vs Disease Counts Chart End */
+	 
+	      window.onload = function() {
     	 var currentDate = new Date();
     	 
          var ctx = document.getElementById("diseaseVsCount").getContext("2d");
@@ -90,6 +185,31 @@ Style the content with spacing and margins
                  title: {
                      display: true,
                      text: currentDate.getFullYear() + ' Communicable Disease Trend'
+                 }
+             }
+         });
+
+         var ctx1 = document.getElementById("mohVsDiseaseCount").getContext("2d");
+         window.myBar1 = new Chart(ctx1, {
+             type: 'bar',
+             data: mohVsDiseaseCountChartData,
+             options: {
+                 title:{
+                     display:true,
+                     text: currentDate.getFullYear() + ' MOH wise Disease Distribution'
+                 },
+                 tooltips: {
+                     mode: 'index',
+                     intersect: false
+                 },
+                 responsive: true,
+                 scales: {
+                     xAxes: [{
+                         stacked: true,
+                     }],
+                     yAxes: [{
+                         stacked: true
+                     }]
                  }
              }
          });
