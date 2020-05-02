@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Create Patient</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/jquery-ui.css">
+<link rel="stylesheet" href="../css/custom.css">
+<script src="../js/jquery-3.1.1.min.js"></script>
+<script src="../js/jquery-ui.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/patient-custom.js"></script>
+
+</head>
+
+<body>
+	<div id="banner"></div>
+
+	<div id="navigation"></div>
+
+	<div>
+		<div class="container">
+			<div class="page-header page-title-header">
+				<h2>Compose Patient</h2>
+			</div>
+			<form th:action="@{/Patient/submit}" method="post" id="submitFrm">
+				<div class="form-group">
+					<label for="nic">NIC Number:</label> <input type="text"
+						class="form-control" name="nic" id="nic"
+						placeholder="Enter National ID Number" maxlength="10"
+						th:value="${nic}" required>
+				</div>
+				<div class="form-group">
+					<label for="name">Name:</label> <input type="text"
+						class="form-control" id="name" name="name"
+						placeholder="Enter Patient's Name" maxlength="250" required>
+				</div>
+				<div class="form-group">
+					<label for="address">Address:</label> <input type="text"
+																 class="form-control" name="address"
+																 id="address" placeholder="Enter Patient's Address"
+																 maxlength="250" required>
+				</div>
+				<div class="form-group">
+					<label for="contactNo">Contact Number:</label> <input type="tel"
+																		  class="form-control" name="contactNo"
+																		  id="contactNo"
+																		  placeholder="Enter Patient's Contact Number" maxlength="20">
+				</div>
+				<div class="form-group">
+					<label for="sex">Sex:</label> <select class="form-control"
+														  name="sex" id="sex">
+					<option th:each="sex:${sexList}" th:value="${sex}"
+							th:text="${sex}"></option>
+				</select>
+				</div>
+				<div class="form-group">
+					<label for="sex">Sex:</label> <select class="form-control"
+														  name="sex" id="sex">
+					<option th:each="sex:${sexList}" th:value="${sex}"
+							th:text="${sex}"></option>
+				</select>
+				</div>
+				<div class="form-group">
+					<label for="status">Status:</label> <select class="form-control"
+																name="status" id="status">
+					<option th:each="status:${statusList}" th:value="${status}"
+							th:text="${status}"></option>
+				</select>
+				</div>
+				<div>
+					<input type="submit" style="display: none" />
+					<button type="button" class="btn btn-success pull-right"
+							onclick="viewConfirmationDialog('Patient form Submit', 'Are you sure you need to save Patient ?', 'submitFrm', 'submitPatient(\'submitFrm\')')">Submit</button>
+					<button type="submit" class="btn btn-default pull-right"
+							style="margin-right: 5px; width: 70px">Clear</button>
+				</div>
+				<input type="hidden" th:name="${_csrf.parameterName}"
+					   th:value="${_csrf.token}" />
+			</form>
+		</div>
+	</div>
+
+	<div id="footer"></div>
+</body>
+
+<div id="confirmDialog"></div>
+
+<!-- TODO
+Header, Footer, menu should be included.
+Frontend validations should be included.
+Try to ake common the imports.
+Clear btn doesn't function
+
+ -->
