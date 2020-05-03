@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Create Patient</title>
+<title>Update Form 544</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="../css/bootstrap.min.css">
@@ -22,56 +22,59 @@
 	<div>
 		<div class="container">
 			<div class="page-header page-title-header">
-				<h2>Compose Patient</h2>
+				<h2>Update Patient</h2>
 			</div>
 			<div id="alert"></div>
-			<form th:action="@{/Patient/submit}" method="post" id="submitFrm">
+			<form th:action="@{/Patient/update}" method="post" id="updateFrm">
 				<div class="form-group">
 					<label for="nic">NIC Number:</label> <input type="text"
 						class="form-control" name="nic" id="nic"
-						placeholder="Enter National ID Number" maxlength="10"
-						th:value="${nic}" required>
+						placeholder="Enter NIC Number"
+						th:value="${patientObject.nic}">
 				</div>
 				<div class="form-group">
 					<label for="name">Name:</label> <input type="text"
 						class="form-control" id="name" name="name"
-						placeholder="Enter Patient's Name" maxlength="250" required>
-				</div>
-				<div class="form-group">
-					<label for="address">Address:</label> <input type="text"
-																 class="form-control" name="address"
-																 id="address" placeholder="Enter Patient's Address"
-																 maxlength="250" required>
-				</div>
-				<div class="form-group">
-					<label for="contactNo">Contact Number:</label> <input type="tel"
-																		  class="form-control" name="contactNo"
-																		  id="contactNo"
-																		  placeholder="Enter Patient's Contact Number" maxlength="20">
+						placeholder="Enter Patient's Name"
+						th:value="${patientObject.name}">
 				</div>
 				<div class="form-group">
 					<label for="sex">Sex:</label> <select class="form-control"
-														  name="sex" id="sex">
-					<option th:each="sex:${sexList}" th:value="${sex}"
-							th:text="${sex}"></option>
-				</select>
+						name="sex" id="sex">
+						<option th:each="sex:${sexList}" th:value="${sex}"
+							th:text="${sex}" th:selected="${ sex==patientObject.sex }"></option>
+					</select>
 				</div>
 				<div class="form-group">
-					<label for="status">Status:</label> <select class="form-control"
-																name="status" id="status">
+					<label for="address">Address:</label> <input type="text"
+						class="form-control" name="address"
+						id="address" placeholder="Enter Patient's Address"
+						th:value="${patientObject.address}">
+				</div>
+				<div class="form-group">
+					<label for="contactNo">Contact Number:</label> <input type="tel"
+						class="form-control" name="contactNo"
+						id="contactNo"
+						placeholder="Enter Patient's Contact Number"
+						th:value="${patientObject.contactNo}">
+				</div>
+				<div class="form-group">
+					<label for="sex">Status:</label> <select class="form-control"
+														  name="status" id="status">
 					<option th:each="status:${statusList}" th:value="${status}"
-							th:text="${status}"></option>
+							th:text="${status}" th:selected="${ sex==patientObject.status }"></option>
 				</select>
 				</div>
+
 				<div>
 					<input type="submit" style="display: none" />
 					<button type="button" class="btn btn-success pull-right"
-							onclick="viewConfirmationDialog('Patient form Submit', 'Are you sure you need to save Patient ?', 'submitFrm', 'submitPatient(\'submitFrm\')')">Submit</button>
+						onclick="viewConfirmationDialog('Patient Update', 'Are you sure you need to update Patient ?', 'updateFrm', 'submitPatient(\'updateFrm\')')">Update</button>
 					<button type="submit" class="btn btn-default pull-right"
-							style="margin-right: 5px; width: 70px">Clear</button>
+						style="margin-right: 5px; width: 70px">Clear</button>
 				</div>
 				<input type="hidden" th:name="${_csrf.parameterName}"
-					   th:value="${_csrf.token}" />
+					th:value="${_csrf.token}" />
 			</form>
 		</div>
 	</div>
@@ -88,8 +91,9 @@ Try to ake common the imports.
 Clear btn doesn't function
 
  -->
+
 <script th:inline="javascript">
  /*<![CDATA[*/
-	var alertObj = ([[${alert}]]);
+	var patientObj = ([[${patientObject}]]);
 	/*]]>*/
  </script>

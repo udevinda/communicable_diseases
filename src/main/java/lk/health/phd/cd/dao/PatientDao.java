@@ -3,5 +3,6 @@ package lk.health.phd.cd.dao;
 import lk.health.phd.cd.models.Patient;
 
 public interface PatientDao extends UniversalDao<Patient> {
-    Patient getPatientById(final Long inPatientId);
+    Patient getPatientById(final Long inId);
+    Patient getPatientByPatientId(final String inPatientId);
 }

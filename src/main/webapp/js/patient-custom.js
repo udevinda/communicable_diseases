@@ -1,3 +1,15 @@
+$(function() {
+	$("#footer").load("/communicable-disease/page/footer");
+});
+
+$(function() {
+	$("#banner").load("/communicable-disease/page/banner");
+});
+
+$(function() {
+	$("#navigation").load("/communicable-disease/page/navigation");
+});
+
 function viewConfirmationDialog(title, message, frmId, func) {
 
 	var isForm = true;
@@ -43,4 +55,10 @@ function viewConfirmationDialog(title, message, frmId, func) {
 
 function submitPatient(frmId) {
 	$("#" + frmId)[0].submit();
+}
+
+function viewAlert() {
+	if (typeof alertObj !== 'undefined' && alertObj !== null) {
+		generateAlert(alertObj.type, alertObj.msg);
+	}
 }

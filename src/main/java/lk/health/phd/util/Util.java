@@ -1,5 +1,7 @@
 package lk.health.phd.util;
 
+import org.apache.commons.codec.digest.DigestUtils;
+
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,5 +37,9 @@ public class Util {
 		Date systemDate = new Date(System.currentTimeMillis());
 
 		return systemDate;
+	}
+
+	public static String getUniqueId(String term){
+		return DigestUtils.md5Hex(term);
 	}
 }

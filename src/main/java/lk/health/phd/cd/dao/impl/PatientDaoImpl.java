@@ -9,10 +9,18 @@ import org.springframework.stereotype.Repository;
 @Repository("patientDao")
 public class PatientDaoImpl extends UniversalDaoImpl<Patient> implements PatientDao {
 
-    public Patient getPatientById(final Long inPatientId) {
+    public Patient getPatientById(final Long inId){
         Session session = getCurrentSession();
 
-        return (Patient) session.createCriteria(Patient.class).add(Restrictions.eq("id", inPatientId)).uniqueResult();
+        return (Patient) session.createCriteria(Patient.class).add(Restrictions.eq("id", inId)).uniqueResult();
+    }
+
+    @Override
+    public Patient getPatientByPatientId(String inPatientId){
+        Session session = getCurrentSession();
+
+        return (Patient) session.createCriteria(Patient.class).add(Restrictions.eq("patientId", inPatientId))
+                .uniqueResult();
     }
 
 }

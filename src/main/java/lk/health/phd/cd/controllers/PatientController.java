@@ -34,7 +34,7 @@ public class PatientController {
                               @RequestParam("name") final String name,
                               @RequestParam("address") final String address,
                               @RequestParam("contactNo") final String contactNo,
-                              @RequestParam("gender") final Enums.Sex sex,
+                              @RequestParam("sex") final Enums.Sex sex,
                               @RequestParam("status") final Enums.Status status,
                               Model model) {
 
@@ -44,6 +44,7 @@ public class PatientController {
         JSONObject alertObj = new JSONObject();
 
         try {
+            //TODO: Exceptions are not handled
             Patient patient = new Patient();
             patient.setNic(nic);
             patient.setName(name);
@@ -57,17 +58,19 @@ public class PatientController {
 
             alertObj.put("type", "success");
             alertObj.put("msg", "Successfully patient with NIC Number " + patient.getNic());
+            model.addAttribute("alert", alertObj);
+            //TODO: Dates should be formatted from the FE
 
-        } catch (Exception e) {
+            return "patient/patient_view";
+        } catch (Throwable e) {
             logger.error("Error occured " + e);
 
             alertObj.put("type", "fail");
             alertObj.put("msg", "Patient creation failed. Due to " + e.getMessage());
+            model.addAttribute("alert", alertObj);
+
+            return "patient/patient_create";
         }
-
-        model.addAttribute("alert", alertObj);
-
-        return "form544_view";
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
@@ -78,7 +81,30 @@ public class PatientController {
         model.addAttribute("sexList", Enums.Sex.values());
         model.addAttribute("statusList", Enums.Status.values());
 
-        return "patient_create";
+        return "patient/patient_create";
+    }
+
+    @RequestMapping(value = "/update_view", method = RequestMethod.GET)
+    public String patientUpdateView(@RequestParam("id") final String inPatientId, Model model) {
+        try {
+        logger.info("Hit the /Patient/update_view ");
+        logger.info("Rendering view for Patient ID : " + inPatientId);
+
+        model.addAttribute("sexList", Enums.Sex.values());
+        model.addAttribute("statusList", Enums.Status.values());
+        model.addAttribute("patientObject", patientService.findPatientbyId(inPatientId));
+
+            return "patient/patient_update";
+        } catch (Throwable e) {
+            logger.error("Error occured " + e);
+
+            //TODO: set patient view OBJ
+//            alertObj.put("type", "fail");
+//            alertObj.put("msg", "Patient creation failed. Due to " + e.getMessage());
+//            model.addAttribute("alert", alertObj);
+
+            return "patient/patient_view";
+        }
     }
 
 }

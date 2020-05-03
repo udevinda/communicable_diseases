@@ -1,0 +1,146 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Form 544 View</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<link rel="stylesheet" href="../css/jquery-ui.css">
+<link rel="stylesheet" href="../css/custom.css">
+<script src="../js/jquery-3.1.1.min.js"></script>
+<script src="../js/jquery-ui.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/patient-custom.js"></script>
+
+</head>
+
+<body>
+	<div id="banner"></div>
+
+	<div id="navigation"></div>
+
+	<div class="container">
+		<div class="page-header page-title-header">
+			<h2>View Patient</h2>
+		</div>
+		<div id="alert"></div>
+		<div class="control-group">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<label class="control-label">Patient ID</label>
+				</div>
+				<div class="panel-body">
+					<div class="controls readonly" th:text="${patientObj.patientId}"></div>
+				</div>
+			</div>
+		</div>
+		<div class="control-group">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<label class="control-label">NIC Number</label>
+				</div>
+				<div class="panel-body">
+					<div class="controls readonly" th:text="${patientObj.nic}"></div>
+				</div>
+			</div>
+		</div>
+		<div class="control-group">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<label class="control-label">Name</label>
+				</div>
+				<div class="panel-body">
+					<div class="controls readonly"
+						th:text="${patientObj.name}"></div>
+				</div>
+			</div>
+		</div>
+		<div class="control-group">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<label class="control-label">Address</label>
+				</div>
+				<div class="panel-body">
+					<div class="controls readonly"
+						th:text="${patientObj.address}"></div>
+				</div>
+			</div>
+		</div>
+		<div class="control-group">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<label class="control-label">Contact Number</label>
+				</div>
+				<div class="panel-body">
+					<div class="controls readonly" th:text="${patientObj.contactNo}"></div>
+				</div>
+			</div>
+		</div>
+		<div class="control-group">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<label class="control-label">Sex</label>
+				</div>
+				<div class="panel-body">
+					<div class="controls readonly" th:text="${patientObj.sex}"></div>
+				</div>
+			</div>
+		</div>
+		<div class="control-group">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<label class="control-label">Status</label>
+				</div>
+				<div class="panel-body">
+					<div class="controls readonly"
+						th:text="${patientObj.status}"></div>
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<label class="control-label">Registered Date</label>
+					</div>
+					<div class="panel-body">
+						<div class="controls readonly"
+							th:text="${patientObj.registeredDate}"></div>
+					</div>
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<label class="control-label">Last Updated Date</label>
+					</div>
+					<div class="panel-body">
+						<div class="controls readonly"
+							 th:text="${patientObj.lastUpdatedTime}"></div>
+					</div>
+				</div>
+			</div>
+			<div>
+				<a th:href="@{'/Patient/update_view?id=' + ${patientObj.patientId}}"><button
+						type="submit" class="btn btn-success pull-right"
+						style="margin-right: 5px; width: 70px">Update</button></a>
+			</div>
+		</div>
+
+	</div>
+
+	<div id="footer"></div>
+</body>
+
+
+<!-- TODO
+Header, Footer, menu should be included.
+Frontend validations should be included.
+Try to make common the imports.
+Style the content with spacing and margins
+
+ -->
+
+<script th:inline="javascript">
+ /*<![CDATA[*/
+	var alertObj = ([[${alert}]]);
+	/*]]>*/
+ </script>

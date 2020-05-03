@@ -3,6 +3,8 @@ package lk.health.phd.cd.models;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name="patient")
@@ -36,10 +38,10 @@ public class Patient implements Serializable {
     private Enums.Status status;
 
     @Column(name = "registered_date", nullable = false)
-    private Date registeredDate;
+    private LocalDate registeredDate;
 
-    @Column(name = "last_updated_date", nullable = false)
-    private Date lastUpdatedDate;
+    @Column(name = "last_updated_time", nullable = false)
+    private LocalDateTime lastUpdatedTime;
 
     public Long getId() {
         return id;
@@ -105,19 +107,19 @@ public class Patient implements Serializable {
         this.status = status;
     }
 
-    public Date getRegisteredDate() {
+    public LocalDate getRegisteredDate() {
         return registeredDate;
     }
 
-    public void setRegisteredDate(Date registeredDate) {
+    public void setRegisteredDate(LocalDate registeredDate) {
         this.registeredDate = registeredDate;
     }
 
-    public Date getLastUpdatedDate() {
-        return lastUpdatedDate;
+    public LocalDateTime getLastUpdatedTime() {
+        return lastUpdatedTime;
     }
 
-    public void setLastUpdatedDate(Date lastUpdatedDate) {
-        this.lastUpdatedDate = lastUpdatedDate;
+    public void setLastUpdatedTime(LocalDateTime lastUpdatedTime) {
+        this.lastUpdatedTime = lastUpdatedTime;
     }
 }
