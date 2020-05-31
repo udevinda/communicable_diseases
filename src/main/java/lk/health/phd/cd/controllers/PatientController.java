@@ -1,5 +1,7 @@
 package lk.health.phd.cd.controllers;
 
+import lk.health.phd.cd.dto.Form544FilterDto;
+import lk.health.phd.cd.dto.PatientFilterDto;
 import lk.health.phd.cd.models.DiseaseConfirmationTest;
 import lk.health.phd.cd.models.Enums;
 import lk.health.phd.cd.models.Form544;
@@ -15,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -119,6 +122,47 @@ public class PatientController {
         }
     }
 
+    @RequestMapping(value = "/filterBy", method = RequestMethod.POST)
+    public @ResponseBody
+    JSONObject searchPatientByCriteria(@RequestParam("patientId") final String patientId,
+                                       @RequestParam("nic") final String nic, @RequestParam("patientName") final String patientName,
+                                       @RequestParam("contactNo") final String contactNo, @RequestParam("sex") final Enums.Sex inSex,
+                                       @RequestParam("status") final Enums.Status inStatus,
+                                       @RequestParam("dateOfRegisteredFrom") final String inDateOfRegisteredFrom,
+                                       @RequestParam("dateOfRegisteredTo") final String inDateOfRegisteredTo,
+                                       @RequestParam("offset") final Integer inOffset, @RequestParam("limit") final Integer inLimit) {
+
+        logger.info("Hit the /Patient/filterBy ");
+
+        try {
+            PatientFilterDto filterDto = new PatientFilterDto();
+            filterDto.setPatientId(patientId);
+            filterDto.setNic(nic);
+            filterDto.setName(patientName);
+            filterDto.setContactNo(contactNo);
+            filterDto.setDateOfRegisteredFrom(Util.parseDate(inDateOfRegisteredFrom, "yyyy-MM-dd"));
+            filterDto.setDateOfRegisteredTo(Util.parseDate(inDateOfRegisteredTo, "yyyy-MM-dd"));
+            filterDto.setStatus(inStatus);
+
+            List<Patient> patientList = patientService.searchPatientByFilterFields(filterDto, inOffset, inLimit);
+            Long totalRowCount = patientService.searchCountPatientByFilterFields(filterDto);
+
+            JSONObject obj = new JSONObject();
+            obj.put("patientList", patientList);
+            obj.put("totalRowCount", totalRowCount);
+
+            logger.info("Returned result set size : " + patientList.size());
+
+            return obj;
+        } catch (Exception e) {
+            // logger.error("Error occured ", e);
+            e.printStackTrace();
+
+            return null;
+        }
+
+    }
+
     @RequestMapping(value = "/create_view", method = RequestMethod.GET)
     public String patientCreate(Model model) {
 
@@ -140,6 +184,16 @@ public class PatientController {
         model.addAttribute("patientObject", patientService.findPatientbyId(inPatientId));
 
         return "patient/patient_update";
+    }
+
+    @RequestMapping(value = "/filter_view", method = RequestMethod.GET)
+    public String patientSearch(Model model) {
+        logger.info("Hit the /Patient/filter_view ");
+
+        model.addAttribute("sexList", Enums.Sex.values());
+        model.addAttribute("statusList", Enums.Status.values());
+
+        return "patient/patient_search";
     }
 
 }
