@@ -29,8 +29,8 @@ public class PatientController {
     @Autowired
     PatientService patientService;
 
-    @RequestMapping(value = "/submit", method = RequestMethod.POST)
-    public String savePatient(@RequestParam("nic") final String nic,
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    public String createPatient(@RequestParam("nic") final String nic,
                               @RequestParam("name") final String name,
                               @RequestParam("address") final String address,
                               @RequestParam("contactNo") final String contactNo,
@@ -38,7 +38,7 @@ public class PatientController {
                               @RequestParam("status") final Enums.Status status,
                               Model model) {
 
-        logger.info("Hit the /Patient/submit ");
+        logger.info("Hit the /Patient/create ");
         logger.info("Submitted patient with NIC " + nic);
 
         JSONObject alertObj = new JSONObject();
@@ -73,7 +73,53 @@ public class PatientController {
         }
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.GET)
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public String updatePatient(@RequestParam("patientId") final String patientId,
+                              @RequestParam("nic") final String nic,
+                              @RequestParam("name") final String name,
+                              @RequestParam("address") final String address,
+                              @RequestParam("contactNo") final String contactNo,
+                              @RequestParam("sex") final Enums.Sex sex,
+                              @RequestParam("status") final Enums.Status status,
+                              Model model) {
+
+        logger.info("Hit the /Patient/update ");
+        logger.info("Submitted patient with patient id " + patientId);
+
+        JSONObject alertObj = new JSONObject();
+
+        try {
+            //TODO: Exceptions are not handled
+            Patient patient = new Patient();
+            patient.setPatientId(patientId);
+            patient.setNic(nic);
+            patient.setName(name);
+            patient.setAddress(address);
+            patient.setContactNo(contactNo);
+            patient.setSex(sex);
+            patient.setStatus(status);
+            final Patient updatedPatient = patientService.updatePatient(patient);
+
+            model.addAttribute("patientObj", updatedPatient);
+
+            alertObj.put("type", "success");
+            alertObj.put("msg", "Successfully patient with NIC Number " + updatedPatient.getNic());
+            model.addAttribute("alert", alertObj);
+            //TODO: Dates should be formatted from the FE
+
+            return "patient/patient_view";
+        } catch (Throwable e) {
+            logger.error("Error occured " + e);
+
+            alertObj.put("type", "fail");
+            alertObj.put("msg", "Patient creation failed. Due to " + e.getMessage());
+            model.addAttribute("alert", alertObj);
+
+            return "patient/patient_create";
+        }
+    }
+
+    @RequestMapping(value = "/create_view", method = RequestMethod.GET)
     public String patientCreate(Model model) {
 
         logger.info("Hit the /Patient/create ");
@@ -86,7 +132,6 @@ public class PatientController {
 
     @RequestMapping(value = "/update_view", method = RequestMethod.GET)
     public String patientUpdateView(@RequestParam("id") final String inPatientId, Model model) {
-        try {
         logger.info("Hit the /Patient/update_view ");
         logger.info("Rendering view for Patient ID : " + inPatientId);
 
@@ -94,17 +139,7 @@ public class PatientController {
         model.addAttribute("statusList", Enums.Status.values());
         model.addAttribute("patientObject", patientService.findPatientbyId(inPatientId));
 
-            return "patient/patient_update";
-        } catch (Throwable e) {
-            logger.error("Error occured " + e);
-
-            //TODO: set patient view OBJ
-//            alertObj.put("type", "fail");
-//            alertObj.put("msg", "Patient creation failed. Due to " + e.getMessage());
-//            model.addAttribute("alert", alertObj);
-
-            return "patient/patient_view";
-        }
+        return "patient/patient_update";
     }
 
 }

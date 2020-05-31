@@ -12,7 +12,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Service("patientService")
-//@Transactional
+@Transactional
 public class PatientServiceImpl implements PatientService {
 
     @Autowired
@@ -25,6 +25,22 @@ public class PatientServiceImpl implements PatientService {
         Long id = patientDao.save(patient);
         Patient persistedPatient = patientDao.getPatientById(id);
         return persistedPatient;
+    }
+
+    @Override
+    public Patient updatePatient(Patient patient) {
+        Patient alreadyAvailablePatient = patientDao.getPatientByPatientId(patient.getPatientId());
+        alreadyAvailablePatient.setNic(patient.getNic());
+        alreadyAvailablePatient.setName(patient.getName());
+        alreadyAvailablePatient.setAddress(patient.getAddress());
+        alreadyAvailablePatient.setContactNo(patient.getContactNo());
+        alreadyAvailablePatient.setSex(patient.getSex());
+        alreadyAvailablePatient.setStatus(patient.getStatus());
+        alreadyAvailablePatient.setLastUpdatedTime(LocalDateTime.now());
+
+        Long id = patientDao.save(alreadyAvailablePatient);
+
+        return patientDao.getPatientById(id);
     }
 
     @Override
